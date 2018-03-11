@@ -6,13 +6,22 @@ using System;
 using System.Linq;
 using System.Reflection;
 using doLittle.CodeGeneration.JavaScript;
-using doLittle.Read;
+using doLittle.ReadModels;
 using doLittle.Strings;
 
-namespace doLittle.Web.Read
+namespace doLittle.AspNetCore.ReadModels.Proxies
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class ReadModelProxyExtensions
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="functionBody"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public static Container WithReadModelConvenienceFunctions(this FunctionBody functionBody, Type type)
         {
             var excludePropertiesFrom = typeof(IReadModel);

@@ -4,14 +4,13 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using doLittle.CodeGeneration.JavaScript;
-using doLittle.Conventions;
 
-namespace doLittle.Web.Commands
+namespace doLittle.AspNetCore.Commands.Proxies
 {
     /// <summary>
     /// Defines the extender for properties on commands - a visitor that can take part of the proxy generation of properties on commands.
     /// </summary>
-    public interface ICanExtendCommandProperty : IConvention
+    public interface ICanExtendCommandProperty
     {
         /// <summary>
         /// Extend a given property

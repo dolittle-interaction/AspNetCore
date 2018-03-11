@@ -13,49 +13,62 @@ using doLittle.Commands;
 using doLittle.Execution;
 using doLittle.Strings;
 using doLittle.Types;
-using doLittle.Web.Configuration;
-using doLittle.Web.Proxies;
 
-namespace doLittle.Web.Commands
+namespace doLittle.AspNetCore.Commands.Proxies
 {
-    public class CommandProxies : IProxyGenerator
+    /// <summary>
+    /// Represents a system for generating <see cref="ICommand"/> proxies
+    /// </summary>
+    public class CommandProxies : ICommandProxies
     {
         internal static List<string> _namespacesToExclude = new List<string>();
 
-        IApplicationResources _applicationResources;
-        IApplicationResourceIdentifierConverter _applicationResourceIdentifierConverter;
+        IApplicationArtifacts _applicationArtifacts;
+        IApplicationArtifactIdentifierStringConverter _applicationArtifactIdentifierStringConverter;
         ITypeFinder _typeFinder;
         IInstancesOf<ICanExtendCommandProperty> _commandPropertyExtenders;
         ICodeGenerator _codeGenerator;
-        WebConfiguration _configuration;
 
         static CommandProxies()
         {
             ExcludeCommandsStartingWithNamespace("doLittle");
         }
 
+        /// <summary>
+        /// Exclude specific namespace from generation
+        /// </summary>
+        /// <param name="namespace">Namespace to exclude</param>
         public static void ExcludeCommandsStartingWithNamespace(string @namespace)
         {
             _namespacesToExclude.Add(@namespace);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="applicationArtifacts"></param>
+        /// <param name="applicationArtifactIdentifierStringConverter"></param>
+        /// <param name="typeFinder"></param>
+        /// <param name="commandPropertyExtenders"></param>
+        /// <param name="codeGenerator"></param>
         public CommandProxies(
-            IApplicationResources applicationResources,
-            IApplicationResourceIdentifierConverter applicationResourceIdentifierConverter, 
+            IApplicationArtifacts applicationArtifacts,
+            IApplicationArtifactIdentifierStringConverter applicationArtifactIdentifierStringConverter, 
             ITypeFinder typeFinder, 
             IInstancesOf<ICanExtendCommandProperty> commandPropertyExtenders,
-            ICodeGenerator codeGenerator, 
-            WebConfiguration configuration)
+            ICodeGenerator codeGenerator)
         {
-            _applicationResources = applicationResources;
-            _applicationResourceIdentifierConverter = applicationResourceIdentifierConverter;
+            _applicationArtifacts = applicationArtifacts;
+            _applicationArtifactIdentifierStringConverter = applicationArtifactIdentifierStringConverter;
             _typeFinder = typeFinder;
             _commandPropertyExtenders = commandPropertyExtenders;
             _codeGenerator = codeGenerator;
-            
-            _configuration = configuration;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public string Generate()
         {
             var typesByNamespace = _typeFinder.FindMultiple<ICommand>().Where(t => !_namespacesToExclude.Any(n => t.Namespace.StartsWith(n))).GroupBy(t=>t.Namespace);
@@ -63,23 +76,20 @@ namespace doLittle.Web.Commands
             var result = new StringBuilder();
 
             Namespace currentNamespace;
-            Namespace globalCommands = _codeGenerator.Namespace(Namespaces.COMMANDS);
+            Namespace globalCommands = _codeGenerator.Namespace("commands");
 
             foreach (var @namespace in typesByNamespace)
             {
-                if (_configuration.NamespaceMapper.CanResolveToClient(@namespace.Key))
-                    currentNamespace = _codeGenerator.Namespace(_configuration.NamespaceMapper.GetClientNamespaceFrom(@namespace.Key));
-                else
-                    currentNamespace = globalCommands;
+                currentNamespace = globalCommands;
                 
                 foreach (var type in @namespace)
                 {
                     if (type.GetTypeInfo().IsGenericType) continue;
 
-                    var identifier = _applicationResources.Identify(type);
-                    var identifierAsString = _applicationResourceIdentifierConverter.AsString(identifier);
+                    var identifier = _applicationArtifacts.Identify(type);
+                    var identifierAsString = _applicationArtifactIdentifierStringConverter.AsString(identifier);
 
-                    var name = ((string)identifier.Resource.Name).ToCamelCase();
+                    var name = ((string)identifier.Artifact.Name).ToCamelCase();
                     currentNamespace.Content.Assign(name)
                         .WithType(t =>
                             t.WithSuper("doLittle.commands.Command")

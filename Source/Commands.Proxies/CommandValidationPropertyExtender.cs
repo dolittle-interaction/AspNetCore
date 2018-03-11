@@ -7,17 +7,25 @@ using doLittle.CodeGeneration.JavaScript;
 using doLittle.Validation.MetaData;
 using Newtonsoft.Json;
 
-namespace doLittle.Web.Commands
+namespace doLittle.AspNetCore.Commands.Proxies
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class CommandValidationPropertyExtender : ICanExtendCommandProperty
     {
         IValidationMetaData _validationMetaData;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="validationMetaData"></param>
         public CommandValidationPropertyExtender(IValidationMetaData validationMetaData)
         {
             _validationMetaData = validationMetaData;
         }
 
+        /// <inheritdoc/>
         public void Extend(Type commandType, string propertyName, Observable observable)
         {
             var metaData = _validationMetaData.GetMetaDataFor(commandType);

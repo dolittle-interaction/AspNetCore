@@ -8,27 +8,34 @@ using doLittle.CodeGeneration;
 using doLittle.CodeGeneration.JavaScript;
 using doLittle.Execution;
 using doLittle.Strings;
-using doLittle.Read;
+using doLittle.ReadModels;
 using doLittle.Types;
-using doLittle.Web.Configuration;
-using doLittle.Web.Proxies;
 
-namespace doLittle.Web.Read
+namespace doLittle.AspNetCore.ReadModels.Proxies
 {
-    public class ReadModelProxies : IProxyGenerator
+    /// <summary>
+    /// 
+    /// </summary>
+    public class ReadModelProxies : IReadModelProxies
     {
-       
-        ITypeFinder _typeFinder;
-        ICodeGenerator _codeGenerator;
-        WebConfiguration _configuration;
+        readonly ITypeFinder _typeFinder;
+        readonly ICodeGenerator _codeGenerator;
 
-        public ReadModelProxies(ITypeFinder typeFinder, ICodeGenerator codeGenerator, WebConfiguration configuration)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="typeFinder"></param>
+        /// <param name="codeGenerator"></param>
+        public ReadModelProxies(ITypeFinder typeFinder, ICodeGenerator codeGenerator)
         {
             _typeFinder = typeFinder;
             _codeGenerator = codeGenerator;
-            _configuration = configuration;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public string Generate()
         {
             var typesByNamespace = _typeFinder.FindMultiple<IReadModel>().GroupBy(t => t.Namespace);
@@ -36,14 +43,11 @@ namespace doLittle.Web.Read
             var result = new StringBuilder();
 
             Namespace currentNamespace;
-            Namespace globalRead = _codeGenerator.Namespace(Namespaces.READ);
+            Namespace globalRead = _codeGenerator.Namespace("read");
 
             foreach (var @namespace in typesByNamespace)
             {
-                if (_configuration.NamespaceMapper.CanResolveToClient(@namespace.Key))
-                    currentNamespace = _codeGenerator.Namespace(_configuration.NamespaceMapper.GetClientNamespaceFrom(@namespace.Key));
-                else
-                    currentNamespace = globalRead;
+                currentNamespace = globalRead;
 
 
                 foreach (var type in @namespace)
