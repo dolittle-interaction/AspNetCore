@@ -1,17 +1,17 @@
-doLittle.namespace("doLittle.validation", {
-    greaterThan: doLittle.validation.Rule.extend(function() {
+Dolittle.namespace("Dolittle.validation", {
+    greaterThan: Dolittle.validation.Rule.extend(function() {
         var self = this;
 
         function notSet(value) {
-            return doLittle.isUndefined(value) || doLittle.isNull(value);
+            return Dolittle.isUndefined(value) || Dolittle.isNull(value);
         }
 
         function throwIfOptionsInvalid(options) {
             if (notSet(options)) {
-                throw new doLittle.validation.OptionsNotDefined();
+                throw new Dolittle.validation.OptionsNotDefined();
             }
             if (notSet(options.value)) {
-                var exception = new doLittle.validation.OptionsValueNotSpecified();
+                var exception = new Dolittle.validation.OptionsValueNotSpecified();
                 exception.message = exception.message + " 'value' is not set.";
                 throw exception;
             }
@@ -19,8 +19,8 @@ doLittle.namespace("doLittle.validation", {
         }
 
         function throwIfValueToCheckIsNotANumber(value) {
-            if (!doLittle.isNumber(value)) {
-                throw new doLittle.validation.NotANumber("Value " + value + " is not a number");
+            if (!Dolittle.isNumber(value)) {
+                throw new Dolittle.validation.NotANumber("Value " + value + " is not a number");
             }
         }
 

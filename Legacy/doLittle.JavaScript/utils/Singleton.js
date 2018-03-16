@@ -1,5 +1,5 @@
-﻿doLittle.namespace("doLittle",{
+﻿Dolittle.namespace("Dolittle",{
     Singleton: function (typeDefinition) {
-        return doLittle.Type.extend(typeDefinition).scopeTo(window);
+        return Dolittle.Type.extend(typeDefinition).scopeTo(window);
     }
 });

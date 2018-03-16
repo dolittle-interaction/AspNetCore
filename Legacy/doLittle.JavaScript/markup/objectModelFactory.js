@@ -1,10 +1,10 @@
-doLittle.namespace("doLittle.markup", {
-    objectModelFactory: doLittle.Singleton(function (dependencyResolver, documentService) {
+Dolittle.namespace("Dolittle.markup", {
+    objectModelFactory: Dolittle.Singleton(function (dependencyResolver, documentService) {
         
         function tryResolveTargetNamespaces(localName, targets, success, error) {
             function tryResolve(queue) {
                 if (queue.length) {
-                    var namespace = doLittle.namespace(targets.shift());
+                    var namespace = Dolittle.namespace(targets.shift());
 
                     var found = false;
                     namespace._scripts.forEach(function (script) {

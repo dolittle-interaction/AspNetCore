@@ -1,4 +1,4 @@
-doLittle.namespace("doLittle", {
+Dolittle.namespace("Dolittle", {
     Type: function () {
     }
 });
@@ -6,26 +6,26 @@ doLittle.namespace("doLittle", {
 (function () {
     function throwIfMissingTypeDefinition(typeDefinition) {
         if (typeDefinition == null || typeof typeDefinition === "undefined") {
-            throw new doLittle.MissingTypeDefinition();
+            throw new Dolittle.MissingTypeDefinition();
         }
     }
 
     function throwIfTypeDefinitionIsObjectLiteral(typeDefinition) {
         if (typeof typeDefinition === "object") {
-            throw new doLittle.ObjectLiteralNotAllowed();
+            throw new Dolittle.ObjectLiteralNotAllowed();
         }
     }
 
     function addStaticProperties(typeDefinition) {
-        for (var property in doLittle.Type) {
-            if (doLittle.Type.hasOwnProperty(property) && property !== "_extenders") {
-                typeDefinition[property] = doLittle.Type[property];
+        for (var property in Dolittle.Type) {
+            if (Dolittle.Type.hasOwnProperty(property) && property !== "_extenders") {
+                typeDefinition[property] = Dolittle.Type[property];
             }
         }
     }
 
     function setupDependencies(typeDefinition) {
-        typeDefinition._dependencies = doLittle.dependencyResolver.getDependenciesFor(typeDefinition);
+        typeDefinition._dependencies = Dolittle.dependencyResolver.getDependenciesFor(typeDefinition);
 
         var firstParameter = true;
         var createFunctionString = "Function('definition', 'dependencies','return new definition(";
@@ -48,7 +48,7 @@ doLittle.namespace("doLittle", {
         var dependencyInstances = [];
         if( typeof typeDefinition._dependencies !== "undefined" ) {
             typeDefinition._dependencies.forEach(function(dependency) {
-                var dependencyInstance = doLittle.dependencyResolver.resolve(namespace, dependency);
+                var dependencyInstance = Dolittle.dependencyResolver.resolve(namespace, dependency);
                 dependencyInstances.push(dependencyInstance);
             });
         }
@@ -57,7 +57,7 @@ doLittle.namespace("doLittle", {
 
     function resolve(namespace, dependency, index, instances, typeDefinition, resolvedCallback) {
         var promise = 
-            doLittle.dependencyResolver
+            Dolittle.dependencyResolver
                 .beginResolve(namespace, dependency)
                 .continueWith(function(result, nextPromise) {
                     instances[index] = result;
@@ -75,7 +75,7 @@ doLittle.namespace("doLittle", {
             }
         }
 
-        var promise = doLittle.execution.Promise.create();
+        var promise = Dolittle.execution.Promise.create();
         var dependencyInstances = [];
         var solvedDependencies = 0;
         if( typeof typeDefinition._dependencies !== "undefined" ) {
@@ -123,7 +123,7 @@ doLittle.namespace("doLittle", {
         dependencyInstances.forEach(function(dependencyInstance, index) {
             if( dependencyInstance == null || typeof dependencyInstance === "undefined" ) {
                 var dependency = typeDefinition._dependencies[index];
-                dependencyInstances[index] = doLittle.dependencyResolver.resolve(typeDefinition._namespace, dependency);
+                dependencyInstances[index] = Dolittle.dependencyResolver.resolve(typeDefinition._namespace, dependency);
             }
         });
     }
@@ -172,15 +172,15 @@ doLittle.namespace("doLittle", {
         }
     }
 
-    doLittle.Type._extenders = [];
+    Dolittle.Type._extenders = [];
 
-    doLittle.Type.scope = {
+    Dolittle.Type.scope = {
         getFor : function(namespace, name) {
             return null;
         }
     };
 
-    doLittle.Type.typeOf = function (type) {
+    Dolittle.Type.typeOf = function (type) {
 
         if (typeof this._super === "undefined" ||
             typeof this._super._typeId === "undefined") {
@@ -202,11 +202,11 @@ doLittle.namespace("doLittle", {
         return false;
     };
 
-    doLittle.Type.getExtenders = function () {
+    Dolittle.Type.getExtenders = function () {
         return this._extenders;
     };
 
-    doLittle.Type.getExtendersIn = function (namespace) {
+    Dolittle.Type.getExtendersIn = function (namespace) {
         var inNamespace = [];
         
         this._extenders.forEach(function (extender) {
@@ -217,7 +217,7 @@ doLittle.namespace("doLittle", {
                     break;
                 }
 
-                if (doLittle.isUndefined(current.parent)) {
+                if (Dolittle.isUndefined(current.parent)) {
                     break;
                 }
 
@@ -230,20 +230,20 @@ doLittle.namespace("doLittle", {
 
   
 
-    doLittle.Type.extend = function (typeDefinition) {     
+    Dolittle.Type.extend = function (typeDefinition) {     
         throwIfMissingTypeDefinition(typeDefinition);
         throwIfTypeDefinitionIsObjectLiteral(typeDefinition);
 
         addStaticProperties(typeDefinition);
         setupDependencies(typeDefinition);
         typeDefinition._super = this;
-        typeDefinition._typeId = doLittle.Guid.create();
+        typeDefinition._typeId = Dolittle.Guid.create();
         typeDefinition._extenders = [];
-        doLittle.Type.registerExtender(this, typeDefinition);
+        Dolittle.Type.registerExtender(this, typeDefinition);
         return typeDefinition;
     };
 
-    doLittle.Type.registerExtender = function (typeExtended, typeDefined) {
+    Dolittle.Type.registerExtender = function (typeExtended, typeDefined) {
         var superType = typeExtended;
 
         while (superType != null) {
@@ -254,7 +254,7 @@ doLittle.namespace("doLittle", {
         }
     };
 
-    doLittle.Type.scopeTo = function(scope) {
+    Dolittle.Type.scopeTo = function(scope) {
         if( typeof scope === "function" ) {
             this.scope = {
                 getFor: scope
@@ -273,7 +273,7 @@ doLittle.namespace("doLittle", {
         return this;
     };
 
-    doLittle.Type.defaultScope = function() {
+    Dolittle.Type.defaultScope = function() {
         this.scope = {
             getFor: function() {
                 return null;
@@ -282,7 +282,7 @@ doLittle.namespace("doLittle", {
         return this;
     };
 
-    doLittle.Type.requires = function () {
+    Dolittle.Type.requires = function () {
         for (var argumentIndex = 0; argumentIndex < arguments.length; argumentIndex++) {
             this._dependencies.push(arguments[argumentIndex]);
         }
@@ -290,14 +290,14 @@ doLittle.namespace("doLittle", {
         return this;
     };
 
-    doLittle.Type.create = function (instanceHash, isSuper) {
+    Dolittle.Type.create = function (instanceHash, isSuper) {
         var actualType = this;
         if( this._super != null ) {
             actualType.prototype = this._super.create(instanceHash, true);
         }
         addMissingDependenciesAsNullFromTypeDefinition(instanceHash, this);
         var scope = null;
-        if( this !== doLittle.Type ) {
+        if( this !== Dolittle.Type ) {
             this.instancesPerScope = this.instancesPerScope || {};
 
             scope = this.scope.getFor(this._namespace, this._name, this._typeId);
@@ -327,7 +327,7 @@ doLittle.namespace("doLittle", {
         return instance;
     };
 
-    doLittle.Type.createWithoutScope = function (instanceHash, isSuper) {
+    Dolittle.Type.createWithoutScope = function (instanceHash, isSuper) {
         var scope = this.scope;
         this.defaultScope();
         var instance = this.create(instanceHash, isSuper);
@@ -335,13 +335,13 @@ doLittle.namespace("doLittle", {
         return instance;
     };
 
-    doLittle.Type.ensure = function () {
-        var promise = doLittle.execution.Promise.create();
+    Dolittle.Type.ensure = function () {
+        var promise = Dolittle.execution.Promise.create();
 
         var loadedDependencies = 0;
         var dependenciesToResolve = this._dependencies.length;
         var namespace = this._namespace;
-        var resolver = doLittle.dependencyResolver;
+        var resolver = Dolittle.dependencyResolver;
         if (dependenciesToResolve > 0) {
             this._dependencies.forEach(function (dependency) {
 
@@ -368,11 +368,11 @@ doLittle.namespace("doLittle", {
         return promise;
     };
 
-    doLittle.Type.beginCreate = function(instanceHash) {
+    Dolittle.Type.beginCreate = function(instanceHash) {
         var self = this;
 
-        var promise = doLittle.execution.Promise.create();
-        var superPromise = doLittle.execution.Promise.create();
+        var promise = Dolittle.execution.Promise.create();
+        var superPromise = Dolittle.execution.Promise.create();
         superPromise.onFail(function (e) {
             promise.fail(e);
         });

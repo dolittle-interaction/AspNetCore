@@ -1,7 +1,7 @@
 describe("when adding state that already exists", function() {
 
 	var exception = null;
-	var group = doLittle.interaction.VisualStateGroup.create({dispatcher: {}});
+	var group = Dolittle.interaction.VisualStateGroup.create({dispatcher: {}});
 	var state = { some: "state" };
 	group.addState(state);
 

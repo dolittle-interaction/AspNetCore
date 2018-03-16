@@ -6,13 +6,13 @@
             _name: "someRule",
             create: sinon.mock().withArgs({ options: {} }).once().returns({})
         };
-        doLittle.validation.Rule = {
+        Dolittle.validation.Rule = {
             getExtenders: function () {
                 return [someRule];
             }
         };
 
-        doLittle.validation.Validator.create({ someRule: null });
+        Dolittle.validation.Validator.create({ someRule: null });
     });
 
     it("should pass empty options rule creation", function () {

@@ -1,5 +1,5 @@
-doLittle.namespace("doLittle.views", {
-    Items: doLittle.Type.extend(function () {
+Dolittle.namespace("Dolittle.views", {
+    Items: Dolittle.Type.extend(function () {
 
     })
 });

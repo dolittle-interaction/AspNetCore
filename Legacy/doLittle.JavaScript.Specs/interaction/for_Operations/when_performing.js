@@ -23,7 +23,7 @@
         create: sinon.mock().withArgs(operation, state).returns(entry)
     };
 
-    var operations = doLittle.interaction.Operations.create({
+    var operations = Dolittle.interaction.Operations.create({
         operationEntryFactory: operationEntryFactory
     });
 

@@ -1,11 +1,11 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
-using doLittle.CodeGeneration.JavaScript;
+using Dolittle.CodeGeneration.JavaScript;
 
-namespace doLittle.AspNetCore.Commands.Proxies
+namespace Dolittle.AspNetCore.Commands.Proxies
 {
     /// <summary>
     /// Defines the extender for properties on commands - a visitor that can take part of the proxy generation of properties on commands.

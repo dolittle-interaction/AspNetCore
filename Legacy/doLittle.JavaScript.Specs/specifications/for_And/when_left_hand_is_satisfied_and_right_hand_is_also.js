@@ -1,15 +1,15 @@
 ﻿describe("when left hand is satisfied and right hand is also", function () {
     
     var leftHandSideEvaluator = sinon.stub().returns(true);
-    var leftHandSide = doLittle.specifications.Specification.create()
+    var leftHandSide = Dolittle.specifications.Specification.create()
     leftHandSide.evaluator = leftHandSideEvaluator;
 
     var rightHandSideEvaluator = sinon.stub().returns(true);
-    var rightHandSide = doLittle.specifications.Specification.create();
+    var rightHandSide = Dolittle.specifications.Specification.create();
     rightHandSide.evaluator = rightHandSideEvaluator;
 
     var instance = { something: 42 };
-    var rule = doLittle.specifications.And.create({
+    var rule = Dolittle.specifications.And.create({
         leftHandSide: leftHandSide,
         rightHandSide: rightHandSide
     });

@@ -1,20 +1,20 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using doLittle.Concepts;
-using doLittle.Dynamic;
-using doLittle.DependencyInversion;
-using doLittle.Logging;
-using doLittle.Read;
-using doLittle.Strings;
-using doLittle.Types;
-using doLittle.Web.Configuration;
+using Dolittle.Concepts;
+using Dolittle.Dynamic;
+using Dolittle.DependencyInversion;
+using Dolittle.Logging;
+using Dolittle.Read;
+using Dolittle.Strings;
+using Dolittle.Types;
+using Dolittle.Web.Configuration;
 
-namespace doLittle.Web.Read
+namespace Dolittle.Web.Read
 {
     public class QueryService
     {

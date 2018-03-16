@@ -1,5 +1,5 @@
-﻿doLittle.namespace("doLittle.tasks", {
-    taskHistory: doLittle.Singleton(function (systemClock) {
+﻿Dolittle.namespace("Dolittle.tasks", {
+    taskHistory: Dolittle.Singleton(function (systemClock) {
         /// <summary>Represents the history of tasks that has been executed since the start of the application</summary>
         var self = this;
 
@@ -9,10 +9,10 @@
         this.entries = ko.observableArray();
 
         this.begin = function (task) {
-            var id = doLittle.Guid.create();
+            var id = Dolittle.Guid.create();
 
             try {
-                var entry = doLittle.tasks.TaskHistoryEntry.create();
+                var entry = Dolittle.tasks.TaskHistoryEntry.create();
 
                 entry.type = task._type._name;
 
@@ -52,4 +52,4 @@
         };
     })
 });
-doLittle.WellKnownTypesDependencyResolver.types.taskHistory = doLittle.tasks.taskHistory;
+Dolittle.WellKnownTypesDependencyResolver.types.taskHistory = Dolittle.tasks.taskHistory;

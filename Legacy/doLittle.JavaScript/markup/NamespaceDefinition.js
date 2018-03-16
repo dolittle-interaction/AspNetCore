@@ -1,5 +1,5 @@
-﻿doLittle.namespace("doLittle.markup", {
-    NamespaceDefinition: doLittle.Type.extend(function (prefix) {
+﻿Dolittle.namespace("Dolittle.markup", {
+    NamespaceDefinition: Dolittle.Type.extend(function (prefix) {
         var self = this;
         this.prefix = prefix;
 

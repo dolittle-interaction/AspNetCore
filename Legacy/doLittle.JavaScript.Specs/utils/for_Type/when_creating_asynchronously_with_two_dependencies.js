@@ -1,8 +1,8 @@
 describe("when creating asynchronously with two dependencies", function() {
 
-	doLittle.dependencyResolver = {
+	Dolittle.dependencyResolver = {
 		beginResolve: function(namespace,name) {
-			var promise = doLittle.execution.Promise.create();
+			var promise = Dolittle.execution.Promise.create();
 			promise.signal(name);
 			return promise;
 		},
@@ -11,7 +11,7 @@ describe("when creating asynchronously with two dependencies", function() {
 		}
 	}
 
-	var type = doLittle.Type.extend(function(first, second) {
+	var type = Dolittle.Type.extend(function(first, second) {
 		this.something = "Hello";
 		this.first = first;
 		this.second = second;

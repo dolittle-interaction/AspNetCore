@@ -1,6 +1,6 @@
 describe("when adding transition", function() {
 
-	var group = doLittle.interaction.VisualStateGroup.create({dispatcher: {}});
+	var group = Dolittle.interaction.VisualStateGroup.create({dispatcher: {}});
 
 	var transition = { some: "transition" };
 

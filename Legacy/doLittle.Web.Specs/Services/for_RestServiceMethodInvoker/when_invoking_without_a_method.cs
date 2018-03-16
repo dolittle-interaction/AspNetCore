@@ -1,8 +1,8 @@
 ﻿using System;
-using doLittle.Web.Services;
+using Dolittle.Web.Services;
 using Machine.Specifications;
 
-namespace doLittle.Web.Specs.Services.for_RestServiceMethodInvoker
+namespace Dolittle.Web.Specs.Services.for_RestServiceMethodInvoker
 {
     public class when_invoking_without_a_method : given.a_rest_service_method_invoker_and_a_service_call
     {

@@ -1,5 +1,5 @@
-﻿doLittle.namespace("doLittle.read", {
-    Queryable: doLittle.Type.extend(function (query, queryService, region, targetObservable) {
+﻿Dolittle.namespace("Dolittle.read", {
+    Queryable: Dolittle.Type.extend(function (query, queryService, region, targetObservable) {
         var self = this;
 
         this.canExecute = true;
@@ -51,7 +51,7 @@
             }
             self.query._previousAreAllParametersSet = true;
 
-            var paging = doLittle.read.PagingInfo.create({
+            var paging = Dolittle.read.PagingInfo.create({
                 size: self.pageSize(),
                 number: self.pageNumber()
             });
@@ -85,12 +85,12 @@
       
     })
 });
-doLittle.read.Queryable.new = function (options, region) {
+Dolittle.read.Queryable.new = function (options, region) {
     var observable = ko.observableArray();
     options.targetObservable = observable;
     options.region = region;
-    var queryable = doLittle.read.Queryable.create(options);
-    doLittle.extend(observable, queryable);
+    var queryable = Dolittle.read.Queryable.create(options);
+    Dolittle.extend(observable, queryable);
     observable.isQueryable = true;
     return observable;
 };

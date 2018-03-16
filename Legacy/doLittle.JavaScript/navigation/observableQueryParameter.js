@@ -1,5 +1,5 @@
-﻿doLittle.namespace("doLittle.navigation", {
-    observableQueryParameterFactory: doLittle.Singleton(function () {
+﻿Dolittle.namespace("Dolittle.navigation", {
+    observableQueryParameterFactory: Dolittle.Singleton(function () {
         var self = this;
 
         var historyEnabled = typeof History !== "undefined" && typeof History.Adapter !== "undefined";
@@ -38,14 +38,14 @@
             observable = ko.observable(state || defaultValue);
 
             function getQueryStringParametersWithValueForParameter(url, parameterValue) {
-                var parameters = doLittle.hashString.decode(url);
+                var parameters = Dolittle.hashString.decode(url);
                 parameters[parameterName] = parameterValue;
 
                 var queryString = "";
                 var parameterIndex = 0;
                 for (var parameter in parameters) {
                     var value = parameters[parameter];
-                    if (!doLittle.isNullOrUndefined(value)) {
+                    if (!Dolittle.isNullOrUndefined(value)) {
                         if (parameterIndex > 0) {
                             queryString += "&";
                         }
@@ -83,7 +83,7 @@
 });
 
 ko.observableQueryParameter = function (parameterName, defaultValue) {
-    var navigationManager = doLittle.navigation.navigationManager;
-    var observable = doLittle.navigation.observableQueryParameterFactory.create().create(parameterName, defaultValue, navigationManager);
+    var navigationManager = Dolittle.navigation.navigationManager;
+    var observable = Dolittle.navigation.observableQueryParameterFactory.create().create(parameterName, defaultValue, navigationManager);
     return observable;
 };

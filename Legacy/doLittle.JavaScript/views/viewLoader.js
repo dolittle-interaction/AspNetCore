@@ -1,11 +1,11 @@
-﻿doLittle.namespace("doLittle.views", {
-    viewLoader: doLittle.Singleton(function (viewModelManager, taskFactory, fileFactory, regionManager) {
+﻿Dolittle.namespace("Dolittle.views", {
+    viewLoader: Dolittle.Singleton(function (viewModelManager, taskFactory, fileFactory, regionManager) {
         this.load = function (path,region) {
-            var promise = doLittle.execution.Promise.create();
+            var promise = Dolittle.execution.Promise.create();
 
             var files = [];
 
-            var viewFile = fileFactory.create(path, doLittle.io.fileType.html);
+            var viewFile = fileFactory.create(path, Dolittle.io.fileType.html);
             if (path.indexOf("?") > 0) {
                 viewFile.path.fullPath = viewFile.path.fullPath + path.substr(path.indexOf("?"));
             }
@@ -15,7 +15,7 @@
             if (viewModelManager.hasForView(path)) {
                 viewModelPath = viewModelManager.getViewModelPathForView(path);
                 if (!viewModelManager.isLoaded(viewModelPath)) {
-                    var viewModelFile = fileFactory.create(viewModelPath, doLittle.io.fileType.javaScript);
+                    var viewModelFile = fileFactory.create(viewModelPath, Dolittle.io.fileType.javaScript);
                     files.push(viewModelFile);
                 }
             }

@@ -23,7 +23,7 @@
         failed: sinon.mock().withArgs(taskHistoryId, error)
     };
 
-    var tasks = doLittle.tasks.Tasks.create({ taskHistory: taskHistory });
+    var tasks = Dolittle.tasks.Tasks.create({ taskHistory: taskHistory });
 
     var isBusyTimeline = [];
     var taskWasAdded = false;

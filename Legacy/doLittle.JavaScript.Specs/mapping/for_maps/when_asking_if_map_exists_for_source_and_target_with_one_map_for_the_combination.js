@@ -4,23 +4,23 @@
     var result = null;
 
     beforeEach(function () {
-        mapType = doLittle.mapping.Map;
-        doLittle.mapping.Map = doLittle.Type.extend(function () { });
-        var sourceType = doLittle.Type.extend(function () { });
-        var targetType = doLittle.Type.extend(function () { });
+        mapType = Dolittle.mapping.Map;
+        Dolittle.mapping.Map = Dolittle.Type.extend(function () { });
+        var sourceType = Dolittle.Type.extend(function () { });
+        var targetType = Dolittle.Type.extend(function () { });
 
-        var customMap = doLittle.mapping.Map.extend(function () {
+        var customMap = Dolittle.mapping.Map.extend(function () {
             this.sourceType = sourceType;
             this.targetType = targetType;
         });
 
-        var maps = doLittle.mapping.maps.createWithoutScope();
+        var maps = Dolittle.mapping.maps.createWithoutScope();
 
         result = maps.hasMapFor(sourceType, targetType);
     });
     
     afterEach(function () {
-        doLittle.mapping.Map = mapType;
+        Dolittle.mapping.Map = mapType;
     });
 
     it("should have map", function () {

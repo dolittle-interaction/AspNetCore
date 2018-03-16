@@ -1,6 +1,6 @@
-var doLittle = doLittle || {};
+var Dolittle = Dolittle || {};
 (function(global, undefined) {
-    doLittle.extend = function extend(destination, source) {
+    Dolittle.extend = function extend(destination, source) {
         return $.extend(destination, source);
     };
 })(window);

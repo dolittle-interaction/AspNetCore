@@ -1,31 +1,31 @@
 ﻿describe("when getting all with one resolver registered", function () {
 
-    var wellKnownTypesDependencyResolver = doLittle.WellKnownTypesDependencyResolver;
-    var defaultDependencyResolver = doLittle.DefaultDependencyResolver;
-    var knownArtifactTypesDependencyResolver = doLittle.KnownArtifactTypesDependencyResolver;
-    var knownArtifactInstancesDependencyResolver = doLittle.KnownArtifactInstancesDependencyResolver;
+    var wellKnownTypesDependencyResolver = Dolittle.WellKnownTypesDependencyResolver;
+    var defaultDependencyResolver = Dolittle.DefaultDependencyResolver;
+    var knownArtifactTypesDependencyResolver = Dolittle.KnownArtifactTypesDependencyResolver;
+    var knownArtifactInstancesDependencyResolver = Dolittle.KnownArtifactInstancesDependencyResolver;
 
-    doLittle.WellKnownTypesDependencyResolver = function () {
+    Dolittle.WellKnownTypesDependencyResolver = function () {
         this.isWellKnown = true;
     };
 
-    doLittle.DefaultDependencyResolver = function () {
+    Dolittle.DefaultDependencyResolver = function () {
         this.isDefault = true;
     };
 
-    doLittle.KnownArtifactTypesDependencyResolver = function () { };
-    doLittle.KnownArtifactInstancesDependencyResolver = function () { };
+    Dolittle.KnownArtifactTypesDependencyResolver = function () { };
+    Dolittle.KnownArtifactInstancesDependencyResolver = function () { };
 
-    doLittle.dependencyResolvers.myResolver = {
+    Dolittle.dependencyResolvers.myResolver = {
         identifier: "Hello"
     };
 
-    var resolvers = doLittle.dependencyResolvers.getAll();
+    var resolvers = Dolittle.dependencyResolvers.getAll();
 
-    doLittle.WellKnownTypesDependencyResolver = wellKnownTypesDependencyResolver;
-    doLittle.DefaultDependencyResolver = defaultDependencyResolver;
-    doLittle.KnownArtifactTypesDependencyResolver = knownArtifactTypesDependencyResolver;
-    doLittle.KnownArtifactInstancesDependencyResolver = knownArtifactInstancesDependencyResolver;
+    Dolittle.WellKnownTypesDependencyResolver = wellKnownTypesDependencyResolver;
+    Dolittle.DefaultDependencyResolver = defaultDependencyResolver;
+    Dolittle.KnownArtifactTypesDependencyResolver = knownArtifactTypesDependencyResolver;
+    Dolittle.KnownArtifactInstancesDependencyResolver = knownArtifactInstancesDependencyResolver;
 
     it("should not get any functions resolvers", function () {
         var hasFunction = false;

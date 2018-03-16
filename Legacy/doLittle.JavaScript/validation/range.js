@@ -1,27 +1,27 @@
-doLittle.namespace("doLittle.validation", {
-    range: doLittle.validation.Rule.extend(function () {
+Dolittle.namespace("Dolittle.validation", {
+    range: Dolittle.validation.Rule.extend(function () {
         var self = this;
 
         function notSet(value) {
-            return doLittle.isUndefined(value) || doLittle.isNull(value);
+            return Dolittle.isUndefined(value) || Dolittle.isNull(value);
         }
 
         function throwIfValueIsNotANumber(value, param) {
-            if (!doLittle.isNumber(value)) {
-                throw new doLittle.validation.NotANumber(param + " value " + value + " is not a number");
+            if (!Dolittle.isNumber(value)) {
+                throw new Dolittle.validation.NotANumber(param + " value " + value + " is not a number");
             }
         }
 
 
         function throwIfOptionsInvalid(options) {
             if (notSet(options)) {
-                throw new doLittle.validation.OptionsNotDefined();
+                throw new Dolittle.validation.OptionsNotDefined();
             }
             if (notSet(options.max)) {
-                throw new doLittle.validation.MaxNotSpecified();
+                throw new Dolittle.validation.MaxNotSpecified();
             }
             if (notSet(options.min)) {
-                throw new doLittle.validation.MinNotSpecified();
+                throw new Dolittle.validation.MinNotSpecified();
             }
             throwIfValueIsNotANumber(options.min, "min");
             throwIfValueIsNotANumber(options.max, "max");

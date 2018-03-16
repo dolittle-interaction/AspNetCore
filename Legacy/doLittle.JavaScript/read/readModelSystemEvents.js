@@ -1,5 +1,5 @@
-﻿doLittle.namespace("doLittle.read", {
-    readModelSystemEvents: doLittle.Singleton(function () {
-        this.noInstance = doLittle.Event.create();
+﻿Dolittle.namespace("Dolittle.read", {
+    readModelSystemEvents: Dolittle.Singleton(function () {
+        this.noInstance = Dolittle.Event.create();
     })
 });

@@ -1,7 +1,7 @@
-﻿using doLittle.CodeGeneration.JavaScript;
+﻿using Dolittle.CodeGeneration.JavaScript;
 using Machine.Specifications;
 
-namespace doLittle.Specs.CodeGeneration.JavaScript.for_ObservableExtension
+namespace Dolittle.Specs.CodeGeneration.JavaScript.for_ObservableExtension
 {
     public class when_specifying_default_value : given.an_observable_without_default_value
     {

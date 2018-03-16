@@ -1,5 +1,5 @@
-﻿doLittle.namespace("doLittle.values", {
-    ValueConsumer: doLittle.Type.extend(function () {
+﻿Dolittle.namespace("Dolittle.values", {
+    ValueConsumer: Dolittle.Type.extend(function () {
 
         this.canNotifyChanges = function () {
             return false;

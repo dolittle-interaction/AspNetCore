@@ -1,7 +1,7 @@
 describe("when adding group", function() {
 	var group = { some : "group"};
 
-	var stateManager = doLittle.interaction.VisualStateManager.create();
+	var stateManager = Dolittle.interaction.VisualStateManager.create();
 	stateManager.addGroup(group);
 
 	it("should have one group", function() {

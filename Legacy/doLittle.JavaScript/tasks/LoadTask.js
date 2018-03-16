@@ -1,8 +1,8 @@
-﻿doLittle.namespace("doLittle.tasks", {
-    LoadTask: doLittle.tasks.Task.extend(function () {
+﻿Dolittle.namespace("Dolittle.tasks", {
+    LoadTask: Dolittle.tasks.Task.extend(function () {
         /// <summary>Represents a base task that represents anything that is loading things</summary>
         this.execute = function () {
-            var promise = doLittle.execution.Promise.create();
+            var promise = Dolittle.execution.Promise.create();
             promise.signal();
             return promise;
         };

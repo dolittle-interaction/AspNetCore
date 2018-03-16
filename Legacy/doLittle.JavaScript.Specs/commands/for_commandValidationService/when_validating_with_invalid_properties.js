@@ -21,7 +21,7 @@
         }
     };
 
-    var commandValidationService = doLittle.commands.commandValidationService.create(parameters);
+    var commandValidationService = Dolittle.commands.commandValidationService.create(parameters);
     var result = commandValidationService.validate(command);
 
     it("should return a result with valid set to false", function () {

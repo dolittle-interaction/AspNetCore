@@ -1,13 +1,13 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using doLittle.CodeGeneration;
-using doLittle.CodeGeneration.JavaScript;
-using doLittle.Strings;
-using doLittle.Web.Proxies;
+using Dolittle.CodeGeneration;
+using Dolittle.CodeGeneration.JavaScript;
+using Dolittle.Strings;
+using Dolittle.Web.Proxies;
 
-namespace doLittle.Web.Services
+namespace Dolittle.Web.Services
 {
     public class ServiceProxies : IProxyGenerator
     {
@@ -33,7 +33,7 @@ namespace doLittle.Web.Services
                         var name = serviceRegistration.Key.Name.ToCamelCase();
                         o.Assign(name)
                             .WithType(t =>
-                                t.WithSuper("doLittle.services.Service")
+                                t.WithSuper("Dolittle.services.Service")
                                     .Function
                                         .Body
                                             .Variant("self", v => v.WithThis())

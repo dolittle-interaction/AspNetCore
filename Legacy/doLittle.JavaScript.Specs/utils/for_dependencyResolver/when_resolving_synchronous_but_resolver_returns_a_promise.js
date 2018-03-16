@@ -7,15 +7,15 @@ describe("when resolving synchronous but resolver returns a promise", function()
 	var dependencyResolvers;
 
 	beforeEach(function () {
-	    dependencyResolvers = doLittle.dependencyResolvers;
-	    doLittle.dependencyResolvers = {
+	    dependencyResolvers = Dolittle.dependencyResolvers;
+	    Dolittle.dependencyResolvers = {
 	        getAll: function () {
 	            return [{
 	                canResolve: function () {
 	                    return true;
 	                },
 	                resolve: function () {
-	                    return doLittle.execution.Promise.create();
+	                    return Dolittle.execution.Promise.create();
 	                }
 	            }
 	            ];
@@ -23,18 +23,18 @@ describe("when resolving synchronous but resolver returns a promise", function()
 	    };
 
 	    try {
-	        doLittle.dependencyResolver.resolve(ns, "something");
+	        Dolittle.dependencyResolver.resolve(ns, "something");
 	    } catch (e) {
 	        exception = e;
 	    }
 	});
 
 	afterEach(function () {
-	    doLittle.dependencyResolvers = dependencyResolvers;
+	    Dolittle.dependencyResolvers = dependencyResolvers;
 	});
     
 
 	it("should throw an exception", function() {
-		expect(exception instanceof doLittle.AsynchronousDependenciesDetected).toBe(true);
+		expect(exception instanceof Dolittle.AsynchronousDependenciesDetected).toBe(true);
 	});
 });

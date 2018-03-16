@@ -1,9 +1,9 @@
-﻿doLittle.namespace("doLittle.io", {
-    fileManager: doLittle.Singleton(function () {
+﻿Dolittle.namespace("Dolittle.io", {
+    fileManager: Dolittle.Singleton(function () {
         /// <summary>Represents a manager for files, providing capabilities of loading and more</summary>
         var self = this;
 
-        var uri = doLittle.Uri.create(window.location.href);
+        var uri = Dolittle.Uri.create(window.location.href);
         if (window.location.protocol === "file:") {
             this.origin = window.location.href;
             this.origin = this.origin.substr(0, this.origin.lastIndexOf("/"));
@@ -13,7 +13,7 @@
             }
         } else {
             var port = uri.port || "";
-            if (!doLittle.isUndefined(port) && port !== "" && port !== 80) {
+            if (!Dolittle.isUndefined(port) && port !== "" && port !== 80) {
                 port = ":" + port;
             }
 
@@ -33,15 +33,15 @@
 
         this.load = function (files) {
             /// <summary>Load files</summary>
-            /// <param parameterArray="true" elementType="doLittle.io.File">Files to load</param>
-            /// <returns type="doLittle.execution.Promise">A promise that can be continued with the actual files coming in as an array</returns>
+            /// <param parameterArray="true" elementType="Dolittle.io.File">Files to load</param>
+            /// <returns type="Dolittle.execution.Promise">A promise that can be continued with the actual files coming in as an array</returns>
             var filesToLoad = [];
 
-            var promise = doLittle.execution.Promise.create();
+            var promise = Dolittle.execution.Promise.create();
 
             files.forEach(function (file) {
                 var path = getActualFilename(file.path.fullPath);
-                if (file.fileType === doLittle.io.fileType.html) {
+                if (file.fileType === Dolittle.io.fileType.html) {
                     path = "text!" + path + "!strip";
                     if (!file.path.hasExtension()) {
                         path = "noext!" + path;
@@ -59,4 +59,4 @@
         };
     })
 });
-doLittle.WellKnownTypesDependencyResolver.types.fileManager = doLittle.io.fileManager;
+Dolittle.WellKnownTypesDependencyResolver.types.fileManager = Dolittle.io.fileManager;

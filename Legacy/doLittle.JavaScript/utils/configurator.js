@@ -1,5 +1,5 @@
-﻿doLittle.namespace("doLittle",{
-    configurator: doLittle.Type.extend(function () {
+﻿Dolittle.namespace("Dolittle",{
+    configurator: Dolittle.Type.extend(function () {
         this.configure = function (configure) {
         };
     })

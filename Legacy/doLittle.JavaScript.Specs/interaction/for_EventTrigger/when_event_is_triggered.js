@@ -1,6 +1,6 @@
 ﻿describe("when event is triggered", function () {
     var element = $("<button/>");
-    var trigger = doLittle.interaction.EventTrigger.create();
+    var trigger = Dolittle.interaction.EventTrigger.create();
     trigger.eventName = "click";
     trigger.initialize(element[0]);
     trigger.signal = sinon.stub();

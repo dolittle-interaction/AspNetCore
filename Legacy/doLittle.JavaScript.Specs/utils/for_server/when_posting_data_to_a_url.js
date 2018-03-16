@@ -12,7 +12,7 @@
         xhr.respond(200, { "Content-Type":"application/json" }, '{"somethingElse":"43"}');
     });
 
-    var server = doLittle.server.create();
+    var server = Dolittle.server.create();
     var promise = server.post(url, data);
     promise.continueWith(function (result) {
         response = result;
@@ -21,7 +21,7 @@
     fakeServer.respond();
 
     it("should return a promise", function () {
-        expect(promise instanceof doLittle.execution.Promise).toBe(true);
+        expect(promise instanceof Dolittle.execution.Promise).toBe(true);
     });
 
     it("should send the data as part of the body", function () {

@@ -1,5 +1,5 @@
-﻿doLittle.namespace("doLittle.specifications", {
-    Specification: doLittle.Type.extend(function () {
+﻿Dolittle.namespace("Dolittle.specifications", {
+    Specification: Dolittle.Type.extend(function () {
         /// <summary>Represents a rule based on the specification pattern</summary>
         var self = this;
         var currentInstance = ko.observable();
@@ -25,7 +25,7 @@
             }
             var instance = currentInstance();
 
-            if (!doLittle.isNullOrUndefined(instance)) {
+            if (!Dolittle.isNullOrUndefined(instance)) {
                 return self.evaluator(instance);
             }
             return false;
@@ -48,13 +48,13 @@
             /// </param>
             /// <returns>A new composed rule</returns>
 
-            if (doLittle.isFunction(rule)) {
+            if (Dolittle.isFunction(rule)) {
                 var oldRule = rule;
-                rule = doLittle.specifications.Specification.create();
+                rule = Dolittle.specifications.Specification.create();
                 rule.evaluator = oldRule;
             }
 
-            var and = doLittle.specifications.And.create(this, rule);
+            var and = Dolittle.specifications.And.create(this, rule);
             return and;
         };
 
@@ -66,18 +66,18 @@
             /// </param>
             /// <returns>A new composed rule</returns>
 
-            if (doLittle.isFunction(rule)) {
+            if (Dolittle.isFunction(rule)) {
                 var oldRule = rule;
-                rule = doLittle.specifications.Specification.create();
+                rule = Dolittle.specifications.Specification.create();
                 rule.evaluator = oldRule;
             }
 
-            var or = doLittle.specifications.Or.create(this, rule);
+            var or = Dolittle.specifications.Or.create(this, rule);
             return or;
         };
     })
 });
-doLittle.specifications.Specification.when = function (evaluator) {
+Dolittle.specifications.Specification.when = function (evaluator) {
     /// <summary>Starts a rule chain</summary>
     /// <param name="evaluator">
     /// The evaluator can either be a function that gets called with the instance
@@ -85,7 +85,7 @@ doLittle.specifications.Specification.when = function (evaluator) {
     /// not have the instance passed 
     /// </param>
     /// <returns>A new composed rule</returns>
-    var rule = doLittle.specifications.Specification.create();
+    var rule = Dolittle.specifications.Specification.create();
     rule.evaluator = evaluator;
     return rule;
 };

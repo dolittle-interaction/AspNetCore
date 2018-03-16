@@ -1,10 +1,10 @@
-doLittle.namespace("doLittle.markup", {
-    Control: doLittle.markup.UIElement.extend(function () {
+Dolittle.namespace("Dolittle.markup", {
+    Control: Dolittle.markup.UIElement.extend(function () {
         var self = this;
         this.template = null;
 
         this.prepare = function (type, element) {
-            var promise = doLittle.execution.Promise.create();
+            var promise = Dolittle.execution.Promise.create();
 
             var file = type._namespace._path + type._name + ".html";
             require(["text!" + file + "!strip"], function (v) {

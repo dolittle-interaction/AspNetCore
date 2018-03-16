@@ -1,5 +1,5 @@
-﻿doLittle.namespace("doLittle",{
-    StringMapper: doLittle.Type.extend(function (stringMappingFactory) {
+﻿Dolittle.namespace("Dolittle",{
+    StringMapper: Dolittle.Type.extend(function (stringMappingFactory) {
         var self = this;
 
         this.stringMappingFactory = stringMappingFactory;
@@ -45,7 +45,7 @@
                 }
                 
                 var mapping = self.getMappingFor(input);
-                if (doLittle.isNullOrUndefined(mapping)) {
+                if (Dolittle.isNullOrUndefined(mapping)) {
                     return "";
                 }
 

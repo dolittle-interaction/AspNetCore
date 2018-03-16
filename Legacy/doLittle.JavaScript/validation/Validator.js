@@ -1,5 +1,5 @@
-doLittle.namespace("doLittle.validation");
-doLittle.validation.Validator = (function () {
+Dolittle.namespace("Dolittle.validation");
+Dolittle.validation.Validator = (function () {
     function Validator(options) {
         var self = this;
         this.isValid = ko.observable(true);
@@ -20,7 +20,7 @@ doLittle.validation.Validator = (function () {
                 }
             }
             for (var property in options) {
-                var ruleTypes = doLittle.validation.Rule.getExtenders();
+                var ruleTypes = Dolittle.validation.Rule.getExtenders();
                 ruleTypes.some(setupRule);
             }
         };

@@ -1,14 +1,14 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Reflection;
-using doLittle.CodeGeneration.JavaScript;
-using doLittle.Concepts;
-using doLittle.Strings;
+using Dolittle.CodeGeneration.JavaScript;
+using Dolittle.Concepts;
+using Dolittle.Strings;
 
-namespace doLittle.Web.Commands
+namespace Dolittle.Web.Commands
 {
     public class TypePropertyExtender : ICanExtendCommandProperty
     {

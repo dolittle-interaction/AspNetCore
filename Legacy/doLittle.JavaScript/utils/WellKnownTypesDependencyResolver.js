@@ -1,7 +1,7 @@
-﻿doLittle.namespace("doLittle",{
+﻿Dolittle.namespace("Dolittle",{
     WellKnownTypesDependencyResolver: function () {
         var self = this;
-        this.types = doLittle.WellKnownTypesDependencyResolver.types;
+        this.types = Dolittle.WellKnownTypesDependencyResolver.types;
 
         this.canResolve = function (namespace, name) {
             return self.types.hasOwnProperty(name);
@@ -13,6 +13,6 @@
     }
 });
 
-doLittle.WellKnownTypesDependencyResolver.types = {
+Dolittle.WellKnownTypesDependencyResolver.types = {
     options: {}
 };

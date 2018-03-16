@@ -1,5 +1,5 @@
 describe("when checking a function", function() {
-	var result = doLittle.isArray(function() {});
+	var result = Dolittle.isArray(function() {});
 	it("should return true", function() {
 		expect(result).toBe(false);
 	});

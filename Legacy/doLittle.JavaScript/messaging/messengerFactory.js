@@ -1,13 +1,13 @@
-﻿doLittle.namespace("doLittle.messaging", {
-    messengerFactory: doLittle.Singleton(function () {
+﻿Dolittle.namespace("Dolittle.messaging", {
+    messengerFactory: Dolittle.Singleton(function () {
         this.create = function () {
-            var messenger = doLittle.messaging.Messenger.create();
+            var messenger = Dolittle.messaging.Messenger.create();
             return messenger;
         };
 
         this.global = function () {
-            return doLittle.messaging.Messenger.global;
+            return Dolittle.messaging.Messenger.global;
         };
     })
 });
-doLittle.WellKnownTypesDependencyResolver.types.messengerFactory = doLittle.messaging.messengerFactory;
+Dolittle.WellKnownTypesDependencyResolver.types.messengerFactory = Dolittle.messaging.messengerFactory;

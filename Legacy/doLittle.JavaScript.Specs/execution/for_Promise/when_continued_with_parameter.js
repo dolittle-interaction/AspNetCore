@@ -1,5 +1,5 @@
 describe("when continued with parameter", function () {
-    var promise = doLittle.execution.Promise.create();
+    var promise = Dolittle.execution.Promise.create();
     var parameter = null;
     var nextPromise = null;
 
@@ -11,7 +11,7 @@ describe("when continued with parameter", function () {
     promise.signal("Hello");
 
     it("should get a promise as argument", function () {
-        expect(nextPromise instanceof doLittle.execution.Promise).toBe(true);
+        expect(nextPromise instanceof Dolittle.execution.Promise).toBe(true);
     });
 
     it("should be a new promise", function () {

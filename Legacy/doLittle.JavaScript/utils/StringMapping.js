@@ -1,5 +1,5 @@
-﻿doLittle.namespace("doLittle",{
-    StringMapping: doLittle.Type.extend(function (format, mappedFormat) {
+﻿Dolittle.namespace("Dolittle",{
+    StringMapping: Dolittle.Type.extend(function (format, mappedFormat) {
         var self = this;
 
         this.format = format;

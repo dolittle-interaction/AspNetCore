@@ -1,12 +1,12 @@
-﻿doLittle.namespace("doLittle.markup", {
-    UIElementPreparer: doLittle.Singleton(function () {
+﻿Dolittle.namespace("Dolittle.markup", {
+    UIElementPreparer: Dolittle.Singleton(function () {
         this.prepare = function (element, instance) {
             var result = instance.prepare(instance._type, element);
-            if (result instanceof doLittle.execution.Promise) {
+            if (result instanceof Dolittle.execution.Promise) {
                 result.continueWith(function () {
 
-                    if (!doLittle.isNullOrUndefined(instance.template)) {
-                        var UIManager = doLittle.views.UIManager.create();
+                    if (!Dolittle.isNullOrUndefined(instance.template)) {
+                        var UIManager = Dolittle.views.UIManager.create();
 
                         UIManager.handle(instance.template);
 

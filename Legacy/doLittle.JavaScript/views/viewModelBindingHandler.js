@@ -1,8 +1,8 @@
-doLittle.namespace("doLittle.views", {
-    viewModelBindingHandler: doLittle.Type.extend(function(documentService, viewFactory, viewModelLoader, viewModelManager, viewModelTypes, regionManager) {
+Dolittle.namespace("Dolittle.views", {
+    viewModelBindingHandler: Dolittle.Type.extend(function(documentService, viewFactory, viewModelLoader, viewModelManager, viewModelTypes, regionManager) {
         this.init = function (element, valueAccessor, allBindingsAccessor, parentViewModel, bindingContext) {
             var path = ko.utils.unwrapObservable(valueAccessor());
-            if (element._isLoading === true || (element._viewModelPath === path && !doLittle.isNullOrUndefined(element._viewModel))) {
+            if (element._isLoading === true || (element._viewModelPath === path && !Dolittle.isNullOrUndefined(element._viewModel))) {
                 return;
             }
 
@@ -29,8 +29,8 @@ doLittle.namespace("doLittle.views", {
                 if (viewModelTypes.isLoaded(path)) {
                     var viewModelType = viewModelTypes.getViewModelTypeForPath(path);
 
-                    var lastRegion = doLittle.views.Region.current;
-                    doLittle.views.Region.current = region;
+                    var lastRegion = Dolittle.views.Region.current;
+                    Dolittle.views.Region.current = region;
 
                     viewModelType.beginCreate(viewModelParameters).continueWith(function (viewModel) {
                         var childBindingContext = bindingContext.createChildContext(viewModel);
@@ -38,7 +38,7 @@ doLittle.namespace("doLittle.views", {
                         element._viewModel = viewModel;
 
                         viewModelInstance(viewModel);
-                        doLittle.views.Region.current = lastRegion;
+                        Dolittle.views.Region.current = lastRegion;
 
                         element._isLoading = false;
                     }).onFail(function(e) {
@@ -61,7 +61,7 @@ doLittle.namespace("doLittle.views", {
         };
     })
 });
-doLittle.views.viewModelBindingHandler.initialize = function () {
-    ko.bindingHandlers.viewModel = doLittle.views.viewModelBindingHandler.create();
+Dolittle.views.viewModelBindingHandler.initialize = function () {
+    ko.bindingHandlers.viewModel = Dolittle.views.viewModelBindingHandler.create();
 };
 

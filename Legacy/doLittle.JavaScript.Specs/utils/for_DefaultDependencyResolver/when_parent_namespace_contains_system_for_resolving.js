@@ -1,10 +1,10 @@
 ﻿describe("when parent namespace contains system for resolving", function () {
-    var resolver = new doLittle.DefaultDependencyResolver();
+    var resolver = new Dolittle.DefaultDependencyResolver();
 
-    doLittle.namespace("Parent", {
+    Dolittle.namespace("Parent", {
         something: "Hello"
     });
-    doLittle.namespace("Parent.Child", {
+    Dolittle.namespace("Parent.Child", {
     });
 
     var ns = Parent.Child;

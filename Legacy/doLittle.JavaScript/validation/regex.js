@@ -1,26 +1,26 @@
-doLittle.namespace("doLittle.validation", {
-    regex: doLittle.validation.Rule.extend(function () {
+Dolittle.namespace("Dolittle.validation", {
+    regex: Dolittle.validation.Rule.extend(function () {
         var self = this;
 
         function notSet(value) {
-            return doLittle.isUndefined(value) || doLittle.isNull(value);
+            return Dolittle.isUndefined(value) || Dolittle.isNull(value);
         }
 
         function throwIfOptionsInvalid(options) {
             if (notSet(options)) {
-                throw new doLittle.validation.OptionsNotDefined();
+                throw new Dolittle.validation.OptionsNotDefined();
             }
             if (notSet(options.expression)) {
-                throw new doLittle.validation.MissingExpression();
+                throw new Dolittle.validation.MissingExpression();
             }
-            if (!doLittle.isString(options.expression)) {
-                throw new doLittle.validation.NotAString("Expression " + options.expression + " is not a string.");
+            if (!Dolittle.isString(options.expression)) {
+                throw new Dolittle.validation.NotAString("Expression " + options.expression + " is not a string.");
             }
         }
 
         function throwIfValueIsNotString(value) {
-            if (!doLittle.isString(value)) {
-                throw new doLittle.validation.NotAString("Value " + value + " is not a string.");
+            if (!Dolittle.isString(value)) {
+                throw new Dolittle.validation.NotAString("Value " + value + " is not a string.");
             }
         }
 

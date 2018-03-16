@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace doLittle.AspNetCore.Commands.Proxies
+namespace Dolittle.AspNetCore.Commands.Proxies
 {
     /// <summary>
     /// 

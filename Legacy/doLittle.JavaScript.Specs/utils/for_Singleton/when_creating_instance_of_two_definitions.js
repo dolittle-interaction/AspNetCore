@@ -1,8 +1,8 @@
 ﻿describe("when creating instance of two definition", function () {
-    var firstSingleton = doLittle.Singleton(function () {
+    var firstSingleton = Dolittle.Singleton(function () {
         this.something = "Hello";
     });
-    var secondSingleton = doLittle.Singleton(function () {
+    var secondSingleton = Dolittle.Singleton(function () {
         this.something = "World";
     });
 

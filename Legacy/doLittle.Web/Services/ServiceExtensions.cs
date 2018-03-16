@@ -1,5 +1,5 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
@@ -7,11 +7,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using doLittle.CodeGeneration.JavaScript;
-using doLittle.Reflection;
-using doLittle.Strings;
+using Dolittle.CodeGeneration.JavaScript;
+using Dolittle.Reflection;
+using Dolittle.Strings;
 
-namespace doLittle.Web.Services
+namespace Dolittle.Web.Services
 {
     public static class ServiceExtensions
     {

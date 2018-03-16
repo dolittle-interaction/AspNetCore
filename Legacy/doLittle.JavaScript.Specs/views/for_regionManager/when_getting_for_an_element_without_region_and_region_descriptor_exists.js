@@ -53,15 +53,15 @@
     var tasksFactory = { tasks: "factory" };
 
     beforeEach(function () {
-        regionType = doLittle.views.Region;
-        doLittle.views.Region = function (messengerFactory, operationsFactory, tasksFactory) {
+        regionType = Dolittle.views.Region;
+        Dolittle.views.Region = function (messengerFactory, operationsFactory, tasksFactory) {
             this.messengerFactory = messengerFactory;
             this.operationsFactory = operationsFactory;
             this.tasksFactory = tasksFactory;
             this.view = ko.observable();
         };
 
-        var instance = doLittle.views.regionManager.createWithoutScope({
+        var instance = Dolittle.views.regionManager.createWithoutScope({
             documentService: documentService,
             regionDescriptorManager: regionDescriptorManager,
             messengerFactory: messengerFactory,
@@ -73,7 +73,7 @@
     });
     
     afterEach(function () {
-        doLittle.views.Region = regionType;
+        Dolittle.views.Region = regionType;
     });
 
     it("should set region on the element", function () {

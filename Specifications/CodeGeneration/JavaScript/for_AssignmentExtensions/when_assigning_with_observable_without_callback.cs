@@ -1,7 +1,7 @@
 ﻿using Machine.Specifications;
-using doLittle.CodeGeneration.JavaScript;
+using Dolittle.CodeGeneration.JavaScript;
 
-namespace doLittle.Specs.CodeGeneration.JavaScript.for_AssignmentExtensions
+namespace Dolittle.Specs.CodeGeneration.JavaScript.for_AssignmentExtensions
 {
     public class when_assigning_with_observable_without_callback : given.an_assignment
     {

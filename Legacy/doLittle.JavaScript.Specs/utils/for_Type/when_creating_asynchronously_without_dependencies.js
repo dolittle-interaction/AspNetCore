@@ -1,5 +1,5 @@
 describe("when creating asynchronously without dependencies", function() {
-	var type = doLittle.Type.extend(function() {
+	var type = Dolittle.Type.extend(function() {
 		this.something = "Hello";
 	});
 

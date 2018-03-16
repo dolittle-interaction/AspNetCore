@@ -1,12 +1,12 @@
-﻿doLittle.namespace("doLittle.mapping", {
-    PropertyMap: doLittle.Type.extend(function (sourceProperty, typeConverters) {
+﻿Dolittle.namespace("Dolittle.mapping", {
+    PropertyMap: Dolittle.Type.extend(function (sourceProperty, typeConverters) {
         var self = this;
 
         this.strategy = null;
 
         function throwIfMissingPropertyStrategy() {
-            if (doLittle.isNullOrUndefined(self.strategy)) {
-                throw doLittle.mapping.MissingPropertyStrategy.create();
+            if (Dolittle.isNullOrUndefined(self.strategy)) {
+                throw Dolittle.mapping.MissingPropertyStrategy.create();
             }
         }
 
@@ -16,18 +16,18 @@
                 var targetValue = ko.unwrap(target[targetProperty]);
 
                 var typeAsString = null;
-                if (!doLittle.isNullOrUndefined(value)) {
-                    if (!doLittle.isNullOrUndefined(targetValue)) {
+                if (!Dolittle.isNullOrUndefined(value)) {
+                    if (!Dolittle.isNullOrUndefined(targetValue)) {
                         if (value.constructor !== targetValue.constructor) {
                             typeAsString = targetValue.constructor.name.toString();
                         }
 
-                        if (!doLittle.isNullOrUndefined(target[targetProperty]._typeAsString)) {
+                        if (!Dolittle.isNullOrUndefined(target[targetProperty]._typeAsString)) {
                             typeAsString = target[targetProperty]._typeAsString;
                         }
                     }
 
-                    if (!doLittle.isNullOrUndefined(typeAsString)) {
+                    if (!Dolittle.isNullOrUndefined(typeAsString)) {
                         value = typeConverters.convertFrom(value.toString(), typeAsString);
                     }
                 }

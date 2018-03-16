@@ -2,11 +2,11 @@
 
     if (window.First) delete window.First;
 
-    doLittle.namespace("First", {
+    Dolittle.namespace("First", {
         something: "Hello"
     });
 
-    doLittle.namespace("First.Second", {
+    Dolittle.namespace("First.Second", {
     });
 
     it("should point to first in the second part of the namespace", function () {

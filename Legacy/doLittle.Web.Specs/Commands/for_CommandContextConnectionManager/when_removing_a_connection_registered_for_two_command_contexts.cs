@@ -1,8 +1,8 @@
 ﻿using System;
-using doLittle.Web.Commands;
+using Dolittle.Web.Commands;
 using Machine.Specifications;
 
-namespace doLittle.Web.Specs.Commands.for_CommandContextConnectionManager
+namespace Dolittle.Web.Specs.Commands.for_CommandContextConnectionManager
 {
     public class when_removing_a_connection_registered_for_two_command_contexts
     {

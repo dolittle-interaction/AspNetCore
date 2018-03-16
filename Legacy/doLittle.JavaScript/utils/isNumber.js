@@ -1,6 +1,6 @@
-doLittle.namespace("doLittle", {
+Dolittle.namespace("Dolittle", {
     isNumber: function (number) {
-        if (doLittle.isString(number)) {
+        if (Dolittle.isString(number)) {
             if (number.length > 1 && number[0] === '0') {
                 return false;
             }

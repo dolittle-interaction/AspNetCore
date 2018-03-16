@@ -1,6 +1,6 @@
 ﻿describe("when converting from an integer string", function () {
 
-    var converter = doLittle.values.NumberTypeConverter.create();
+    var converter = Dolittle.values.NumberTypeConverter.create();
 
     var result = converter.convertFrom("42");
 

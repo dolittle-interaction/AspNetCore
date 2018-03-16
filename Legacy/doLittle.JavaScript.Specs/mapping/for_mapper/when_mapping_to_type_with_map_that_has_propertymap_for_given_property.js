@@ -14,11 +14,11 @@ describe("when mapping to type with map that has propertymap for given property"
         }
     };
 
-    var type = doLittle.Type.extend(function () {
+    var type = Dolittle.Type.extend(function () {
         this.number = 0;
     });
 
-    var mapper = doLittle.mapping.mapper.create(parameters);
+    var mapper = Dolittle.mapping.mapper.create(parameters);
     var mappedInstance = mapper.map(type, data);
 
     it("should map the property through the map", function () {

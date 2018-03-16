@@ -1,4 +1,4 @@
-﻿doLittle.namespace("doLittle",{
+﻿Dolittle.namespace("Dolittle",{
     areEqual: function (source, target) {
         function isReservedMemberName(member) {
             return member.indexOf("_") >= 0 || member === "model" || member === "commons" || member === "targetViewModel" || member === "region";
@@ -11,24 +11,24 @@
             target = target();
         }
 
-        if (doLittle.isNullOrUndefined(source) && doLittle.isNullOrUndefined(target)) {
+        if (Dolittle.isNullOrUndefined(source) && Dolittle.isNullOrUndefined(target)) {
             return true;
         }
 
-        if (doLittle.isNullOrUndefined(source)) {
+        if (Dolittle.isNullOrUndefined(source)) {
             return false;
         }
-        if (doLittle.isNullOrUndefined(target)) {
+        if (Dolittle.isNullOrUndefined(target)) {
             return false;
         }
 
-        if (doLittle.isArray(source) && doLittle.isArray(target)) {
+        if (Dolittle.isArray(source) && Dolittle.isArray(target)) {
             if (source.length !== target.length) {
                 return false;
             }
 
             for (var index = 0; index < source.length; index++) {
-                if (doLittle.areEqual(source[index], target[index]) === false) {
+                if (Dolittle.areEqual(source[index], target[index]) === false) {
                     return false;
                 }
             }
@@ -41,11 +41,11 @@
                     var sourceValue = source[member];
                     var targetValue = target[member];
 
-                    if (doLittle.isObject(sourceValue) ||
-                        doLittle.isArray(sourceValue) ||
+                    if (Dolittle.isObject(sourceValue) ||
+                        Dolittle.isArray(sourceValue) ||
                         ko.isObservable(sourceValue)) {
 
-                        if (!doLittle.areEqual(sourceValue, targetValue)) {
+                        if (!Dolittle.areEqual(sourceValue, targetValue)) {
                             return false;
                         }
                     } else {

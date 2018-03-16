@@ -1,5 +1,5 @@
-﻿doLittle.namespace("doLittle.services", {
-    Service: doLittle.Type.extend(function () {
+﻿Dolittle.namespace("Dolittle.services", {
+    Service: Dolittle.Type.extend(function () {
         var self = this;
 
         this.url = "";
@@ -32,7 +32,7 @@
 
 
         this.callWithoutReturnValue = function (method, args) {
-            var promise = doLittle.execution.Promise.create();
+            var promise = Dolittle.execution.Promise.create();
             call(method, args, function (v) {
                 promise.signal();
             });

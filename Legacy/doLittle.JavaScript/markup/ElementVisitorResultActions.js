@@ -1,5 +1,5 @@
-doLittle.namespace("doLittle.markup", {
-    ElementVisitorResultActions: doLittle.Type.extend(function() {
+Dolittle.namespace("Dolittle.markup", {
+    ElementVisitorResultActions: Dolittle.Type.extend(function() {
 
     })
 });

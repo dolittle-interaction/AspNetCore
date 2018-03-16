@@ -1,7 +1,7 @@
-var doLittle = doLittle || {};
-doLittle.namespace = function (ns, content) {
+var Dolittle = Dolittle || {};
+Dolittle.namespace = function (ns, content) {
 
-    // Todo: this should not be needed, it is a symptom of something using it being wrong!!! Se issue #232 on GitHub (http://github.com/dolittle/doLittle/issues/232)
+    // Todo: this should not be needed, it is a symptom of something using it being wrong!!! Se issue #232 on GitHub (http://github.com/dolittle/Dolittle/issues/232)
     ns = ns.replaceAll("..", ".");
     if (ns.endsWith(".")) {
         ns = ns.substr(0, ns.length - 1);
@@ -27,7 +27,7 @@ doLittle.namespace = function (ns, content) {
     });
 
     if (typeof content === "object") {
-        doLittle.namespace.current = parent;
+        Dolittle.namespace.current = parent;
 
         var property;
 
@@ -41,7 +41,7 @@ doLittle.namespace = function (ns, content) {
                 parent[property]._name = property;
             }
         }
-        doLittle.namespace.current = null;
+        Dolittle.namespace.current = null;
     }
 
     return parent;

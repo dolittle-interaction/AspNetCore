@@ -1,10 +1,10 @@
-﻿doLittle.namespace("doLittle.views", {
-    ViewBindingHandlerTemplateSource: doLittle.Type.extend(function (viewFactory) {
+﻿Dolittle.namespace("Dolittle.views", {
+    ViewBindingHandlerTemplateSource: Dolittle.Type.extend(function (viewFactory) {
         var content = "";
 
 
         this.loadFor = function (element, view, region) {
-            var promise = doLittle.execution.Promise.create();
+            var promise = Dolittle.execution.Promise.create();
 
             view.load(region).continueWith(function (loadedView) {
                 var wrapper = document.createElement("div");
@@ -13,10 +13,10 @@
 
                 content = wrapper.innerHTML;
 
-                if (doLittle.isNullOrUndefined(loadedView.viewModelType)) {
+                if (Dolittle.isNullOrUndefined(loadedView.viewModelType)) {
                     promise.signal(loadedView);
                 } else {
-                    doLittle.views.Region.current = region;
+                    Dolittle.views.Region.current = region;
                     view.viewModelType.ensure().continueWith(function () {
                         promise.signal(loadedView);
                     });

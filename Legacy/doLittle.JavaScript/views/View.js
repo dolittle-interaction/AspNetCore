@@ -1,5 +1,5 @@
-doLittle.namespace("doLittle.views", {
-    View: doLittle.Type.extend(function (viewLoader, viewModelTypes, viewModelManager, path) {
+Dolittle.namespace("Dolittle.views", {
+    View: Dolittle.Type.extend(function (viewLoader, viewModelTypes, viewModelManager, path) {
         var self = this;
 
         this.path = path;
@@ -11,7 +11,7 @@ doLittle.namespace("doLittle.views", {
 
         this.load = function (region) {
             self.region = region;
-            var promise = doLittle.execution.Promise.create();
+            var promise = Dolittle.execution.Promise.create();
             self.viewModelPath = viewModelManager.getViewModelPathForView(path);
             viewLoader.load(self.path, region).continueWith(function (html) {
                 self.content = html;

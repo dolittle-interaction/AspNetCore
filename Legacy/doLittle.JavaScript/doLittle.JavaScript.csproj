@@ -32,8 +32,8 @@
           ]]></Code>
     </Task>
   </UsingTask>
-  <Target Name="CreatedoLittleDebug" Inputs="@(Content)" Outputs="doLittle.debug.js" BeforeTargets="Build" Condition=" '$(OS)' == 'Windows_NT' ">
-    <Bundle InputFilename="$(ProjectDir)doLittle.js" OutputFilename="$(ProjectDir)doLittle.debug.js" />
+  <Target Name="CreateDolittleDebug" Inputs="@(Content)" Outputs="Dolittle.debug.js" BeforeTargets="Build" Condition=" '$(OS)' == 'Windows_NT' ">
+    <Bundle InputFilename="$(ProjectDir)Dolittle.js" OutputFilename="$(ProjectDir)Dolittle.debug.js" />
   </Target>
   
 

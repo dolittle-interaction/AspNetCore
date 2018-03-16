@@ -1,5 +1,5 @@
-﻿doLittle.namespace("doLittle.views", {
-    ViewModel: doLittle.Type.extend(function (region) {
+﻿Dolittle.namespace("Dolittle.views", {
+    ViewModel: Dolittle.Type.extend(function (region) {
         var self = this;
         this.targetViewModel = this;
         this.region = region;

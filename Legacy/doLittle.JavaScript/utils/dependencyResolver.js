@@ -1,7 +1,7 @@
-doLittle.namespace("doLittle", {
+Dolittle.namespace("Dolittle", {
     dependencyResolver: (function () {
         function resolveImplementation(namespace, name) {
-            var resolvers = doLittle.dependencyResolvers.getAll();
+            var resolvers = Dolittle.dependencyResolvers.getAll();
             var resolvedSystem = null;
             resolvers.forEach(function (resolver) {
                 if (resolvedSystem != null) {
@@ -22,7 +22,7 @@ doLittle.namespace("doLittle", {
                 system._super !== null) {
 
                 if (typeof system._super !== "undefined" &&
-                    system._super === doLittle.Type) {
+                    system._super === Dolittle.Type) {
                     return true;
                 }
 
@@ -42,12 +42,12 @@ doLittle.namespace("doLittle", {
         }
 
         function beginHandleSystemInstance(system) {
-            var promise = doLittle.execution.Promise.create();
+            var promise = Dolittle.execution.Promise.create();
 
             if (system != null &&
                 system._super !== null &&
                 typeof system._super !== "undefined" &&
-                system._super === doLittle.Type) {
+                system._super === Dolittle.Type) {
 
                 system.beginCreate().continueWith(function (result, next) {
                     promise.signal(result);
@@ -62,7 +62,7 @@ doLittle.namespace("doLittle", {
         return {
             getDependenciesFor: function (func) {
                 var dependencies = [];
-                var parameters = doLittle.functionParser.parse(func);
+                var parameters = Dolittle.functionParser.parse(func);
                 for (var i = 0; i < parameters.length; i++) {
                     dependencies.push(parameters[i].name);
                 }
@@ -71,7 +71,7 @@ doLittle.namespace("doLittle", {
 
             canResolve: function (namespace, name) {
                 // Loop through resolvers and check if anyone can resolve it, if so return true - if not false
-                var resolvers = doLittle.dependencyResolvers.getAll();
+                var resolvers = Dolittle.dependencyResolvers.getAll();
                 var canResolve = false;
 
                 resolvers.forEach(function (resolver) {
@@ -89,27 +89,27 @@ doLittle.namespace("doLittle", {
                 var resolvedSystem = resolveImplementation(namespace, name);
                 if (typeof resolvedSystem === "undefined" || resolvedSystem === null) {
                     console.log("Unable to resolve '" + name + "' in '" + namespace + "'");
-                    throw new doLittle.UnresolvedDependencies();
+                    throw new Dolittle.UnresolvedDependencies();
                 }
 
-                if (resolvedSystem instanceof doLittle.execution.Promise) {
+                if (resolvedSystem instanceof Dolittle.execution.Promise) {
                     console.log("'" + name + "' was resolved as an asynchronous dependency, consider using beginCreate() or make the dependency available prior to calling create");
-                    throw new doLittle.AsynchronousDependenciesDetected();
+                    throw new Dolittle.AsynchronousDependenciesDetected();
                 }
 
                 return handleSystemInstance(resolvedSystem);
             },
 
             beginResolve: function (namespace, name) {
-                var promise = doLittle.execution.Promise.create();
-                doLittle.configure.ready(function () {
+                var promise = Dolittle.execution.Promise.create();
+                Dolittle.configure.ready(function () {
                     var resolvedSystem = resolveImplementation(namespace, name);
                     if (typeof resolvedSystem === "undefined" || resolvedSystem === null) {
                         console.log("Unable to resolve '" + name + "' in '" + namespace + "'");
-                        promise.fail(new doLittle.UnresolvedDependencies());
+                        promise.fail(new Dolittle.UnresolvedDependencies());
                     }
 
-                    if (resolvedSystem instanceof doLittle.execution.Promise) {
+                    if (resolvedSystem instanceof Dolittle.execution.Promise) {
                         resolvedSystem.continueWith(function (system, innerPromise) {
                             beginHandleSystemInstance(system)
                             .continueWith(function (actualSystem, next) {
@@ -127,4 +127,4 @@ doLittle.namespace("doLittle", {
         };
     })()
 });
-doLittle.WellKnownTypesDependencyResolver.types.dependencyResolver = doLittle.dependencyResolver;
+Dolittle.WellKnownTypesDependencyResolver.types.dependencyResolver = Dolittle.dependencyResolver;

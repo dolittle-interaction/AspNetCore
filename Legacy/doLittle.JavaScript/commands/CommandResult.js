@@ -1,13 +1,13 @@
-doLittle.namespace("doLittle.commands");
-doLittle.commands.CommandResult = (function () {
+Dolittle.namespace("Dolittle.commands");
+Dolittle.commands.CommandResult = (function () {
     function CommandResult(existing) {
         var self = this;
         this.isEmpty = function () {
-            return self.commandId === doLittle.Guid.empty;
+            return self.commandId === Dolittle.Guid.empty;
         };
 
         this.commandName = "";
-        this.commandId = doLittle.Guid.empty;
+        this.commandId = Dolittle.Guid.empty;
         this.validationResults = [];
         this.success = true;
         this.invalid = false;
@@ -20,7 +20,7 @@ doLittle.commands.CommandResult = (function () {
         this.details = "";
 
         if (typeof existing !== "undefined") {
-            doLittle.extend(this, existing);
+            Dolittle.extend(this, existing);
         }
     }
 

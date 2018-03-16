@@ -34,17 +34,17 @@
 
     var commandResult = null;
     beforeEach(function () {
-        commandResult = doLittle.commands.CommandResult;
-        doLittle.commands.CommandResult = {
+        commandResult = Dolittle.commands.CommandResult;
+        Dolittle.commands.CommandResult = {
             create: sinon.stub()
         };
     });
 
     afterEach(function () {
-        doLittle.commands.CommandResult = commandResult;
+        Dolittle.commands.CommandResult = commandResult;
     });
 
-    var command = doLittle.commands.Command.create(parameters);
+    var command = Dolittle.commands.Command.create(parameters);
     command.execute();
 
 

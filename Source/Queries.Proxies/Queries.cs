@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace doLittle.AspNetCore.Queries.Proxies
+namespace Dolittle.AspNetCore.Queries.Proxies
 {
     /// <summary>
     /// 

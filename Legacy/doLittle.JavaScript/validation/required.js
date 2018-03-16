@@ -1,7 +1,7 @@
-doLittle.namespace("doLittle.validation", {
-    required: doLittle.validation.Rule.extend(function () {
+Dolittle.namespace("Dolittle.validation", {
+    required: Dolittle.validation.Rule.extend(function () {
         this.validate = function (value) {
-            return !(doLittle.isUndefined(value) || doLittle.isNull(value) || value === "" || value === 0);
+            return !(Dolittle.isUndefined(value) || Dolittle.isNull(value) || value === "" || value === 0);
         };
     })
 });

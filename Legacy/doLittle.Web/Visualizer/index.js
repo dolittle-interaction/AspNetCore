@@ -1,5 +1,5 @@
-﻿doLittle.namespace("doLittle.Visualizer", {
-    index: doLittle.views.ViewModel.extend(function () {
+﻿Dolittle.namespace("Dolittle.Visualizer", {
+    index: Dolittle.views.ViewModel.extend(function () {
         var self = this;
 
         this.categories = [
@@ -20,33 +20,33 @@ ko.bindingHandlers.sidebar = {
     },
     update: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
         $("body").mouseover(function (e) {
-            if ($(e.target).closest("table.doLittleSidebarIcons").length != 1) {
-                $("#icons").removeClass("doLittleSidebarWithContent");
-                $("#icons").removeClass("doLittleSidebarFullSize");
+            if ($(e.target).closest("table.DolittleSidebarIcons").length != 1) {
+                $("#icons").removeClass("DolittleSidebarWithContent");
+                $("#icons").removeClass("DolittleSidebarFullSize");
             }
 
         });
 
         $("#sidebar").mouseover(function () {
-            $("#icons").addClass("doLittleSidebarIconsVisible");
+            $("#icons").addClass("DolittleSidebarIconsVisible");
         });
 
         $("#sidebar").mouseout(function (e) {
-            $("#icons").removeClass("doLittleSidebarIconsVisible");
+            $("#icons").removeClass("DolittleSidebarIconsVisible");
 
         });
 
         $("#icons").mouseover(function () {
-            //$("#sidebar").addClass("doLittleSidebarFullSize");
+            //$("#sidebar").addClass("DolittleSidebarFullSize");
         });
 
         $("#icons").mouseout(function (e) {
-            $("#icons").addClass("doLittleSidebarFullSize");
+            $("#icons").addClass("DolittleSidebarFullSize");
         });
 
 
         $("#icons").click(function () {
-            $("#icons").addClass("doLittleSidebarWithContent");
+            $("#icons").addClass("DolittleSidebarWithContent");
         });
     }
 }

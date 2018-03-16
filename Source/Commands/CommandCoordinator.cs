@@ -3,12 +3,12 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System.Collections.Generic;
-using doLittle.Commands;
-using doLittle.Runtime.Commands;
-using doLittle.Runtime.Commands.Coordination;
-using doLittle.Types;
+using Dolittle.Commands;
+using Dolittle.Runtime.Commands;
+using Dolittle.Runtime.Commands.Coordination;
+using Dolittle.Types;
 using Microsoft.AspNetCore.Mvc;
-using doLittle.Serialization.Json;
+using Dolittle.Serialization.Json;
 
 namespace Dolittle.AspNetCore.Commands
 {

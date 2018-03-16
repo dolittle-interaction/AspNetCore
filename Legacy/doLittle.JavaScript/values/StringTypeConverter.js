@@ -1,5 +1,5 @@
-﻿doLittle.namespace("doLittle.values", {
-    StringTypeConverter: doLittle.values.TypeConverter.extend(function () {
+﻿Dolittle.namespace("Dolittle.values", {
+    StringTypeConverter: Dolittle.values.TypeConverter.extend(function () {
         this.supportedType = String;
 
         this.convertFrom = function (value) {

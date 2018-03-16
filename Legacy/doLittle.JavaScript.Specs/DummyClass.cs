@@ -1,6 +1,6 @@
 using System;
 
-namespace doLittle.JavaScript
+namespace Dolittle.JavaScript
 {
     public class DummyClass
     {

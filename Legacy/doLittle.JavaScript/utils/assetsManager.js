@@ -1,14 +1,14 @@
-﻿doLittle.namespace("doLittle",{
+﻿Dolittle.namespace("Dolittle",{
     assetsManager: {
         scripts: [],
         isInitialized: function() {
-            return doLittle.assetsManager.scripts.length > 0;
+            return Dolittle.assetsManager.scripts.length > 0;
         },
         initialize: function () {
-            var promise = doLittle.execution.Promise.create();
-            if (!doLittle.assetsManager.isInitialized()) {
-                $.get("/doLittle/AssetsManager", { extension: "js" }, function (result) {
-                    doLittle.assetsManager.initializeFromAssets(result);
+            var promise = Dolittle.execution.Promise.create();
+            if (!Dolittle.assetsManager.isInitialized()) {
+                $.get("/Dolittle/AssetsManager", { extension: "js" }, function (result) {
+                    Dolittle.assetsManager.initializeFromAssets(result);
                     promise.signal();
                 }, "json");
             } else {
@@ -17,24 +17,24 @@
             return promise;
         },
         initializeFromAssets: function (assets) {
-            if (!doLittle.assetsManager.isInitialized()) {
-                doLittle.assetsManager.scripts = assets;
-                doLittle.namespaces.create().initialize();
+            if (!Dolittle.assetsManager.isInitialized()) {
+                Dolittle.assetsManager.scripts = assets;
+                Dolittle.namespaces.create().initialize();
             }
         },
         getScripts: function () {
-            return doLittle.assetsManager.scripts;
+            return Dolittle.assetsManager.scripts;
         },
         hasScript: function(script) {
-            return doLittle.assetsManager.scripts.some(function (scriptInSystem) {
+            return Dolittle.assetsManager.scripts.some(function (scriptInSystem) {
                 return scriptInSystem === script;
             });
         },
         getScriptPaths: function () {
             var paths = [];
 
-            doLittle.assetsManager.scripts.forEach(function (fullPath) {
-                var path = doLittle.Path.getPathWithoutFilename(fullPath);
+            Dolittle.assetsManager.scripts.forEach(function (fullPath) {
+                var path = Dolittle.Path.getPathWithoutFilename(fullPath);
                 if (paths.indexOf(path) === -1) {
                     paths.push(path);
                 }

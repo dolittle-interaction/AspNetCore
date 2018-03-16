@@ -1,27 +1,27 @@
-doLittle.namespace("doLittle");
+Dolittle.namespace("Dolittle");
 
-doLittle.DefinitionMustBeFunction = function (message) {
+Dolittle.DefinitionMustBeFunction = function (message) {
     this.prototype = Error.prototype;
     this.name = "DefinitionMustBeFunction";
     this.message = message || "Definition must be function";
 };
 
-doLittle.MissingName = function (message) {
+Dolittle.MissingName = function (message) {
     this.prototype = Error.prototype;
     this.name = "MissingName";
     this.message = message || "Missing name";
 };
 
-doLittle.Exception = (function(global, undefined) {
+Dolittle.Exception = (function(global, undefined) {
     function throwIfNameMissing(name) {
         if (!name || typeof name === "undefined") {
-            throw new doLittle.MissingName();
+            throw new Dolittle.MissingName();
         }
     }
     
     function throwIfDefinitionNotAFunction(definition) {
         if (typeof definition !== "function") {
-            throw new doLittle.DefinitionMustBeFunction();
+            throw new Dolittle.DefinitionMustBeFunction();
         }
     }
 
@@ -40,7 +40,7 @@ doLittle.Exception = (function(global, undefined) {
         }
         
         var ns = name.substr(0,lastDot);
-        doLittle.namespace(ns);
+        Dolittle.namespace(ns);
         
         var scope = global;
         var parts = ns.split('.');

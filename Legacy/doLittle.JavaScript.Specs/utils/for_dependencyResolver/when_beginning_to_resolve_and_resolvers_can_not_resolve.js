@@ -9,21 +9,21 @@
     var dependencyResolvers;
 
     beforeEach(function () {
-        configure = doLittle.configure;
-        doLittle.configure = {
+        configure = Dolittle.configure;
+        Dolittle.configure = {
             ready: function (callback) {
                 readyCallback = callback;
             }
         };
-        dependencyResolvers = doLittle.dependencyResolvers;
-        doLittle.dependencyResolvers = {
+        dependencyResolvers = Dolittle.dependencyResolvers;
+        Dolittle.dependencyResolvers = {
             getAll: function () {
                 return [resolver];
             }
         };
 
         try {
-            doLittle.dependencyResolver.beginResolve("Something").onFail(function (e) {
+            Dolittle.dependencyResolver.beginResolve("Something").onFail(function (e) {
                 exception = e;
             });
 
@@ -34,13 +34,13 @@
     });
 
     afterEach(function () {
-        doLittle.dependencyResolvers = dependencyResolvers;
-        doLittle.configure = configure;
+        Dolittle.dependencyResolvers = dependencyResolvers;
+        Dolittle.configure = configure;
     });
 
 
     it("should throw unresolved dependencies exception", function () {
-        expect(exception instanceof doLittle.UnresolvedDependencies).toBeTruthy();
+        expect(exception instanceof Dolittle.UnresolvedDependencies).toBeTruthy();
     });
 
 });

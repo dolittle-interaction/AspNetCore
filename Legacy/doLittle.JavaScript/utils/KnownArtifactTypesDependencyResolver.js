@@ -1,10 +1,10 @@
-﻿doLittle.namespace("doLittle",{
+﻿Dolittle.namespace("Dolittle",{
     KnownArtifactTypesDependencyResolver: function () {
         var self = this;
         var supportedArtifacts = {
-            readModelTypes: doLittle.read.ReadModelOf,
-            commandTypes: doLittle.commands.Command,
-            queryTypes: doLittle.read.Query
+            readModelTypes: Dolittle.read.ReadModelOf,
+            commandTypes: Dolittle.commands.Command,
+            queryTypes: Dolittle.read.Query
         };
 
         function isMoreSpecificNamespace(base, compareTo) {

@@ -1,5 +1,5 @@
-﻿doLittle.namespace("doLittle.mapping", {
-    maps: doLittle.Singleton(function () {
+﻿Dolittle.namespace("Dolittle.mapping", {
+    maps: Dolittle.Singleton(function () {
         var self = this;
         var maps = {};
 
@@ -7,7 +7,7 @@
             return sourceType._typeId + " - " + targetType._typeId;
         }
 
-        var extenders = doLittle.mapping.Map.getExtenders();
+        var extenders = Dolittle.mapping.Map.getExtenders();
 
         extenders.forEach(function (extender) {
             var map = extender.create();
@@ -16,7 +16,7 @@
         });
 
         this.hasMapFor = function (sourceType, targetType) {
-            if (doLittle.isNullOrUndefined(sourceType) || doLittle.isNullOrUndefined(targetType)) {
+            if (Dolittle.isNullOrUndefined(sourceType) || Dolittle.isNullOrUndefined(targetType)) {
                 return false;
             }
             var key = getKeyFrom(sourceType, targetType);

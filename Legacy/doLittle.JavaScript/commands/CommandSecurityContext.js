@@ -1,5 +1,5 @@
-﻿doLittle.namespace("doLittle.commands", {
-    CommandSecurityContext: doLittle.Type.extend(function () {
+﻿Dolittle.namespace("Dolittle.commands", {
+    CommandSecurityContext: Dolittle.Type.extend(function () {
         this.isAuthorized = ko.observable(false);
     })
 });

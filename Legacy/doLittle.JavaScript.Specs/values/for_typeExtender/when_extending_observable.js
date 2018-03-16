@@ -1,5 +1,5 @@
 ﻿describe("when extended observable value changes", function () {
-    var extender = doLittle.values.typeExtender.createWithoutScope();
+    var extender = Dolittle.values.typeExtender.createWithoutScope();
 
     var observable = ko.observable();
     var typeAsString = "type";

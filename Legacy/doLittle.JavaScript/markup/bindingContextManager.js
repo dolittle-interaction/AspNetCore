@@ -1,5 +1,5 @@
-﻿doLittle.namespace("doLittle.markup", {
-    bindingContextManager: doLittle.Singleton(function () {
+﻿Dolittle.namespace("Dolittle.markup", {
+    bindingContextManager: Dolittle.Singleton(function () {
 
         this.ensure = function (element) {
             // If there is specific bindingContext for element, return it
@@ -24,4 +24,4 @@
         };
     })
 });
-doLittle.WellKnownTypesDependencyResolver.types.bindingContextManager = doLittle.markup.bindingContextManager;
+Dolittle.WellKnownTypesDependencyResolver.types.bindingContextManager = Dolittle.markup.bindingContextManager;

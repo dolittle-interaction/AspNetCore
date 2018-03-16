@@ -15,7 +15,7 @@
 
         command.property_with_validator.validator = "Existing";
 
-        var commandValidationService = doLittle.commands.commandValidationService.create();
+        var commandValidationService = Dolittle.commands.commandValidationService.create();
         commandValidationService.extendPropertiesWithoutValidation(command);
     });
 

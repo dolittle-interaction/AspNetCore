@@ -1,5 +1,5 @@
 ﻿describe("when asking if element has own region and it does not", function () {
-    var service = doLittle.documentService.createWithoutScope({
+    var service = Dolittle.documentService.createWithoutScope({
         DOMRoot: {}
     });
 

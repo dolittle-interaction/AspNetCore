@@ -1,7 +1,7 @@
 ﻿describe("when populated externally without property values set", function () {
 
     var securityContext = "SecurityContext";
-    var command = doLittle.commands.Command.create({
+    var command = Dolittle.commands.Command.create({
         commandCoordinator: {},
         commandValidationService: {
             applyRulesTo: function (command) {

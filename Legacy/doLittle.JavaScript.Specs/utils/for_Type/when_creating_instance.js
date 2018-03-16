@@ -4,18 +4,18 @@ describe("when creating instance", function () {
 
     var instance = null;
     beforeEach(function () {
-        doLittle.dependencyResolver = {
+        Dolittle.dependencyResolver = {
             getDependenciesFor: sinon.stub()
         };
 
-        type = doLittle.Type.extend(function () {
+        type = Dolittle.Type.extend(function () {
         });
 
         instance = type.create();
     });
 
     afterEach(function () {
-        doLittle.dependencyResolver = {};
+        Dolittle.dependencyResolver = {};
     });
 
     it("should return an instance", function () {

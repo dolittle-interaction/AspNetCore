@@ -1,5 +1,5 @@
-﻿doLittle.namespace("doLittle.commands", {
-    Command: doLittle.Type.extend(function (commandCoordinator, commandValidationService, commandSecurityService, mapper, options, region) {
+﻿Dolittle.namespace("Dolittle.commands", {
+    Command: Dolittle.Type.extend(function (commandCoordinator, commandValidationService, commandSecurityService, mapper, options, region) {
         var self = this;
         var hasChangesObservables = ko.observableArray();
 
@@ -104,7 +104,7 @@
         };
 
         this.setOptions = function (options) {
-            doLittle.extend(self.options, options);
+            Dolittle.extend(self.options, options);
             if (typeof options.name !== "undefined" && typeof options.name === "string") {
                 self._name = options.name;
             }
@@ -140,10 +140,10 @@
                 var propertyValue = self.targetCommand[property];
 
                 if (!ko.isObservable(propertyValue) &&
-                     (typeof propertyValue !== "object" || doLittle.isArray(propertyValue))) {
+                     (typeof propertyValue !== "object" || Dolittle.isArray(propertyValue))) {
 
                     if (typeof propertyValue !== "function") {
-                        if (doLittle.isArray(propertyValue)) {
+                        if (Dolittle.isArray(propertyValue)) {
                             value = ko.observableArray(propertyValue);
                         } else {
                             value = ko.observable(propertyValue);
@@ -160,7 +160,7 @@
                 var propertyValue = self.targetCommand[property];
                 if (ko.isObservable(propertyValue)) {
                     propertyValue.extend({ hasChanges: {} });
-                    if (!doLittle.isNullOrUndefined(propertyValue.hasChanges)) {
+                    if (!Dolittle.isNullOrUndefined(propertyValue.hasChanges)) {
                         hasChangesObservables.push(propertyValue.hasChanges);
                     }
                 }
@@ -184,7 +184,7 @@
                 var property = self.targetCommand[propertyName];
                 if (ko.isObservable(property) &&
                     ko.isWriteableObservable(property) &&
-                    doLittle.isFunction(property.setInitialValue)) {
+                    Dolittle.isFunction(property.setInitialValue)) {
                     var value = property();
                     property.setInitialValue(value);
                 }
@@ -232,7 +232,7 @@
         };
 
         this.getCommandResultFromValidationResult = function (validationResult) {
-            var result = doLittle.commands.CommandResult.create();
+            var result = Dolittle.commands.CommandResult.create();
             result.invalid = true;
             return result;
         };
@@ -282,7 +282,7 @@
             if (typeof lastDescendant._name !== "undefined" && lastDescendant._name !== "") {
                 commandValidationService.extendPropertiesWithoutValidation(lastDescendant);
                 var validators = commandValidationService.getValidatorsFor(lastDescendant);
-                if (doLittle.isArray(validators) && validators.length > 0) {
+                if (Dolittle.isArray(validators) && validators.length > 0) {
                     self.validators(validators);
                 }
                 commandValidationService.validateSilently(this);

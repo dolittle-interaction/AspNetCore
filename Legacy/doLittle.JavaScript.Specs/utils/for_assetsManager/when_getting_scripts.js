@@ -7,23 +7,23 @@
 
     beforeEach(function () {
         nameSpaceInitializedStub = sinon.stub();
-        doLittle.namespaces = doLittle.namespaces || {};
-        doLittle.namespaces.create = function () { return { initialize: nameSpaceInitializedStub }; };
+        Dolittle.namespaces = Dolittle.namespaces || {};
+        Dolittle.namespaces.create = function () { return { initialize: nameSpaceInitializedStub }; };
         sinon.stub($, "get", function (url, parameters, callback) {
             extension = parameters.extension;
             callback(scripts);
         });
 
-        doLittle.assetsManager.initialize().continueWith(function () {
+        Dolittle.assetsManager.initialize().continueWith(function () {
             promiseCalled = true;
         });
 
-        scriptsReturned = doLittle.assetsManager.getScripts();
+        scriptsReturned = Dolittle.assetsManager.getScripts();
     });
 
     afterEach(function () {
         $.get.restore();
-        doLittle.assetsManager.scripts = [];
+        Dolittle.assetsManager.scripts = [];
     });
 
     it("should get scripts", function () {

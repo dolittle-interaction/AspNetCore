@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
-using doLittle.Logging;
-using doLittle.Serialization;
-using doLittle.Web.Services;
+using Dolittle.Logging;
+using Dolittle.Serialization;
+using Dolittle.Web.Services;
 using Machine.Specifications;
 using Moq;
 
-namespace doLittle.Web.Specs.Services.for_RequestParamsFactory.given
+namespace Dolittle.Web.Specs.Services.for_RequestParamsFactory.given
 {
     public class a_request_params_factory
     {

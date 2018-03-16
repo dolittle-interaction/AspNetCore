@@ -1,9 +1,9 @@
-﻿doLittle.namespace("doLittle.tasks", {
-    tasksFactory: doLittle.Singleton(function () {
+﻿Dolittle.namespace("Dolittle.tasks", {
+    tasksFactory: Dolittle.Singleton(function () {
         this.create = function () {
-            var tasks = doLittle.tasks.Tasks.create();
+            var tasks = Dolittle.tasks.Tasks.create();
             return tasks;
         };
     })
 });
-doLittle.WellKnownTypesDependencyResolver.types.tasksFactory = doLittle.tasks.tasksFactory;
+Dolittle.WellKnownTypesDependencyResolver.types.tasksFactory = Dolittle.tasks.tasksFactory;

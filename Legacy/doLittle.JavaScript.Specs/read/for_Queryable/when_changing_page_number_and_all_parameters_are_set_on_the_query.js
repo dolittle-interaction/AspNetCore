@@ -18,9 +18,9 @@
     var region = {};
 
     beforeEach(function () {
-        pagingInfoType = doLittle.read.PagingInfo;
+        pagingInfoType = Dolittle.read.PagingInfo;
 
-        doLittle.read.PagingInfo = {
+        Dolittle.read.PagingInfo = {
             create: function () {
                 return paging;
             }
@@ -30,7 +30,7 @@
             execute: sinon.mock().withArgs(query, paging).once()
         };
 
-        var instance = doLittle.read.Queryable.create({
+        var instance = Dolittle.read.Queryable.create({
             query: query,
             region: region,
             queryService: queryService,
@@ -41,7 +41,7 @@
     });
 
     afterEach(function () {
-        doLittle.read.PagingInfo = pagingInfoType;
+        Dolittle.read.PagingInfo = pagingInfoType;
     });
 
 

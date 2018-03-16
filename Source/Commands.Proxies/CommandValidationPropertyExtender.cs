@@ -1,13 +1,13 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
-using doLittle.CodeGeneration.JavaScript;
-using doLittle.Validation.MetaData;
+using Dolittle.CodeGeneration.JavaScript;
+using Dolittle.Validation.MetaData;
 using Newtonsoft.Json;
 
-namespace doLittle.AspNetCore.Commands.Proxies
+namespace Dolittle.AspNetCore.Commands.Proxies
 {
     /// <summary>
     /// 

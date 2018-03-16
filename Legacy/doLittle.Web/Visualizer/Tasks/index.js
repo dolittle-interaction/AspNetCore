@@ -1,5 +1,5 @@
-﻿doLittle.namespace("doLittle.Visualizer.Tasks", {
-    index: doLittle.views.ViewModel.extend(function (taskHistory) {
+﻿Dolittle.namespace("Dolittle.Visualizer.Tasks", {
+    index: Dolittle.views.ViewModel.extend(function (taskHistory) {
         var self = this;
 
         this.taskHistory = taskHistory;

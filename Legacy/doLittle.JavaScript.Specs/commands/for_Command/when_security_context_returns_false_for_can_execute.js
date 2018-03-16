@@ -27,7 +27,7 @@
         mapper: {}
     }
 
-    var command = doLittle.commands.Command.create(parameters);
+    var command = Dolittle.commands.Command.create(parameters);
 
     it("should result in the command returning false for can execute", function () {
         expect(command.canExecute()).toBe(false);

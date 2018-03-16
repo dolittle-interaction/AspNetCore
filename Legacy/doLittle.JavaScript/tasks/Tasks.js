@@ -1,24 +1,24 @@
-﻿doLittle.namespace("doLittle.tasks", {
-    Tasks: doLittle.Type.extend(function (taskHistory) {
+﻿Dolittle.namespace("Dolittle.tasks", {
+    Tasks: Dolittle.Type.extend(function (taskHistory) {
         /// <summary>Represents an aggregation of tasks</summary>
         var self = this;
 
-        /// <field name="unfiltered" type="doLittle.tasks.Task[]">All tasks completely unfiltered</field>
+        /// <field name="unfiltered" type="Dolittle.tasks.Task[]">All tasks completely unfiltered</field>
         this.unfiltered = ko.observableArray();
 
-        /// <field name="executeWhen" type="doLittle.specifications.Specification">Gets or sets the rule for execution</field>
+        /// <field name="executeWhen" type="Dolittle.specifications.Specification">Gets or sets the rule for execution</field>
         /// <remarks>
         /// If a task gets executed that does not get satisfied by the rule, it will just queue it up
         /// </remarks>
         this.canExecuteWhen = ko.observable();
 
-        /// <field name="all" type="doLittle.tasks.Task[]">All tasks being executed</field>
+        /// <field name="all" type="Dolittle.tasks.Task[]">All tasks being executed</field>
         this.all = ko.computed(function () {
             var all = self.unfiltered();
 
             var rule = self.canExecuteWhen();
 
-            if (!doLittle.isNullOrUndefined(rule)) {
+            if (!Dolittle.isNullOrUndefined(rule)) {
                 var filtered = [];
 
                 all.forEach(function (task) {
@@ -68,15 +68,15 @@
 
         this.execute = function (task) {
             /// <summary>Adds a task and starts executing it right away</summary>
-            /// <param name="task" type="doLittle.tasks.Task">Task to add</summary>
+            /// <param name="task" type="Dolittle.tasks.Task">Task to add</summary>
             /// <returns>A promise to work with for chaining further events</returns>
 
-            task.promise = doLittle.execution.Promise.create();
+            task.promise = Dolittle.execution.Promise.create();
             self.unfiltered.push(task);
             
             var rule = self.canExecuteWhen();
             var canExecute = true;
-            if (!doLittle.isNullOrUndefined(rule)) {
+            if (!Dolittle.isNullOrUndefined(rule)) {
                 canExecute = rule.evaluate(task);
             }
             

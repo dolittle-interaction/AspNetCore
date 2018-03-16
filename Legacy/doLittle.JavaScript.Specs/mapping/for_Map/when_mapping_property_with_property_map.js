@@ -9,19 +9,19 @@
     };
 
     beforeEach(function () {
-        propertyMapType = doLittle.mapping.PropertyMap;
-        doLittle.mapping.PropertyMap = {
+        propertyMapType = Dolittle.mapping.PropertyMap;
+        Dolittle.mapping.PropertyMap = {
             create: sinon.stub().returns(propertyMap)
         };
 
-        var map = doLittle.mapping.Map.create();
+        var map = Dolittle.mapping.Map.create();
         map.property("SomeProperty");
 
         map.mapProperty("SomeProperty", source, target);
     });
 
     afterEach(function () {
-        doLittle.mapping.PropertyMap = propertyMapType;
+        Dolittle.mapping.PropertyMap = propertyMapType;
     });
 
     it("should forward mapping to the property map", function () {

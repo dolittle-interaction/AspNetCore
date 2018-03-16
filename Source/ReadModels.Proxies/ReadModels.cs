@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace doLittle.AspNetCore.ReadModels.Proxies
+namespace Dolittle.AspNetCore.ReadModels.Proxies
 {
     /// <summary>
     /// 

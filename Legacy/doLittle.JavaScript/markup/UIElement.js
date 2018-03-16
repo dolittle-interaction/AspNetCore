@@ -1,5 +1,5 @@
-doLittle.namespace("doLittle.markup", {
-    UIElement: doLittle.markup.NamingRoot.extend(function () {
+Dolittle.namespace("Dolittle.markup", {
+    UIElement: Dolittle.markup.NamingRoot.extend(function () {
 
         this.prepare = function (type, element) {
 

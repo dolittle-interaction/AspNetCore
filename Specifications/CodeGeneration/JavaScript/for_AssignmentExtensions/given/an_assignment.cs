@@ -1,8 +1,8 @@
-﻿using doLittle.CodeGeneration.JavaScript;
+﻿using Dolittle.CodeGeneration.JavaScript;
 using Machine.Specifications;
 using Moq;
 
-namespace doLittle.Specs.CodeGeneration.JavaScript.for_AssignmentExtensions.given
+namespace Dolittle.Specs.CodeGeneration.JavaScript.for_AssignmentExtensions.given
 {
     public class an_assignment
     {

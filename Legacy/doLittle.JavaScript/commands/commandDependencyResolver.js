@@ -1,4 +1,4 @@
-﻿doLittle.dependencyResolvers.command = {
+﻿Dolittle.dependencyResolvers.command = {
     canResolve: function (namespace, name) {
         if (typeof commands !== "undefined") {
             return name in commands;

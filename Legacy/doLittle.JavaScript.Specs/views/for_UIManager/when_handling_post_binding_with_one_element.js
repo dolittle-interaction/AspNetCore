@@ -10,16 +10,16 @@ describe("when handling post binding with one element", function() {
 
 	var visitStub = sinon.stub();
 
-	var visitorType = doLittle.views.PostBindingVisitor.extend(function () {
+	var visitorType = Dolittle.views.PostBindingVisitor.extend(function () {
 		this.visit = visitStub;
 	});
 
 	beforeEach(function () {
-	    sinon.stub(doLittle.markup.ElementVisitor, "getExtenders").returns([]);
+	    sinon.stub(Dolittle.markup.ElementVisitor, "getExtenders").returns([]);
 
-	    sinon.stub(doLittle.views.PostBindingVisitor, "getExtenders").returns([visitorType]);
+	    sinon.stub(Dolittle.views.PostBindingVisitor, "getExtenders").returns([visitorType]);
 
-		var instance = doLittle.views.UIManager.createWithoutScope({
+		var instance = Dolittle.views.UIManager.createWithoutScope({
 			documentService: documentService
 		})
 
@@ -27,8 +27,8 @@ describe("when handling post binding with one element", function() {
 	});
 
 	afterEach(function () {
-	    doLittle.markup.ElementVisitor.getExtenders.restore();
-		doLittle.views.PostBindingVisitor.getExtenders.restore();
+	    Dolittle.markup.ElementVisitor.getExtenders.restore();
+		Dolittle.views.PostBindingVisitor.getExtenders.restore();
 	});
 
 	it("should call the visit function of the visitor", function() {

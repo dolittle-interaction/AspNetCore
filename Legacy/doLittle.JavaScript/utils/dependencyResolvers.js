@@ -1,12 +1,12 @@
-doLittle.namespace("doLittle", {
+Dolittle.namespace("Dolittle", {
     dependencyResolvers: (function () {
         return {
             getAll: function () {
                 var resolvers = [
-                    new doLittle.WellKnownTypesDependencyResolver(),
-                    new doLittle.DefaultDependencyResolver(),
-                    new doLittle.KnownArtifactTypesDependencyResolver(),
-                    new doLittle.KnownArtifactInstancesDependencyResolver(),
+                    new Dolittle.WellKnownTypesDependencyResolver(),
+                    new Dolittle.DefaultDependencyResolver(),
+                    new Dolittle.KnownArtifactTypesDependencyResolver(),
+                    new Dolittle.KnownArtifactInstancesDependencyResolver(),
 
                 ];
                 for (var property in this) {

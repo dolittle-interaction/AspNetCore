@@ -1,19 +1,19 @@
-﻿doLittle.namespace("doLittle.views", {
-    regionDescriptorManager: doLittle.Singleton(function () {
+﻿Dolittle.namespace("Dolittle.views", {
+    regionDescriptorManager: Dolittle.Singleton(function () {
         /// <summary>Represents a manager that knows how to manage region descriptors</summary>
 
         this.describe = function (view, region) {
             /// <summary>Describe a specific region related to a view</summary>
-            /// <param name="view" type="doLittle.views.View">View related to the region</param>
-            /// <param name="region" type="doLittle.views.Region">Region that needs to be described</param>
-            var promise = doLittle.execution.Promise.create();
-            var localPath = doLittle.Path.getPathWithoutFilename(view.path);
-            var namespacePath = doLittle.namespaceMappers.mapPathToNamespace(localPath);
+            /// <param name="view" type="Dolittle.views.View">View related to the region</param>
+            /// <param name="region" type="Dolittle.views.Region">Region that needs to be described</param>
+            var promise = Dolittle.execution.Promise.create();
+            var localPath = Dolittle.Path.getPathWithoutFilename(view.path);
+            var namespacePath = Dolittle.namespaceMappers.mapPathToNamespace(localPath);
             if (namespacePath != null) {
-                var namespace = doLittle.namespace(namespacePath);
+                var namespace = Dolittle.namespace(namespacePath);
 
-                doLittle.views.Region.current = region;
-                doLittle.dependencyResolver.beginResolve(namespace, "RegionDescriptor").continueWith(function (descriptor) {
+                Dolittle.views.Region.current = region;
+                Dolittle.dependencyResolver.beginResolve(namespace, "RegionDescriptor").continueWith(function (descriptor) {
                     descriptor.describe(region);
                     promise.signal();
                 }).onFail(function () {

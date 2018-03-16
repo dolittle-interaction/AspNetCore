@@ -1,4 +1,4 @@
-doLittle.namespace("doLittle", {
+Dolittle.namespace("Dolittle", {
     functionParser: {
         parse: function(func) {
             var result = [];

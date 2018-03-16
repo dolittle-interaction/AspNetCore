@@ -7,14 +7,14 @@
         getExtendersIn = function (namespace) { return [Test.extender, Test.Deeper.extender, Test.Deeper.EvenDeeper.extender]; };
 
     beforeEach(function () {
-        doLittle.namespace("Test", { extender: doLittle.Type.extend(function () { }) });
-        doLittle.namespace("Test.Deeper", { extender: doLittle.Type.extend(function () { }) });
-        doLittle.namespace("Test.Deeper.EvenDeeper", { extender: doLittle.Type.extend(function () { }) });
+        Dolittle.namespace("Test", { extender: Dolittle.Type.extend(function () { }) });
+        Dolittle.namespace("Test.Deeper", { extender: Dolittle.Type.extend(function () { }) });
+        Dolittle.namespace("Test.Deeper.EvenDeeper", { extender: Dolittle.Type.extend(function () { }) });
         namespace = Test.Deeper.EvenDeeper.extender._namespace;
 
-        doLittle.commands.Command = { getExtendersIn: getExtendersIn };
+        Dolittle.commands.Command = { getExtendersIn: getExtendersIn };
 
-        resolver = new doLittle.KnownArtifactTypesDependencyResolver();
+        resolver = new Dolittle.KnownArtifactTypesDependencyResolver();
         propertyToResolve = "commandTypes";
         namespace = {};
         

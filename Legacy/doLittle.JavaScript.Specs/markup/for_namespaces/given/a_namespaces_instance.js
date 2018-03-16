@@ -23,7 +23,7 @@
         }
     };
 
-    this.namespaces = doLittle.markup.namespaces.createWithoutScope({
+    this.namespaces = Dolittle.markup.namespaces.createWithoutScope({
         namespaceDefinitions: context.namespaceDefinitions,
         elementNaming: context.elementNaming
     });

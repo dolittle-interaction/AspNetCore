@@ -38,7 +38,7 @@
         }
     };
     
-    var instance = doLittle.read.queryService.createWithoutScope({
+    var instance = Dolittle.read.queryService.createWithoutScope({
         mapper: mapper,
         taskFactory: taskFactory
     });
@@ -55,7 +55,7 @@
     });
 
     it("should return a promise", function () {
-        expect(promise instanceof doLittle.execution.Promise).toBe(true);
+        expect(promise instanceof Dolittle.execution.Promise).toBe(true);
     });
 
     it("should pass along the query to the task", function () {

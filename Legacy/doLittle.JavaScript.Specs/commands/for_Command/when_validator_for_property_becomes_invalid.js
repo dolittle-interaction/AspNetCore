@@ -38,7 +38,7 @@
             return target;
         };
 
-        var commandType = doLittle.commands.Command.extend(function () {
+        var commandType = Dolittle.commands.Command.extend(function () {
             var self = this;
             this.something = ko.observable(1);
         });

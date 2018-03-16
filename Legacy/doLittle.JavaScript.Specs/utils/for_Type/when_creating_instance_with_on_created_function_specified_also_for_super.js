@@ -10,11 +10,11 @@ describe("when creating instance with on created function specified also for sup
         _superOnCreatedCallCount = 0;
         onCreatedCallCount = 0;
 
-        doLittle.dependencyResolver = {
+        Dolittle.dependencyResolver = {
             getDependenciesFor: sinon.stub()
         };
 
-        _super = doLittle.Type.extend(function () {
+        _super = Dolittle.Type.extend(function () {
             this.someValue = "Hello";
 
             this.onCreated = function (lastDescendant) {
@@ -33,7 +33,7 @@ describe("when creating instance with on created function specified also for sup
     });
 
     afterEach(function () {
-        doLittle.dependencyResolver = {};
+        Dolittle.dependencyResolver = {};
     });
 
     it("should call the on created function once for the super", function () {

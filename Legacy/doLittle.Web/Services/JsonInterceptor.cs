@@ -1,18 +1,18 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using doLittle.DependencyInversion;
-using doLittle.Execution;
+using Dolittle.DependencyInversion;
+using Dolittle.Execution;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
-using doLittle.Types;
+using Dolittle.Types;
 
-namespace doLittle.Web.Services
+namespace Dolittle.Web.Services
 {
     [Singleton]
     public class JsonInterceptor : IJsonInterceptor

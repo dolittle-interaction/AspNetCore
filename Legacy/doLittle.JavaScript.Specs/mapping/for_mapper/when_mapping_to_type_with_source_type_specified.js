@@ -1,4 +1,4 @@
-globalType = doLittle.Type.extend(function () {
+globalType = Dolittle.Type.extend(function () {
     var self = this;
 });
 
@@ -22,7 +22,7 @@ describe("when mapping to type with source type specified", function () {
     globalType.create = sinon.stub().returns(returnedInstance);
 
 	(function becauseOf(){
-	    var mapper = doLittle.mapping.mapper.create(parameters);
+	    var mapper = Dolittle.mapping.mapper.create(parameters);
 		mappedInstance = mapper.map(type, data);
 	})();
 

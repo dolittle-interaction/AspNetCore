@@ -1,5 +1,5 @@
-﻿doLittle.namespace("doLittle.tasks", {
-    TaskHistoryEntry: doLittle.Type.extend(function () {
+﻿Dolittle.namespace("Dolittle.tasks", {
+    TaskHistoryEntry: Dolittle.Type.extend(function () {
         var self = this;
 
         this.type = "";
@@ -8,8 +8,8 @@
         this.begin = ko.observable();
         this.end = ko.observable();
         this.total = ko.computed(function () {
-            if (!doLittle.isNullOrUndefined(self.end()) &&
-                !doLittle.isNullOrUndefined(self.begin())) {
+            if (!Dolittle.isNullOrUndefined(self.end()) &&
+                !Dolittle.isNullOrUndefined(self.begin())) {
                 return self.end() - self.begin();
             }
             return 0;
@@ -18,10 +18,10 @@
         this.error = ko.observable();
 
         this.isFinished = ko.computed(function () {
-            return !doLittle.isNullOrUndefined(self.end());
+            return !Dolittle.isNullOrUndefined(self.end());
         });
         this.hasFailed = ko.computed(function () {
-            return !doLittle.isNullOrUndefined(self.error());
+            return !Dolittle.isNullOrUndefined(self.error());
         });
 
         this.isSuccess = ko.computed(function () {

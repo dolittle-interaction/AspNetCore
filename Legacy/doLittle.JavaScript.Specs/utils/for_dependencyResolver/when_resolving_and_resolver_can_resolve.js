@@ -6,9 +6,9 @@
     var dependencyResolvers;
 
     beforeEach(function () {
-        dependencyResolvers = doLittle.dependencyResolvers;
+        dependencyResolvers = Dolittle.dependencyResolvers;
 
-        doLittle.dependencyResolvers = {
+        Dolittle.dependencyResolvers = {
 
             getAll: function () {
                 return [{
@@ -20,11 +20,11 @@
                 }];
             }
         };
-        systemReceived = doLittle.dependencyResolver.resolve("something");
+        systemReceived = Dolittle.dependencyResolver.resolve("something");
     });
 
     afterEach(function () {
-        doLittle.dependencyResolvers = dependencyResolvers;
+        Dolittle.dependencyResolvers = dependencyResolvers;
     });
 
     it("should call resolve", function () {

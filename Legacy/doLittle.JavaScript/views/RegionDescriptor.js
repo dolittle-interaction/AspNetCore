@@ -1,5 +1,5 @@
-﻿doLittle.namespace("doLittle.views", {
-    RegionDescriptor: doLittle.Type.extend(function () {
+﻿Dolittle.namespace("Dolittle.views", {
+    RegionDescriptor: Dolittle.Type.extend(function () {
         this.describe = function (region) {
         };
     })

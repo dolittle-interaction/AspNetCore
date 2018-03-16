@@ -31,17 +31,17 @@
     }
 
     var commandResult = null;
-    commandResult = doLittle.commands.CommandResult;
-    doLittle.commands.CommandResult = {
+    commandResult = Dolittle.commands.CommandResult;
+    Dolittle.commands.CommandResult = {
         create: function () {
             return {
 
             };
         }
     };
-    var command = doLittle.commands.Command.create(parameters);
+    var command = Dolittle.commands.Command.create(parameters);
     command.execute();
-    doLittle.commands.CommandResult = commandResult;
+    Dolittle.commands.CommandResult = commandResult;
 
 
     it("should call error", function () {

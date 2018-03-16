@@ -1,12 +1,12 @@
-﻿using doLittle.CodeGeneration.JavaScript;
+﻿using Dolittle.CodeGeneration.JavaScript;
 
-namespace doLittle.Specs.CodeGeneration.JavaScript.for_AssignmentExtensions.given
+namespace Dolittle.Specs.CodeGeneration.JavaScript.for_AssignmentExtensions.given
 {
     public class MyAssignment : Assignment
     {
         public MyAssignment() : base("Something") { }
 
-        public override void Write(doLittle.CodeGeneration.ICodeWriter writer)
+        public override void Write(Dolittle.CodeGeneration.ICodeWriter writer)
         {
             
         }

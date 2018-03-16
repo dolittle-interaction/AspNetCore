@@ -2,15 +2,15 @@
     var propertyMapType = null;
     var result = null;
     beforeEach(function () {
-        propertyMapType = doLittle.mapping.PropertyMap;
-        doLittle.mapping.PropertyMap = {
+        propertyMapType = Dolittle.mapping.PropertyMap;
+        Dolittle.mapping.PropertyMap = {
             create: function (options) {
                 return {
                 };
             }
         };
 
-        var map = doLittle.mapping.Map.create();
+        var map = Dolittle.mapping.Map.create();
         map.property("Something");
         map.property("SomeProperty");
 
@@ -19,7 +19,7 @@
 
 
     afterEach(function () {
-        doLittle.mapping.PropertyMap = propertyMapType;
+        Dolittle.mapping.PropertyMap = propertyMapType;
     });
 
     it("should be able to map property", function () {

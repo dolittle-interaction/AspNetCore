@@ -1,19 +1,19 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using doLittle.Configuration;
-using doLittle.Web;
-using doLittle.Web.Assets;
-using doLittle.Web.Commands;
-using doLittle.Web.Configuration;
-using doLittle.Web.Proxies;
-using doLittle.Web.Read;
-using doLittle.Web.Services;
+using Dolittle.Configuration;
+using Dolittle.Web;
+using Dolittle.Web.Assets;
+using Dolittle.Web.Commands;
+using Dolittle.Web.Configuration;
+using Dolittle.Web.Proxies;
+using Dolittle.Web.Read;
+using Dolittle.Web.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -27,22 +27,22 @@ namespace Microsoft.AspNetCore.Builder
     {
         static AsyncLocal<ClaimsPrincipal> _currentPrincipal = new AsyncLocal<ClaimsPrincipal>();
 
-        public static IApplicationBuilder UsedoLittle(this IApplicationBuilder builder, IHostingEnvironment hostingEnvironment)
+        public static IApplicationBuilder UseDolittle(this IApplicationBuilder builder, IHostingEnvironment hostingEnvironment)
         {            
             Configure.DiscoverAndConfigure(builder.ApplicationServices.GetService<ILoggerFactory>());
 
             builder.Use(WebCallContext.Middleware);
 
-            builder.Map("/doLittle/Application", a => a.Run(Application));
-            builder.Map("/doLittle/Proxies", a => a.Run(Proxies));
-            builder.Map("/doLittle/Security", a => a.Run(SecurityProxies));
-            builder.Map("/doLittle/AssetsManager", a => a.Run(AssetsManager));
+            builder.Map("/Dolittle/Application", a => a.Run(Application));
+            builder.Map("/Dolittle/Proxies", a => a.Run(Proxies));
+            builder.Map("/Dolittle/Security", a => a.Run(SecurityProxies));
+            builder.Map("/Dolittle/AssetsManager", a => a.Run(AssetsManager));
 
             var routeBuilder = new RouteBuilder(builder);
-            routeBuilder.MapService<CommandCoordinatorService>("doLittle/CommandCoordinator");
-            routeBuilder.MapService<CommandSecurityService>("doLittle/CommandSecurity");
-            routeBuilder.MapService<QueryService>("doLittle/Query");
-            routeBuilder.MapService<ReadModelService>("doLittle/ReadModel");
+            routeBuilder.MapService<CommandCoordinatorService>("Dolittle/CommandCoordinator");
+            routeBuilder.MapService<CommandSecurityService>("Dolittle/CommandSecurity");
+            routeBuilder.MapService<QueryService>("Dolittle/Query");
+            routeBuilder.MapService<ReadModelService>("Dolittle/ReadModel");
 
             var routes = routeBuilder.Build();
             builder.UseRouter(routes);

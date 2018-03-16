@@ -1,8 +1,8 @@
-﻿doLittle.namespace("doLittle.markup", {
-    namespaceDefinitions: doLittle.Singleton(function () {
+﻿Dolittle.namespace("Dolittle.markup", {
+    namespaceDefinitions: Dolittle.Singleton(function () {
 
         this.create = function (prefix) {
-            var definition = doLittle.markup.NamespaceDefinition.create({
+            var definition = Dolittle.markup.NamespaceDefinition.create({
                 prefix: prefix,
             });
             return definition;

@@ -8,8 +8,8 @@
         queryService: {},
     };
     
-    var instance = doLittle.read.Queryable.new(options, region);
-    var queryable = doLittle.read.Queryable.create(options);
+    var instance = Dolittle.read.Queryable.new(options, region);
+    var queryable = Dolittle.read.Queryable.create(options);
 
 
     it("should return an instance", function () {

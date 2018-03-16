@@ -4,7 +4,7 @@
         property: "sau",
         func: function () { }
     };
-    doLittle.extend(emptyObject, extension);
+    Dolittle.extend(emptyObject, extension);
     it("should add property", function () {
         expect(emptyObject.property).toEqual(extension.property);
     });

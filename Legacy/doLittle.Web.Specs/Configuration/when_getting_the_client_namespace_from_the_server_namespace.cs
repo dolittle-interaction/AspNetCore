@@ -1,7 +1,7 @@
-﻿using doLittle.Web.Configuration;
+﻿using Dolittle.Web.Configuration;
 using Machine.Specifications;
 
-namespace doLittle.Web.Specs.Configuration
+namespace Dolittle.Web.Specs.Configuration
 {
     [Subject(typeof(NamespaceMapper))]
     public class when_getting_the_client_namespace_from_the_server_namespace : given.a_namespace_mapper

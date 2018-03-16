@@ -1,6 +1,6 @@
 describe("when adding state", function() {
 
-	var group = doLittle.interaction.VisualStateGroup.create({dispatcher: {}});
+	var group = Dolittle.interaction.VisualStateGroup.create({dispatcher: {}});
 	var state = { some: "state" };
 
 	group.addState(state);

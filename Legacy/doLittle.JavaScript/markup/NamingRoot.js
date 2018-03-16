@@ -1,11 +1,11 @@
-doLittle.namespace("doLittle.markup", {
-    NamingRoot: doLittle.Type.extend(function() {
+Dolittle.namespace("Dolittle.markup", {
+    NamingRoot: Dolittle.Type.extend(function() {
         var self = this;
         this.target = null;
 
         this.find = function (name, element) {
-            if (doLittle.isNullOrUndefined(element)) {
-                if (doLittle.isNullOrUndefined(self.target)) {
+            if (Dolittle.isNullOrUndefined(element)) {
+                if (Dolittle.isNullOrUndefined(self.target)) {
                     return null;
                 }
                 element = self.target;

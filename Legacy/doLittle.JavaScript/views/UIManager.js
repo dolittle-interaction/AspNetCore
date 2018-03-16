@@ -1,8 +1,8 @@
-doLittle.namespace("doLittle.views", {
-    UIManager: doLittle.Singleton(function(documentService) {
-        var elementVisitorTypes = doLittle.markup.ElementVisitor.getExtenders();
+Dolittle.namespace("Dolittle.views", {
+    UIManager: Dolittle.Singleton(function(documentService) {
+        var elementVisitorTypes = Dolittle.markup.ElementVisitor.getExtenders();
         var elementVisitors = [];
-        var postBindingVisitorTypes = doLittle.views.PostBindingVisitor.getExtenders();
+        var postBindingVisitorTypes = Dolittle.views.PostBindingVisitor.getExtenders();
         var postBindingVisitors = [];
 
         elementVisitorTypes.forEach(function (type) {
@@ -16,7 +16,7 @@ doLittle.namespace("doLittle.views", {
         this.handle = function (root) {
             documentService.traverseObjects(function(element) {
                 elementVisitors.forEach(function(visitor) {
-                    var actions = doLittle.markup.ElementVisitorResultActions.create();
+                    var actions = Dolittle.markup.ElementVisitorResultActions.create();
                     visitor.visit(element, actions);
                 });
             }, root);
@@ -31,4 +31,4 @@ doLittle.namespace("doLittle.views", {
         };
     })
 });
-doLittle.WellKnownTypesDependencyResolver.types.UIManager = doLittle.views.UIManager;
+Dolittle.WellKnownTypesDependencyResolver.types.UIManager = Dolittle.views.UIManager;

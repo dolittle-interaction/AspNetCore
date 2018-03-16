@@ -1,4 +1,4 @@
-﻿doLittle.dependencyResolvers.hub = {
+﻿Dolittle.dependencyResolvers.hub = {
     canResolve: function (namespace, name) {
         if (typeof hubs !== "undefined") {
             return name in hubs;

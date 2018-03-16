@@ -1,9 +1,9 @@
-﻿using doLittle.Web.Services;
+﻿using Dolittle.Web.Services;
 using Machine.Specifications;
 using It = Machine.Specifications.It;
 using System;
 
-namespace doLittle.Web.Specs.Services.for_RestServiceMethodInvoker
+namespace Dolittle.Web.Specs.Services.for_RestServiceMethodInvoker
 {
     public class when_invoking_without_parameter_and_target_method_expects_a_parameter : given.a_rest_service_method_invoker_and_a_service_call_for_complex_input_and_no_output
     {

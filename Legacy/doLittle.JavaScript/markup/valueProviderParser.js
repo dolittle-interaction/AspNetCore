@@ -1,5 +1,5 @@
-﻿doLittle.namespace("doLittle.markup", {
-    valueProviderParser: doLittle.Singleton(function (valueProviders, valueConsumers, typeConverters) {
+﻿Dolittle.namespace("Dolittle.markup", {
+    valueProviderParser: Dolittle.Singleton(function (valueProviders, valueConsumers, typeConverters) {
         var self = this;
         var regex = new RegExp("{{([a-z ,:{{}}}]*)}}", "g");
 

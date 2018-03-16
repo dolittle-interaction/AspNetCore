@@ -9,21 +9,21 @@
     var dependencyResolvers;
 
     beforeEach(function () {
-        dependencyResolvers = doLittle.dependencyResolvers;
+        dependencyResolvers = Dolittle.dependencyResolvers;
 
-        doLittle.dependencyResolvers = {
+        Dolittle.dependencyResolvers = {
             getAll: function () {
                 return [firstResolver, secondResolver];
             }
         };
         try {
-            doLittle.dependencyResolver.resolve("Something");
+            Dolittle.dependencyResolver.resolve("Something");
         } catch (e) {
         }
     });
 
     afterEach(function () {
-        doLittle.dependencyResolvers = dependencyResolvers;
+        Dolittle.dependencyResolvers = dependencyResolvers;
     });
 
     it("should ask first resolver", function () {

@@ -7,9 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="doLittle.Reflection" Version="2.0.0-alpha2*" />
-    <PackageReference Include="doLittle.Concepts" Version="2.0.0-alpha2*" />
-    <PackageReference Include="doLittle.Strings" Version="2.0.0-alpha2*" />
-    <PackageReference Include="doLittle.Collections" Version="2.0.0-alpha2*" />
+    <PackageReference Include="Dolittle.Reflection" Version="2.0.0-alpha2*" />
+    <PackageReference Include="Dolittle.Concepts" Version="2.0.0-alpha2*" />
+    <PackageReference Include="Dolittle.Strings" Version="2.0.0-alpha2*" />
+    <PackageReference Include="Dolittle.Collections" Version="2.0.0-alpha2*" />
   </ItemGroup>  
 </Project>

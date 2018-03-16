@@ -1,7 +1,7 @@
 describe("when defining with definition and creating an instance", function() {
 	var someValue = "Something";
 	
-	doLittle.Exception.define("SomeException", "Default message", function(message) {
+	Dolittle.Exception.define("SomeException", "Default message", function(message) {
 		this.someProperty = someValue;
 	});
 	

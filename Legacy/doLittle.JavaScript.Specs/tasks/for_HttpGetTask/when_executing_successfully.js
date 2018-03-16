@@ -16,7 +16,7 @@
 
     var result = null;
 
-    var task = doLittle.tasks.HttpGetTask.create({
+    var task = Dolittle.tasks.HttpGetTask.create({
         url: url,
         payload: payload,
         server: server

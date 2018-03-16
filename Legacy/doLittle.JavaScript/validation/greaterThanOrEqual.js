@@ -1,11 +1,11 @@
-doLittle.namespace("doLittle.validation.ruleHandlers");
-doLittle.validation.ruleHandlers.greaterThanOrEqual = {
+Dolittle.namespace("Dolittle.validation.ruleHandlers");
+Dolittle.validation.ruleHandlers.greaterThanOrEqual = {
     throwIfOptionsInvalid: function (options) {
         if (this.notSet(options)) {
-            throw new doLittle.validation.OptionsNotDefined();
+            throw new Dolittle.validation.OptionsNotDefined();
         }
         if (this.notSet(options.value)) {
-            var exception = new doLittle.validation.OptionsValueNotSpecified();
+            var exception = new Dolittle.validation.OptionsValueNotSpecified();
             exception.message = exception.message + " 'value' is not set.";
             throw exception;
         }
@@ -13,13 +13,13 @@ doLittle.validation.ruleHandlers.greaterThanOrEqual = {
     },
 
     throwIfValueToCheckIsNotANumber: function (value) {
-        if (!doLittle.isNumber(value)) {
-            throw new doLittle.validation.NotANumber("Value " + value + " is not a number");
+        if (!Dolittle.isNumber(value)) {
+            throw new Dolittle.validation.NotANumber("Value " + value + " is not a number");
         }
     },
 
     notSet: function (value) {
-        return doLittle.isUndefined(value) || doLittle.isNull(value);
+        return Dolittle.isUndefined(value) || Dolittle.isNull(value);
     },
 
     validate: function (value, options) {

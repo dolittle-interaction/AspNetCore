@@ -1,5 +1,5 @@
-doLittle.namespace("doLittle");
-doLittle.Uri = (function(window, undefined) {
+Dolittle.namespace("Dolittle");
+Dolittle.Uri = (function(window, undefined) {
     /* parseUri JS v0.1, by Steven Levithan (http://badassery.blogspot.com)
     Splits any well-formed URI into the following parts (all are optional):
     ----------------------
@@ -42,7 +42,7 @@ doLittle.Uri = (function(window, undefined) {
             var result = parseUri(location);
 
             if (!result.protocol || typeof result.protocol === "undefined") {
-                throw new doLittle.InvalidUriFormat("Uri ('" + location + "') was in the wrong format");
+                throw new Dolittle.InvalidUriFormat("Uri ('" + location + "') was in the wrong format");
             }
 
             self.scheme = result.protocol;
@@ -52,8 +52,8 @@ doLittle.Uri = (function(window, undefined) {
 
             self.queryString = result.query;
             self.port = parseInt(result.port);
-            self.parameters = doLittle.hashString.decode(result.query);
-            self.parameters = doLittle.extend(doLittle.hashString.decode(result.anchor), self.parameters);
+            self.parameters = Dolittle.hashString.decode(result.query);
+            self.parameters = Dolittle.extend(Dolittle.hashString.decode(result.anchor), self.parameters);
 
             self.isSameAsOrigin = (window.location.protocol === result.protocol + ":" &&
                 window.location.hostname === self.host);
@@ -64,7 +64,7 @@ doLittle.Uri = (function(window, undefined) {
     
     function throwIfLocationNotSpecified(location) {
         if (!location || typeof location === "undefined") {
-            throw new doLittle.LocationNotSpecified();
+            throw new Dolittle.LocationNotSpecified();
         }
     }
     

@@ -1,20 +1,20 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using doLittle.Applications;
-using doLittle.CodeGeneration;
-using doLittle.CodeGeneration.JavaScript;
-using doLittle.Commands;
-using doLittle.Execution;
-using doLittle.Strings;
-using doLittle.Types;
+using Dolittle.Applications;
+using Dolittle.CodeGeneration;
+using Dolittle.CodeGeneration.JavaScript;
+using Dolittle.Commands;
+using Dolittle.Execution;
+using Dolittle.Strings;
+using Dolittle.Types;
 
-namespace doLittle.AspNetCore.Commands.Proxies
+namespace Dolittle.AspNetCore.Commands.Proxies
 {
     /// <summary>
     /// Represents a system for generating <see cref="ICommand"/> proxies
@@ -31,7 +31,7 @@ namespace doLittle.AspNetCore.Commands.Proxies
 
         static CommandProxies()
         {
-            ExcludeCommandsStartingWithNamespace("doLittle");
+            ExcludeCommandsStartingWithNamespace("Dolittle");
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace doLittle.AspNetCore.Commands.Proxies
                     var name = ((string)identifier.Artifact.Name).ToCamelCase();
                     currentNamespace.Content.Assign(name)
                         .WithType(t =>
-                            t.WithSuper("doLittle.commands.Command")
+                            t.WithSuper("Dolittle.commands.Command")
                                 .Function
                                     .Body
                                         .Variant("self", v => v.WithThis())

@@ -1,10 +1,10 @@
-﻿using doLittle.Logging;
-using doLittle.Serialization;
-using doLittle.Web.Services;
+﻿using Dolittle.Logging;
+using Dolittle.Serialization;
+using Dolittle.Web.Services;
 using Machine.Specifications;
 using Moq;
 
-namespace doLittle.Web.Specs.Services.for_RestServiceMethodInvoker.given
+namespace Dolittle.Web.Specs.Services.for_RestServiceMethodInvoker.given
 {
     public class a_rest_service_method_invoker
     {

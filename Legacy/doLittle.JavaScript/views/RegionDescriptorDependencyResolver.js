@@ -1,4 +1,4 @@
-﻿doLittle.dependencyResolvers.RegionDescriptor = {
+﻿Dolittle.dependencyResolvers.RegionDescriptor = {
     canResolve: function (namespace, name) {
         return name === "RegionDescriptor";
     },

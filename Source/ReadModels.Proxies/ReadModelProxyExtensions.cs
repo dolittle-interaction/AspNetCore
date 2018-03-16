@@ -1,15 +1,15 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Linq;
 using System.Reflection;
-using doLittle.CodeGeneration.JavaScript;
-using doLittle.ReadModels;
-using doLittle.Strings;
+using Dolittle.CodeGeneration.JavaScript;
+using Dolittle.ReadModels;
+using Dolittle.Strings;
 
-namespace doLittle.AspNetCore.ReadModels.Proxies
+namespace Dolittle.AspNetCore.ReadModels.Proxies
 {
     /// <summary>
     /// 

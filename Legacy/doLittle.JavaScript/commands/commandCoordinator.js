@@ -1,7 +1,7 @@
-doLittle.namespace("doLittle.commands", {
-    commandCoordinator: doLittle.Singleton(function (taskFactory) {
+Dolittle.namespace("Dolittle.commands", {
+    commandCoordinator: Dolittle.Singleton(function (taskFactory) {
         this.handle = function (command) {
-            var promise = doLittle.execution.Promise.create();
+            var promise = Dolittle.execution.Promise.create();
             var task = taskFactory.createHandleCommand(command);
 
             command.region.tasks.execute(task).continueWith(function (commandResult) {
@@ -12,7 +12,7 @@ doLittle.namespace("doLittle.commands", {
         };
 
         this.handleMany = function (commands, region) {
-            var promise = doLittle.execution.Promise.create();
+            var promise = Dolittle.execution.Promise.create();
 
             try {
                 var task = taskFactory.createHandleCommands(commands);
@@ -20,7 +20,7 @@ doLittle.namespace("doLittle.commands", {
                 region.tasks.execute(task).continueWith(function (commandResults) {
                     commands.forEach(function (command, index) {
                         var commandResult = commandResults[index];
-                        if (commandResult != null && !doLittle.isUndefined(commandResult)) {
+                        if (commandResult != null && !Dolittle.isUndefined(commandResult)) {
                             command.handleCommandResult(commandResult);
                         }
                         command.isBusy(false);
@@ -38,4 +38,4 @@ doLittle.namespace("doLittle.commands", {
         };
     })
 });
-doLittle.WellKnownTypesDependencyResolver.types.commandCoordinator = doLittle.commands.commandCoordinator;
+Dolittle.WellKnownTypesDependencyResolver.types.commandCoordinator = Dolittle.commands.commandCoordinator;

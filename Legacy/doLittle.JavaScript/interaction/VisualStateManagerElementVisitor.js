@@ -1,6 +1,6 @@
-doLittle.namespace("doLittle.interaction", {
-    VisualStateManagerElementVisitor: doLittle.markup.ElementVisitor.extend(function () {
-        var visualStateActionTypes = doLittle.interaction.VisualStateAction.getExtenders();
+Dolittle.namespace("Dolittle.interaction", {
+    VisualStateManagerElementVisitor: Dolittle.markup.ElementVisitor.extend(function () {
+        var visualStateActionTypes = Dolittle.interaction.VisualStateAction.getExtenders();
 
         
 
@@ -35,7 +35,7 @@ doLittle.namespace("doLittle.interaction", {
                 var child = groupElement.firstChild;
                 while( child ) {
                     if( child.localName === "visualstate" ) {
-                        var state = doLittle.interaction.VisualState.create();
+                        var state = Dolittle.interaction.VisualState.create();
                         state.name = child.getAttribute("name");
                         group.addState(state);
                         parseActions(namingRoot, child, state);
@@ -48,7 +48,7 @@ doLittle.namespace("doLittle.interaction", {
 
         this.visit = function (element, actions) {
             if (element.localName === "visualstatemanager") {
-                var visualStateManager = doLittle.interaction.VisualStateManager.create();
+                var visualStateManager = Dolittle.interaction.VisualStateManager.create();
                 var namingRoot = element.parentElement.namingRoot;
                 element.parentElement.visualStateManager = visualStateManager;
 
@@ -56,15 +56,15 @@ doLittle.namespace("doLittle.interaction", {
                     var child = element.firstChild;
                     while (child) {
                         if (child.localName === "visualstategroup") {
-                            var group = doLittle.interaction.VisualStateGroup.create();
+                            var group = Dolittle.interaction.VisualStateGroup.create();
                             visualStateManager.addGroup(group);
 
                             var duration = child.getAttribute("duration");
-                            if (!doLittle.isNullOrUndefined(duration)) {
+                            if (!Dolittle.isNullOrUndefined(duration)) {
                                 duration = parseFloat(duration);
                                 if (!isNaN(duration)) {
                                     duration = duration * 1000;
-                                    var timespan = doLittle.TimeSpan.fromMilliseconds(duration);
+                                    var timespan = Dolittle.TimeSpan.fromMilliseconds(duration);
                                     group.defaultDuration = timespan;
                                 }
                             }

@@ -1,9 +1,9 @@
-doLittle.namespace("doLittle.read", {
-    queryService: doLittle.Singleton(function (mapper, taskFactory) {
+Dolittle.namespace("Dolittle.read", {
+    queryService: Dolittle.Singleton(function (mapper, taskFactory) {
         var self = this;
 
         this.execute = function (query, paging) {
-            var promise = doLittle.execution.Promise.create();
+            var promise = Dolittle.execution.Promise.create();
             var region = query.region;
 
             var task = taskFactory.createQuery(query, paging);

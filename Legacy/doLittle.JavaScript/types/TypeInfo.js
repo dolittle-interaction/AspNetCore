@@ -1,22 +1,22 @@
-﻿doLittle.namespace("doLittle.types", {
-    TypeInfo: doLittle.Type.extend(function () {
+﻿Dolittle.namespace("Dolittle.types", {
+    TypeInfo: Dolittle.Type.extend(function () {
         this.properties = [];
     })
 });
-doLittle.types.TypeInfo.createFrom = function (instance) {
-    var typeInfo = doLittle.types.TypeInfo.create();
+Dolittle.types.TypeInfo.createFrom = function (instance) {
+    var typeInfo = Dolittle.types.TypeInfo.create();
     var propertyInfo;
     for (var property in instance) {
         var value = instance[property];
-        if (!doLittle.isNullOrUndefined(value)) {
+        if (!Dolittle.isNullOrUndefined(value)) {
 
             var type = value.constructor;
 
-            if (!doLittle.isNullOrUndefined(instance[property]._type)) {
+            if (!Dolittle.isNullOrUndefined(instance[property]._type)) {
                 type = instance[property]._type;
             }
 
-            propertyInfo = doLittle.types.PropertyInfo.create({
+            propertyInfo = Dolittle.types.PropertyInfo.create({
                 name: property,
                 type: type
             });

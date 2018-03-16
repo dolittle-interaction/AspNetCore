@@ -3,18 +3,18 @@ describe("when extending", function () {
     var result = null;
 
     beforeEach(function () {
-        doLittle.dependencyResolver = {
+        Dolittle.dependencyResolver = {
             getDependenciesFor: sinon.stub()
         };
-        result = doLittle.Type.extend(typeDefinition);
+        result = Dolittle.Type.extend(typeDefinition);
     });
 
     afterEach(function () {
-        doLittle.functionParser = {};
+        Dolittle.functionParser = {};
     });
 
     it("should get the dependencies for the function", function () {
-        expect(doLittle.dependencyResolver.getDependenciesFor.called).toBe(true);
+        expect(Dolittle.dependencyResolver.getDependenciesFor.called).toBe(true);
     });
 
     it("should return the type definition", function () {
@@ -29,8 +29,8 @@ describe("when extending", function () {
         expect(typeDefinition._typeId).toBeDefined();
     });
 
-    it("should add this type to the list of types that extend doLittle Type", function () {
-        var extenders = doLittle.Type.getExtenders();
+    it("should add this type to the list of types that extend Dolittle Type", function () {
+        var extenders = Dolittle.Type.getExtenders();
         expect(extenders).toContain(typeDefinition);
     });
 });

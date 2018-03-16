@@ -1,6 +1,6 @@
 describe("when changing state to known state", function() {
 
-	var manager = doLittle.interaction.VisualStateManager.create();
+	var manager = Dolittle.interaction.VisualStateManager.create();
 
 	manager.namingRoot = { some: "namingRoot" };
 

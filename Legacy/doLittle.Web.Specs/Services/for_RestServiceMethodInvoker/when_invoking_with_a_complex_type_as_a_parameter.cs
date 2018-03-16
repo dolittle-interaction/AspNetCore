@@ -1,10 +1,10 @@
 ﻿using System.Diagnostics;
 using System.Threading;
-using doLittle.Serialization;
+using Dolittle.Serialization;
 using Machine.Specifications;
 using It = Machine.Specifications.It;
 
-namespace doLittle.Web.Specs.Services.for_RestServiceMethodInvoker
+namespace Dolittle.Web.Specs.Services.for_RestServiceMethodInvoker
 {
     public class when_invoking_with_a_complex_type_as_a_parameter : given.a_rest_service_method_invoker_and_a_service_call_for_complex_input_and_no_output
     {

@@ -2,7 +2,7 @@ describe("when setting location", function() {
 	var before = "http://www.vg.no";
 	var after = "http://www.db.no";
 	
-	var uri = doLittle.Uri.create(before);
+	var uri = Dolittle.Uri.create(before);
 	uri.setLocation(after);
 	
 	it("should update location", function() {

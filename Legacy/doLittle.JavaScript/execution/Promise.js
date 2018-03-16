@@ -1,8 +1,8 @@
-doLittle.namespace("doLittle.execution", {
+Dolittle.namespace("Dolittle.execution", {
     Promise: function () {
         var self = this;
 
-        this.id = doLittle.Guid.create();
+        this.id = Dolittle.Guid.create();
 
         this.signalled = false;
         this.callback = null;
@@ -13,9 +13,9 @@ doLittle.namespace("doLittle.execution", {
         function onSignal() {
             if (self.callback != null && typeof self.callback !== "undefined") {
                 if (typeof self.signalParameter !== "undefined") {
-                    self.callback(self.signalParameter, doLittle.execution.Promise.create());
+                    self.callback(self.signalParameter, Dolittle.execution.Promise.create());
                 } else {
-                    self.callback(doLittle.execution.Promise.create());
+                    self.callback(Dolittle.execution.Promise.create());
                 }
             }
         }
@@ -54,7 +54,7 @@ doLittle.namespace("doLittle.execution", {
     }
 });
 
-doLittle.execution.Promise.create = function() {
-	var promise = new doLittle.execution.Promise();
+Dolittle.execution.Promise.create = function() {
+	var promise = new Dolittle.execution.Promise();
 	return promise;
 };

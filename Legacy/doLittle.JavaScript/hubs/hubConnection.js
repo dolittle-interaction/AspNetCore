@@ -1,5 +1,5 @@
-﻿doLittle.namespace("doLittle.hubs", {
-    hubConnection: doLittle.Singleton(function () {
+﻿Dolittle.namespace("Dolittle.hubs", {
+    hubConnection: Dolittle.Singleton(function () {
         var self = this;
         var hub = $.hubConnection("/signalr", { useDefaultPath: false });
         /* jshint ignore:start */
@@ -7,7 +7,7 @@
         /* jshint ignore:end */
 
         this.isConnected = false;
-        this.connected = doLittle.Event.create();
+        this.connected = Dolittle.Event.create();
 
         this.createProxy = function (hubName) {
             var proxy = hub.createHubProxy(hubName);
@@ -22,4 +22,4 @@
         });
     })
 });
-doLittle.WellKnownTypesDependencyResolver.types.hubConnection = doLittle.hubs.hubConnection;
+Dolittle.WellKnownTypesDependencyResolver.types.hubConnection = Dolittle.hubs.hubConnection;

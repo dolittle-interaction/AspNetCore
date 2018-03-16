@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFrameworks>netcoreapp1.1</TargetFrameworks>
-        <AssemblyName>doLittle.Web.Specs</AssemblyName>
+        <AssemblyName>Dolittle.Web.Specs</AssemblyName>
         <DefaultItemExcludes>bin\**\*;obj\**\*</DefaultItemExcludes>
     </PropertyGroup>
     <ItemGroup>
-        <ProjectReference Include="..\doLittle.Web\doLittle.Web.csproj" />
+        <ProjectReference Include="..\Dolittle.Web\Dolittle.Web.csproj" />
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Machine.Specifications.Runner.VisualStudio" Version="2.2.2" />

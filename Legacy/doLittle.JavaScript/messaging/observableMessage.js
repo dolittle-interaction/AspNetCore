@@ -7,10 +7,10 @@
             if (internal === true) {
                 return;
             }
-            doLittle.messaging.Messenger.global.publish(message, newValue);
+            Dolittle.messaging.Messenger.global.publish(message, newValue);
         });
 
-        doLittle.messaging.Messenger.global.subscribeTo(message, function (value) {
+        Dolittle.messaging.Messenger.global.subscribeTo(message, function (value) {
             internal = true;
             observable(value);
             internal = false;

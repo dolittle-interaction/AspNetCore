@@ -1,5 +1,5 @@
 ﻿describe("when asking for all mappings and no mappings have been registered", function () {
-    var mapper = doLittle.StringMapper.create({
+    var mapper = Dolittle.StringMapper.create({
         stringMappingFactory: {}
     });
     it("should return an empty array", function () {

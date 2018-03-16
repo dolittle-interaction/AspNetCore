@@ -1,5 +1,5 @@
-doLittle.namespace("doLittle");
-doLittle.hashString = (function() {
+Dolittle.namespace("Dolittle");
+Dolittle.hashString = (function() {
     return {
         decode: function (a) {
             if (a === "") {

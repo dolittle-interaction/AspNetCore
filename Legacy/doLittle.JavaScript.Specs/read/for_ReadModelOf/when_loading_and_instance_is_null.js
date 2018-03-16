@@ -27,7 +27,7 @@
         }
     };
 
-    var readModelOf = doLittle.read.ReadModelOf.create({
+    var readModelOf = Dolittle.read.ReadModelOf.create({
         mapper: mapper,
         region: region,
         taskFactory: taskFactory,

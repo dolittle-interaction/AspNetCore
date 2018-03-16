@@ -6,35 +6,35 @@ describe("when beginning to resolve", function () {
     var dependencyResolvers;
 
     beforeEach(function () {
-        configure = doLittle.configure;
-        doLittle.configure = {
+        configure = Dolittle.configure;
+        Dolittle.configure = {
             ready: sinon.stub()
         };
 
-        dependencyResolvers = doLittle.dependencyResolvers;
+        dependencyResolvers = Dolittle.dependencyResolvers;
 
-        doLittle.dependencyResolvers = {
+        Dolittle.dependencyResolvers = {
             getAll: function () {
                 return [{
                     canResolve: function () { return true; },
                     resolve: function () {
 
-                        var promise = doLittle.execution.Promise.create();
+                        var promise = Dolittle.execution.Promise.create();
                         return promise;
                     }
                 }];
             }
         };
-        result = doLittle.dependencyResolver.beginResolve(ns, "something");
+        result = Dolittle.dependencyResolver.beginResolve(ns, "something");
     });
 
     afterEach(function () {
-        doLittle.dependencyResolvers = dependencyResolvers;
-        doLittle.configure = configure;
+        Dolittle.dependencyResolvers = dependencyResolvers;
+        Dolittle.configure = configure;
     });
 
 
 	it("should return a promise", function() {
-		expect(result instanceof doLittle.execution.Promise).toBe(true);
+		expect(result instanceof Dolittle.execution.Promise).toBe(true);
 	});
 });

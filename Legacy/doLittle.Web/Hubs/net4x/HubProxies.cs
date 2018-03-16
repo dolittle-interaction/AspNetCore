@@ -1,23 +1,23 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using doLittle.CodeGeneration;
-using doLittle.CodeGeneration.JavaScript;
-using doLittle.Extensions;
-using doLittle.Types;
-using doLittle.Web.Configuration;
-using doLittle.Web.Proxies;
+using Dolittle.CodeGeneration;
+using Dolittle.CodeGeneration.JavaScript;
+using Dolittle.Extensions;
+using Dolittle.Types;
+using Dolittle.Web.Configuration;
+using Dolittle.Web.Proxies;
 #if(NET461)
 using Microsoft.AspNet.SignalR;
 #else
 using Microsoft.AspNetCore.SignalR;
 #endif
 
-namespace doLittle.Web.Hubs
+namespace Dolittle.Web.Hubs
 {
     public class HubProxies : IProxyGenerator
     {
@@ -56,7 +56,7 @@ namespace doLittle.Web.Hubs
 
                     currentNamespace.Content.Assign(name)
                         .WithType(t =>
-                            t.WithSuper("doLittle.hubs.Hub")
+                            t.WithSuper("Dolittle.hubs.Hub")
                                 .Function
                                     .Body
                                         .Variant("self", v => v.WithThis())

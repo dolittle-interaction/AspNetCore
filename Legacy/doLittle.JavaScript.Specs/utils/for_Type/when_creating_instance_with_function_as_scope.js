@@ -6,11 +6,11 @@
     var instance = null;
 
     beforeEach(function () {
-        doLittle.dependencyResolver = {
+        Dolittle.dependencyResolver = {
             getDependenciesFor: sinon.stub()
         };
 
-        type = doLittle.Type.extend(function () {
+        type = Dolittle.Type.extend(function () {
             this.something = "hello";
         }).scopeTo(function (namespace, name) {
             scopeCalled = true;
@@ -25,7 +25,7 @@
     });
 
     afterEach(function () {
-        doLittle.dependencyResolver = {};
+        Dolittle.dependencyResolver = {};
     });
 
     it("should create a proper instance", function () {

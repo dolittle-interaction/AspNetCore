@@ -1,5 +1,5 @@
-﻿doLittle.namespace("doLittle.navigation", {
-    navigationBindingHandler: doLittle.Type.extend(function () {
+﻿Dolittle.namespace("Dolittle.navigation", {
+    navigationBindingHandler: Dolittle.Type.extend(function () {
         function getNavigationFrameFor(valueAccessor) {
             var configurationString = ko.utils.unwrapObservable(valueAccessor());
             var configurationItems = ko.expressionRewriting.parseObjectLiteral(configurationString);
@@ -11,12 +11,12 @@
             }
 
             var uriMapperName = configuration.uriMapper;
-            if (doLittle.isNullOrUndefined(uriMapperName)) {
+            if (Dolittle.isNullOrUndefined(uriMapperName)) {
                 uriMapperName = "default";
             }
 
-            var mapper = doLittle.uriMappers[uriMapperName];
-            var frame = doLittle.navigation.NavigationFrame.create({
+            var mapper = Dolittle.uriMappers[uriMapperName];
+            var frame = Dolittle.navigation.NavigationFrame.create({
                 locationAware: false,
                 uriMapper: mapper,
                 home: configuration.home || ''
@@ -43,8 +43,8 @@
         };
     })
 });
-doLittle.navigation.navigationBindingHandler.initialize = function () {
-    ko.bindingHandlers.navigation = doLittle.navigation.navigationBindingHandler.create();
+Dolittle.navigation.navigationBindingHandler.initialize = function () {
+    ko.bindingHandlers.navigation = Dolittle.navigation.navigationBindingHandler.create();
     ko.jsonExpressionRewriting.bindingRewriteValidators.navigation = false; // Can't rewrite control flow bindings
     ko.virtualElements.allowedBindings.navigation = true;
 };

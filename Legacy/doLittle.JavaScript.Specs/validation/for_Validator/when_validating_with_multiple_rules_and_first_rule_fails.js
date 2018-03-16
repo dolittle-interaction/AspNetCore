@@ -32,13 +32,13 @@
     };
 
     beforeEach(function () {
-        doLittle.validation.Rule = {
+        Dolittle.validation.Rule = {
             getExtenders: function () {
                 return [firstRule, secondRule];
             }
         };
 
-        validator = doLittle.validation.Validator.create(options);
+        validator = Dolittle.validation.Validator.create(options);
         validator.validate("something");
     });
 

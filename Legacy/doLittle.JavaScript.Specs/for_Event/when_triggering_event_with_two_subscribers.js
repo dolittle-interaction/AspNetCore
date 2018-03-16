@@ -1,6 +1,6 @@
 ﻿describe("when triggering event with two subscribers", function () {
 
-    var event = doLittle.Event.create();
+    var event = Dolittle.Event.create();
 
     var firstSubscriber = sinon.stub();
     var secondSubscriber = sinon.stub();

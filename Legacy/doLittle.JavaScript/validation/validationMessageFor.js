@@ -3,7 +3,7 @@ if (typeof ko !== 'undefined') {
         init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
             var value = valueAccessor();
             var validator = value.validator;
-            if (doLittle.isNullOrUndefined(validator)) {
+            if (Dolittle.isNullOrUndefined(validator)) {
                 return;
             }
 

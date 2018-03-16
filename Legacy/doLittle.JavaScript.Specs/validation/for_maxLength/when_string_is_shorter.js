@@ -1,5 +1,5 @@
 ﻿describe("when string is shorter or same", function () {
-    var validator = doLittle.validation.maxLength.create({ options: { length: 5 } });
+    var validator = Dolittle.validation.maxLength.create({ options: { length: 5 } });
     var result = validator.validate("1234");
 
     it("should be valid", function () {

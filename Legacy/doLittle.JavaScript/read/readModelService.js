@@ -1,4 +1,4 @@
-﻿doLittle.namespace("doLittle.read", {
-    readModelService: doLittle.Singleton(function() {
+﻿Dolittle.namespace("Dolittle.read", {
+    readModelService: Dolittle.Singleton(function() {
     })
 });

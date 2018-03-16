@@ -1,9 +1,9 @@
-﻿doLittle.namespace("doLittle.values", {
-    valueProviders: doLittle.Singleton(function () {
+﻿Dolittle.namespace("Dolittle.values", {
+    valueProviders: Dolittle.Singleton(function () {
 
         this.isKnown = function (name) {
             var found = false;
-            var valueProviders = doLittle.values.ValueProvider.getExtenders();
+            var valueProviders = Dolittle.values.ValueProvider.getExtenders();
             valueProviders.forEach(function (valueProviderType) {
                 if (valueProviderType._name.toLowerCase() === name) {
                     found = true;
@@ -15,7 +15,7 @@
 
         this.getInstanceOf = function (name) {
             var instance = null;
-            var valueProviders = doLittle.values.ValueProvider.getExtenders();
+            var valueProviders = Dolittle.values.ValueProvider.getExtenders();
             valueProviders.forEach(function (valueProviderType) {
                 if (valueProviderType._name.toLowerCase() === name) {
                     instance = valueProviderType.create();
@@ -27,4 +27,4 @@
         };
     })
 });
-doLittle.WellKnownTypesDependencyResolver.types.valueProviders = doLittle.values.valueProviders;
+Dolittle.WellKnownTypesDependencyResolver.types.valueProviders = Dolittle.values.valueProviders;

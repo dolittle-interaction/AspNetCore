@@ -1,10 +1,10 @@
-﻿doLittle.namespace("doLittle.values", {
-    DateTypeConverter: doLittle.values.TypeConverter.extend(function () {
+﻿Dolittle.namespace("Dolittle.values", {
+    DateTypeConverter: Dolittle.values.TypeConverter.extend(function () {
         this.supportedType = Date;
 
         function isNull(time) {
             // Treat serialization of default(DateTime) from server as null.
-            return doLittle.isNullOrUndefined(time) ||
+            return Dolittle.isNullOrUndefined(time) ||
                 // ISO 8601 formats for default(DateTime):
                 time === "0001-01-01T00:00:00" ||
                 time === "0001-01-01T00:00:00Z" ||

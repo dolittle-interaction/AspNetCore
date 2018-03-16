@@ -1,11 +1,11 @@
-﻿doLittle.namespace("doLittle.views", {
-    pathResolvers: doLittle.Singleton(function () {
+﻿Dolittle.namespace("Dolittle.views", {
+    pathResolvers: Dolittle.Singleton(function () {
 
         function getResolvers() {
             var resolvers = [];
-            for (var property in doLittle.views.pathResolvers) {
-                if (doLittle.views.pathResolvers.hasOwnProperty(property)) {
-                    var value = doLittle.views.pathResolvers[property];
+            for (var property in Dolittle.views.pathResolvers) {
+                if (Dolittle.views.pathResolvers.hasOwnProperty(property)) {
+                    var value = Dolittle.views.pathResolvers[property];
                     if( typeof value === "function" &&
                         typeof value.create === "function") {
 

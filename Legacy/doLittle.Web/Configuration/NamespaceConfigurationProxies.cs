@@ -1,14 +1,14 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System.Reflection;
-using doLittle.CodeGeneration;
-using doLittle.CodeGeneration.JavaScript;
-using doLittle.Web.Configuration;
-using doLittle.Web.Proxies;
+using Dolittle.CodeGeneration;
+using Dolittle.CodeGeneration.JavaScript;
+using Dolittle.Web.Configuration;
+using Dolittle.Web.Proxies;
 
-namespace doLittle.Web.Configuration
+namespace Dolittle.Web.Configuration
 {
     public class NamespaceConfigurationProxies : IProxyGenerator
     {
@@ -25,9 +25,9 @@ namespace doLittle.Web.Configuration
         {
             var global = _codeGenerator
                 .Global()
-                    .Variant("namespaceMapper", v => v.WithFunctionCall(f=>f.WithName("doLittle.StringMapper.create")))
+                    .Variant("namespaceMapper", v => v.WithFunctionCall(f=>f.WithName("Dolittle.StringMapper.create")))
                     .WithNamespaceMappersFrom(_configuration.PathsToNamespaces)
-                    .AssignAccessor("doLittle.namespaceMappers.default", a => a.WithLiteral("namespaceMapper"))
+                    .AssignAccessor("Dolittle.namespaceMappers.default", a => a.WithLiteral("namespaceMapper"))
                     ;
 
             var result = _codeGenerator.GenerateFrom(global);

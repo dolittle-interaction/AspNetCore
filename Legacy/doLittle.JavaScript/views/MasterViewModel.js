@@ -1,10 +1,10 @@
-﻿doLittle.namespace("doLittle.views", {
-    MasterViewModel: doLittle.Type.extend(function (documentService) {
+﻿Dolittle.namespace("Dolittle.views", {
+    MasterViewModel: Dolittle.Type.extend(function (documentService) {
         var self = this;
 
         function deactivateViewModel(viewModel) {
-            if (!doLittle.isNullOrUndefined(viewModel)) {
-                if (doLittle.isFunction(viewModel.deactivated)) {
+            if (!Dolittle.isNullOrUndefined(viewModel)) {
+                if (Dolittle.isFunction(viewModel.deactivated)) {
                     viewModel.deactivated();
                 }
                 
@@ -13,7 +13,7 @@
 
 
         function activateViewModel(viewModel) {
-            if (!doLittle.isNullOrUndefined(viewModel) && doLittle.isFunction(viewModel.activated)) {
+            if (!Dolittle.isNullOrUndefined(viewModel) && Dolittle.isFunction(viewModel.activated)) {
                 viewModel.activated();
             }
         }

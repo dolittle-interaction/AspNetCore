@@ -1,5 +1,5 @@
-﻿doLittle.namespace("doLittle.hubs", {
-    Hub: doLittle.Type.extend(function (hubConnection) {
+﻿Dolittle.namespace("Dolittle.hubs", {
+    Hub: Dolittle.Type.extend(function (hubConnection) {
         var self = this;
 
         var proxy = null;
@@ -17,7 +17,7 @@
 
             for (var property in client) {
                 var value = client[property];
-                if (!doLittle.isFunction(value)) {
+                if (!Dolittle.isFunction(value)) {
                     continue;
                 }
 
@@ -50,7 +50,7 @@
         }
 
         this.invokeServerMethod = function (method, args) {
-            var promise = doLittle.execution.Promise.create();
+            var promise = Dolittle.execution.Promise.create();
 
             var invocationFunction = makeInvocationFunction(promise, method, args);
 

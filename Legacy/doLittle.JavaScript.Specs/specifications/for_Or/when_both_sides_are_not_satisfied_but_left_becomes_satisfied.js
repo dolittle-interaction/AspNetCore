@@ -1,15 +1,15 @@
 ﻿describe("when both sides are not satisfied but left becomes satisfied", function () {
     
     var leftHandSideEvaluator = ko.observable(false);
-    var leftHandSide = doLittle.specifications.Specification.create()
+    var leftHandSide = Dolittle.specifications.Specification.create()
     leftHandSide.evaluator = leftHandSideEvaluator;
 
     var rightHandSideEvaluator = ko.observable(false);
-    var rightHandSide = doLittle.specifications.Specification.create();
+    var rightHandSide = Dolittle.specifications.Specification.create();
     rightHandSide.evaluator = rightHandSideEvaluator;
 
     var instance = { something: 42 };
-    var rule = doLittle.specifications.Or.create({
+    var rule = Dolittle.specifications.Or.create({
         leftHandSide: leftHandSide,
         rightHandSide: rightHandSide
     });

@@ -8,15 +8,15 @@ describe("when resolving asynchronous and resolver returns a system", function()
     var dependencyResolvers;
 
     beforeEach(function () {
-        configure = doLittle.configure;
-        doLittle.configure = {
+        configure = Dolittle.configure;
+        Dolittle.configure = {
             ready: function (callback) {
                 readyCallback = callback;
             }
         };
 
-        dependencyResolvers = doLittle.dependencyResolvers;
-        doLittle.dependencyResolvers = {
+        dependencyResolvers = Dolittle.dependencyResolvers;
+        Dolittle.dependencyResolvers = {
             getAll: function () {
                 return [{
                     canResolve: function () {
@@ -29,7 +29,7 @@ describe("when resolving asynchronous and resolver returns a system", function()
             }
         };
         
-        doLittle.dependencyResolver
+        Dolittle.dependencyResolver
             .beginResolve(ns, "something")
             .continueWith(function (parameter, nextPromise) {
                 result = parameter;
@@ -39,8 +39,8 @@ describe("when resolving asynchronous and resolver returns a system", function()
     });
 
     afterEach(function () {
-        doLittle.dependencyResolvers = dependencyResolvers;
-        doLittle.configure = configure;
+        Dolittle.dependencyResolvers = dependencyResolvers;
+        Dolittle.configure = configure;
     });
 
 	it("should continue with system from resolver as parameter", function() {

@@ -1,11 +1,11 @@
-﻿doLittle.namespace("doLittle.navigation", {
-    DataNavigationFrameAttributeElementVisitor: doLittle.markup.ElementVisitor.extend(function (documentService) {
+﻿Dolittle.namespace("Dolittle.navigation", {
+    DataNavigationFrameAttributeElementVisitor: Dolittle.markup.ElementVisitor.extend(function (documentService) {
         this.visit = function (element, actions) {
             var dataNavigationFrame = element.attributes.getNamedItem("data-navigation-frame");
-            if (!doLittle.isNullOrUndefined(dataNavigationFrame)) {
+            if (!Dolittle.isNullOrUndefined(dataNavigationFrame)) {
                 var dataBindString = "";
                 var dataBind = element.attributes.getNamedItem("data-bind");
-                if (!doLittle.isNullOrUndefined(dataBind)) {
+                if (!Dolittle.isNullOrUndefined(dataBind)) {
                     dataBindString = dataBind.value + ", ";
                 } else {
                     dataBind = document.createAttribute("data-bind");

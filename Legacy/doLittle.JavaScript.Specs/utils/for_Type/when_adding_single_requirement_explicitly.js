@@ -1,9 +1,9 @@
 ﻿describe("when adding single requirement explicitly", function () {
-    doLittle.dependencyResolver.getDependenciesFor = function () {
+    Dolittle.dependencyResolver.getDependenciesFor = function () {
         return [];
     };
 
-    var type = doLittle.Type.extend(function () {
+    var type = Dolittle.Type.extend(function () {
     }).requires("something");
 
 

@@ -1,9 +1,9 @@
-﻿doLittle.namespace("doLittle.tasks", {
-    HttpPostTask: doLittle.tasks.Task.extend(function (server, url, payload) {
+﻿Dolittle.namespace("Dolittle.tasks", {
+    HttpPostTask: Dolittle.tasks.Task.extend(function (server, url, payload) {
         /// <summary>Represents a task that can perform a Http Post request</summary>
 
         this.execute = function () {
-            var promise = doLittle.execution.Promise.create();
+            var promise = Dolittle.execution.Promise.create();
 
             server
                 .post(url, payload)

@@ -1,21 +1,21 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System.Linq;
 using System.Text;
-using doLittle.DependencyInversion;
-using doLittle.Execution;
-using doLittle.Types;
-using doLittle.Web.Commands;
-using doLittle.Web.Configuration;
+using Dolittle.DependencyInversion;
+using Dolittle.Execution;
+using Dolittle.Types;
+using Dolittle.Web.Commands;
+using Dolittle.Web.Configuration;
 #if(NET461)
-using doLittle.Web.Hubs;
+using Dolittle.Web.Hubs;
 #endif
-using doLittle.Web.Read;
-using doLittle.Web.Services;
+using Dolittle.Web.Read;
+using Dolittle.Web.Services;
 
-namespace doLittle.Web.Proxies
+namespace Dolittle.Web.Proxies
 {
     [Singleton]
     public class GeneratedProxies
@@ -44,7 +44,7 @@ namespace doLittle.Web.Proxies
             builder.Append(hubProxies.Generate());
 #endif
 
-            var generatorTypes = typeFinder.FindMultiple<IProxyGenerator>().Where(t => !t.Namespace.StartsWith("doLittle"));
+            var generatorTypes = typeFinder.FindMultiple<IProxyGenerator>().Where(t => !t.Namespace.StartsWith("Dolittle"));
             foreach (var generatorType in generatorTypes)
             {
                 var generator = container.Get(generatorType) as IProxyGenerator;

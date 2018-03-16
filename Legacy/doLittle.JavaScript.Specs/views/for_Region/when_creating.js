@@ -27,7 +27,7 @@
         create: sinon.stub().returns(tasks)
     };
     
-    var instance = new doLittle.views.Region(
+    var instance = new Dolittle.views.Region(
         messengerFactory,
         operationsFactory,
         tasksFactory

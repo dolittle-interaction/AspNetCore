@@ -1,14 +1,14 @@
 describe("when exiting with two actions", function() {
 
 	var namingRoot = { some : "namingRoot" };
-	var duration = doLittle.TimeSpan.fromMilliseconds(20);
+	var duration = Dolittle.TimeSpan.fromMilliseconds(20);
 	var firstAction = {
 		onExit: sinon.stub()
 	};
 	var secondAction = {
 		onExit: sinon.stub()
 	};
-	var state = doLittle.interaction.VisualState.create();
+	var state = Dolittle.interaction.VisualState.create();
 	state.actions.push(firstAction);
 	state.actions.push(secondAction);
 	state.exit(namingRoot, duration);

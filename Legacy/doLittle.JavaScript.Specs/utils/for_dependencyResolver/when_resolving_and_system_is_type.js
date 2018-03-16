@@ -1,5 +1,5 @@
 describe("when resolving and system is type", function() {
-	var type = doLittle.Type.extend(function(dependency) {
+	var type = Dolittle.Type.extend(function(dependency) {
 		this.something = "Hello";
 		this.dependency = dependency;
 	});
@@ -8,9 +8,9 @@ describe("when resolving and system is type", function() {
 	var dependencyResolvers;
 
 	beforeEach(function () {
-	    dependencyResolvers = doLittle.dependencyResolvers;
+	    dependencyResolvers = Dolittle.dependencyResolvers;
 
-	    doLittle.dependencyResolvers = {
+	    Dolittle.dependencyResolvers = {
 	        getAll: function () {
 	            return [{
 	                canResolve: function () {
@@ -27,11 +27,11 @@ describe("when resolving and system is type", function() {
 	    };
 
 	    var ns = {};
-	    result = doLittle.dependencyResolver.resolve(ns, "something");
+	    result = Dolittle.dependencyResolver.resolve(ns, "something");
 	});
 
 	afterEach(function () {
-	    doLittle.dependencyResolvers = dependencyResolvers;
+	    Dolittle.dependencyResolvers = dependencyResolvers;
 	});
     
 

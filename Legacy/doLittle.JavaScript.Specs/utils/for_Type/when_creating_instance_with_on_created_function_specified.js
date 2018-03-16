@@ -4,11 +4,11 @@ describe("when creating instance with on created function specified", function (
 
     var instance = null;
     beforeEach(function () {
-        doLittle.dependencyResolver = {
+        Dolittle.dependencyResolver = {
             getDependenciesFor: sinon.stub()
         };
 
-        type = doLittle.Type.extend(function () {
+        type = Dolittle.Type.extend(function () {
             this.onCreated = onCreatedStub;
         });
 
@@ -16,7 +16,7 @@ describe("when creating instance with on created function specified", function (
     });
 
     afterEach(function () {
-        doLittle.dependencyResolver = {};
+        Dolittle.dependencyResolver = {};
     });
 
     it("should call the on created function", function () {

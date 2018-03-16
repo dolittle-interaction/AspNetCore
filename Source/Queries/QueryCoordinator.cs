@@ -4,16 +4,16 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
-using doLittle.DependencyInversion;
-using doLittle.Dynamic;
-using doLittle.Logging;
-using doLittle.Queries;
-using doLittle.Queries.Coordination;
-using doLittle.Types;
-using doLittle.Strings;
+using Dolittle.DependencyInversion;
+using Dolittle.Dynamic;
+using Dolittle.Logging;
+using Dolittle.Queries;
+using Dolittle.Queries.Coordination;
+using Dolittle.Types;
+using Dolittle.Strings;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
-using doLittle.Serialization.Json;
+using Dolittle.Serialization.Json;
 
 namespace Dolittle.AspNetCore.Queries
 {

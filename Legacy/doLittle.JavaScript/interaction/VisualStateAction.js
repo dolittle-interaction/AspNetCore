@@ -1,5 +1,5 @@
-doLittle.namespace("doLittle.interaction", {
-    VisualStateAction: doLittle.Type.extend(function () {
+Dolittle.namespace("Dolittle.interaction", {
+    VisualStateAction: Dolittle.Type.extend(function () {
 
         this.initialize = function (namingRoot) {
 

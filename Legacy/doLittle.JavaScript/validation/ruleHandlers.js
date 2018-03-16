@@ -1,4 +1,4 @@
-doLittle.namespace("doLittle.validation");
-doLittle.validation.ruleHandlers = (function () {
-    return doLittle.validation.ruleHandlers || { };
+Dolittle.namespace("Dolittle.validation");
+Dolittle.validation.ruleHandlers = (function () {
+    return Dolittle.validation.ruleHandlers || { };
 })();

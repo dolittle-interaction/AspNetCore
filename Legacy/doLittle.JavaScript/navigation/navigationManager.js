@@ -1,4 +1,4 @@
-doLittle.namespace("doLittle.navigation", {
+Dolittle.namespace("Dolittle.navigation", {
     navigateTo: function (featureName, queryString) {
         var url = featureName;
 
@@ -17,7 +17,7 @@ doLittle.namespace("doLittle.navigation", {
     },
     navigationManager: {
         getCurrentLocation: function() {
-            var uri = doLittle.Uri.create(window.location.toString());
+            var uri = Dolittle.Uri.create(window.location.toString());
             return uri;
         },
 
@@ -39,7 +39,7 @@ doLittle.namespace("doLittle.navigation", {
                     if (href.length === 0) {
                         href = "/";
                     }
-                    var targetUri = doLittle.Uri.create(href);
+                    var targetUri = Dolittle.Uri.create(href);
                     if (targetUri.isSameAsOrigin &&
                         targetUri.queryString.indexOf("postback")<0) {
                         var target = targetUri.path;

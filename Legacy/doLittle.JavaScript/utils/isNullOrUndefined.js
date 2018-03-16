@@ -1,5 +1,5 @@
-﻿doLittle.namespace("doLittle",{
+﻿Dolittle.namespace("Dolittle",{
     isNullOrUndefined: function (value) {
-        return doLittle.isUndefined(value) || doLittle.isNull(value);
+        return Dolittle.isUndefined(value) || Dolittle.isNull(value);
     }
 });

@@ -1,20 +1,20 @@
-﻿doLittle.namespace("doLittle.views", {
-    viewModelTypes: doLittle.Singleton(function () {
+﻿Dolittle.namespace("Dolittle.views", {
+    viewModelTypes: Dolittle.Singleton(function () {
         var self = this;
 
         function getNamespaceFrom(path) {
-            var localPath = doLittle.Path.getPathWithoutFilename(path);
-            var namespacePath = doLittle.namespaceMappers.mapPathToNamespace(localPath);
+            var localPath = Dolittle.Path.getPathWithoutFilename(path);
+            var namespacePath = Dolittle.namespaceMappers.mapPathToNamespace(localPath);
             if (namespacePath != null) {
-                var namespace = doLittle.namespace(namespacePath);
+                var namespace = Dolittle.namespace(namespacePath);
                 return namespace;
             }
             return null;
         }
 
         function getTypeNameFrom(path) {
-            var localPath = doLittle.Path.getPathWithoutFilename(path);
-            var filename = doLittle.Path.getFilenameWithoutExtension(path);
+            var localPath = Dolittle.Path.getPathWithoutFilename(path);
+            var filename = Dolittle.Path.getFilenameWithoutExtension(path);
             return filename;
         }
 
@@ -32,7 +32,7 @@
             var namespace = getNamespaceFrom(path);
             if (namespace != null) {
                 var typename = getTypeNameFrom(path);
-                if (doLittle.isType(namespace[typename])) {
+                if (Dolittle.isType(namespace[typename])) {
                     return namespace[typename];
                 }
             }
@@ -42,10 +42,10 @@
 
         this.getViewModelTypeForPath = function (path) {
             var type = getViewModelTypeForPathImplementation(path);
-            if (doLittle.isNullOrUndefined(type)) {
+            if (Dolittle.isNullOrUndefined(type)) {
                 var deepPath = path.replace(".js", "/index.js");
                 type = getViewModelTypeForPathImplementation(deepPath);
-                if (doLittle.isNullOrUndefined(type)) {
+                if (Dolittle.isNullOrUndefined(type)) {
                     deepPath = path.replace(".js", "/Index.js");
                     getViewModelTypeForPathImplementation(deepPath);
                 }
@@ -56,12 +56,12 @@
 
 
         this.beginCreateInstanceOfViewModel = function (path, region, viewModelParameters) {
-            var promise = doLittle.execution.Promise.create();
+            var promise = Dolittle.execution.Promise.create();
 
             var type = self.getViewModelTypeForPath(path);
             if (type != null) {
-                var previousRegion = doLittle.views.Region.current;
-                doLittle.views.Region.current = region;
+                var previousRegion = Dolittle.views.Region.current;
+                Dolittle.views.Region.current = region;
 
                 viewModelParameters = viewModelParameters || {};
                 viewModelParameters.region = region;
@@ -83,4 +83,4 @@
 
     })
 });
-doLittle.WellKnownTypesDependencyResolver.types.viewModelTypes = doLittle.views.viewModelTypes;
+Dolittle.WellKnownTypesDependencyResolver.types.viewModelTypes = Dolittle.views.viewModelTypes;

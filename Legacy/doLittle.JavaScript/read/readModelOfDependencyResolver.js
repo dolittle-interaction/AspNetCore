@@ -1,4 +1,4 @@
-﻿doLittle.dependencyResolvers.readModelOf = {
+﻿Dolittle.dependencyResolvers.readModelOf = {
     canResolve: function (namespace, name) {
         if (typeof read !== "undefined") {
             return name in read;

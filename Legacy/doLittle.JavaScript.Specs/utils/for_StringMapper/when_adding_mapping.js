@@ -17,7 +17,7 @@
         return mappings[mappingIndex++];
     });
 
-    var mapper = doLittle.StringMapper.create({
+    var mapper = Dolittle.StringMapper.create({
         stringMappingFactory: stringMappingFactory
     });
     mapper.addMapping("Something", "else");

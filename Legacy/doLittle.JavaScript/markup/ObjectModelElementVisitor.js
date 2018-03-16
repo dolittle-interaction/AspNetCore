@@ -1,5 +1,5 @@
-doLittle.namespace("doLittle.markup", {
-    ObjectModelElementVisitor: doLittle.markup.ElementVisitor.extend(function (elementNaming, namespaces, objectModelFactory, propertyExpander, UIElementPreparer, attributeValues, bindingContextManager) {
+Dolittle.namespace("Dolittle.markup", {
+    ObjectModelElementVisitor: Dolittle.markup.ElementVisitor.extend(function (elementNaming, namespaces, objectModelFactory, propertyExpander, UIElementPreparer, attributeValues, bindingContextManager) {
         this.visit = function(element, actions) {
             // Tags : 
             //  - tag names automatically match type names

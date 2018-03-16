@@ -21,7 +21,7 @@ describe("when creating instance with dependencies and super having dependencies
     var instance = null;
 
     beforeEach(function () {
-        doLittle.dependencyResolver = {
+        Dolittle.dependencyResolver = {
             getDependenciesFor: function (func) {
                 if (func == superFunction) {
                     return ["something"];
@@ -33,7 +33,7 @@ describe("when creating instance with dependencies and super having dependencies
         };
 
         var namespace = { name: "Somewhere" };
-        _super = doLittle.Type.extend(superFunction);
+        _super = Dolittle.Type.extend(superFunction);
         _super._namespace = namespace;
         type = _super.extend(typeFunction);
         type._namespace = namespace;

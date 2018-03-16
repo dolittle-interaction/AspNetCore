@@ -1,9 +1,9 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace doLittle.CodeGeneration.JavaScript
+namespace Dolittle.CodeGeneration.JavaScript
 {
     /// <summary>
     /// Represents a body of a <see cref="Function"/>

@@ -18,7 +18,7 @@
     var operationEntryType = null;
 
     beforeEach(function () {
-        existingOperationEntryType = doLittle.interaction.OperationEntry;
+        existingOperationEntryType = Dolittle.interaction.OperationEntry;
 
         operationEntryType = {
             create: sinon.mock().withArgs({
@@ -27,14 +27,14 @@
             }).returns(operationEntry)
         };
 
-        doLittle.interaction.OperationEntry = operationEntryType;
+        Dolittle.interaction.OperationEntry = operationEntryType;
 
-        var factory = doLittle.interaction.operationEntryFactory.create();
+        var factory = Dolittle.interaction.operationEntryFactory.create();
         instance = factory.create(operation, operationState);
     });
 
     afterEach(function () {
-        doLittle.interaction.OperationEntry = existingOperationEntryType;
+        Dolittle.interaction.OperationEntry = existingOperationEntryType;
     });
     
     it("should create a new instance", function () {

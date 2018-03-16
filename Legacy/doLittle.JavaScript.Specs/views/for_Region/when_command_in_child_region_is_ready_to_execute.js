@@ -22,7 +22,7 @@
         }
     };
 
-    var region = new doLittle.views.Region(
+    var region = new Dolittle.views.Region(
         messengerFactory,
         operationsFactory,
         tasksFactory
@@ -32,7 +32,7 @@
         isReadyToExecute = newValue;
     });
 
-    var childRegion = new doLittle.views.Region( 
+    var childRegion = new Dolittle.views.Region( 
         messengerFactory,
         operationsFactory,
         tasksFactory

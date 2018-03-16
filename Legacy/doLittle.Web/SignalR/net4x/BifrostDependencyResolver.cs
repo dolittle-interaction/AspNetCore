@@ -1,20 +1,20 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using doLittle.Execution;
+using Dolittle.Execution;
 using Microsoft.AspNet.SignalR;
 
-namespace doLittle.Web.SignalR
+namespace Dolittle.Web.SignalR
 {
-    public class doLittleDependencyResolver : DefaultDependencyResolver
+    public class DolittleDependencyResolver : DefaultDependencyResolver
     {
         IContainer _container;
 
-        public doLittleDependencyResolver(IContainer container)
+        public DolittleDependencyResolver(IContainer container)
         {
             _container = container;
         }

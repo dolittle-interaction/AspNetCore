@@ -22,7 +22,7 @@
 * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-doLittle.namespace("doLittle", {
+Dolittle.namespace("Dolittle", {
     // Constructor function, all parameters are optional
     TimeSpan : function (milliseconds, seconds, minutes, hours, days) {
         var version = "1.2",
@@ -202,28 +202,28 @@ doLittle.namespace("doLittle", {
 });
 
 // "Static Constructors"
-doLittle.TimeSpan.zero = function() {
-    return new doLittle.TimeSpan(0, 0, 0, 0, 0);
+Dolittle.TimeSpan.zero = function() {
+    return new Dolittle.TimeSpan(0, 0, 0, 0, 0);
 };
-doLittle.TimeSpan.fromMilliseconds = function (milliseconds) {
-    return new doLittle.TimeSpan(milliseconds, 0, 0, 0, 0);
+Dolittle.TimeSpan.fromMilliseconds = function (milliseconds) {
+    return new Dolittle.TimeSpan(milliseconds, 0, 0, 0, 0);
 };
-doLittle.TimeSpan.fromSeconds = function (seconds) {
-    return new doLittle.TimeSpan(0, seconds, 0, 0, 0);
+Dolittle.TimeSpan.fromSeconds = function (seconds) {
+    return new Dolittle.TimeSpan(0, seconds, 0, 0, 0);
 };
-doLittle.TimeSpan.fromMinutes = function (minutes) {
-    return new doLittle.TimeSpan(0, 0, minutes, 0, 0);
+Dolittle.TimeSpan.fromMinutes = function (minutes) {
+    return new Dolittle.TimeSpan(0, 0, minutes, 0, 0);
 };
-doLittle.TimeSpan.fromHours = function (hours) {
-    return new doLittle.TimeSpan(0, 0, 0, hours, 0);
+Dolittle.TimeSpan.fromHours = function (hours) {
+    return new Dolittle.TimeSpan(0, 0, 0, hours, 0);
 };
-doLittle.TimeSpan.fromDays = function (days) {
-    return new doLittle.TimeSpan(0, 0, 0, 0, days);
+Dolittle.TimeSpan.fromDays = function (days) {
+    return new Dolittle.TimeSpan(0, 0, 0, 0, days);
 };
-doLittle.TimeSpan.fromDates = function (firstDate, secondDate, forcePositive) {
+Dolittle.TimeSpan.fromDates = function (firstDate, secondDate, forcePositive) {
     var differenceMsecs = secondDate.valueOf() - firstDate.valueOf();
     if (forcePositive === true) {
         differenceMsecs = Math.abs(differenceMsecs);
     }
-    return new doLittle.TimeSpan(differenceMsecs, 0, 0, 0, 0);
+    return new Dolittle.TimeSpan(differenceMsecs, 0, 0, 0, 0);
 };

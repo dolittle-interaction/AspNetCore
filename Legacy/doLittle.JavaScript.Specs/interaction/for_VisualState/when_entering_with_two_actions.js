@@ -1,14 +1,14 @@
 describe("when entering with two actions", function() {
 
 	var namingRoot = { some : "namingRoot" };
-	var duration = doLittle.TimeSpan.fromMilliseconds(20);
+	var duration = Dolittle.TimeSpan.fromMilliseconds(20);
 	var firstAction = {
 		onEnter: sinon.stub()
 	};
 	var secondAction = {
 		onEnter: sinon.stub()
 	};
-	var state = doLittle.interaction.VisualState.create();
+	var state = Dolittle.interaction.VisualState.create();
 	state.actions.push(firstAction);
 	state.actions.push(secondAction);
 	state.enter(namingRoot, duration);

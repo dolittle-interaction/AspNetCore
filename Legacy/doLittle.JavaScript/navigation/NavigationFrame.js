@@ -1,5 +1,5 @@
-﻿doLittle.namespace("doLittle.navigation", {
-    NavigationFrame: doLittle.Type.extend(function (home, uriMapper, history) {
+﻿Dolittle.namespace("Dolittle.navigation", {
+    NavigationFrame: Dolittle.Type.extend(function (home, uriMapper, history) {
         var self = this;
 
         this.home = home;
@@ -27,7 +27,7 @@
 
         this.setCurrentUriFromCurrentLocation = function () {
             var state = self.history.getState();
-            var uri = doLittle.Uri.create(state.url);
+            var uri = Dolittle.Uri.create(state.url);
             self.setCurrentUri(uri.path);
         };
 
@@ -42,12 +42,12 @@
             var uriMapper = $(container).closest("[data-urimapper]");
             if (uriMapper.length === 1) {
                 var uriMapperName = $(uriMapper[0]).data("urimapper");
-                if (uriMapperName in doLittle.uriMappers) {
-                    self.uriMapper = doLittle.uriMappers[uriMapperName];
+                if (uriMapperName in Dolittle.uriMappers) {
+                    self.uriMapper = Dolittle.uriMappers[uriMapperName];
                 }
             }
             if (self.uriMapper == null) {
-                self.uriMapper = doLittle.uriMappers.default;
+                self.uriMapper = Dolittle.uriMappers.default;
             }
         };
 

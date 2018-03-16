@@ -17,15 +17,15 @@
     };
 
     beforeEach(function () {
-        pagingInfoType = doLittle.read.PagingInfo;
+        pagingInfoType = Dolittle.read.PagingInfo;
 
-        doLittle.read.PagingInfo = {
+        Dolittle.read.PagingInfo = {
             create: function () {
                 return paging;
             }
         };
 
-        var instance = doLittle.read.Queryable.create({
+        var instance = Dolittle.read.Queryable.create({
             query: query,
             region: region,
             queryService: queryService,
@@ -37,7 +37,7 @@
     });
 
     afterEach(function () {
-        doLittle.read.PagingInfo = pagingInfoType;
+        Dolittle.read.PagingInfo = pagingInfoType;
     });
     
     it("should execute the query on the query service", function () {

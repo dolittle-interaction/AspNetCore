@@ -4,13 +4,13 @@
     var extenders = null;
 
     beforeEach(function () {
-        doLittle.dependencyResolver = {
+        Dolittle.dependencyResolver = {
             getDependenciesFor: sinon.stub()
         };
-        initialType = doLittle.Type.extend(initialType);
-        doLittle.namespace("Root", { RootExtendedType: initialType.extend(function () { }) });
-        doLittle.namespace("Root.Sub", { SubExtendedType: initialType.extend(function (foo) { }) });
-        doLittle.namespace("Root.AnotherSub", { ASecondExtendedType: initialType.extend(function (bar) { }) });
+        initialType = Dolittle.Type.extend(initialType);
+        Dolittle.namespace("Root", { RootExtendedType: initialType.extend(function () { }) });
+        Dolittle.namespace("Root.Sub", { SubExtendedType: initialType.extend(function (foo) { }) });
+        Dolittle.namespace("Root.AnotherSub", { ASecondExtendedType: initialType.extend(function (bar) { }) });
 
         namespace = Root.Sub.SubExtendedType._namespace;
 
@@ -18,7 +18,7 @@
     });
 
     afterEach(function () {
-        doLittle.functionParser = {};
+        Dolittle.functionParser = {};
         extenders = null;
     });
 

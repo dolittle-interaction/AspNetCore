@@ -1,5 +1,5 @@
-﻿doLittle.namespace("doLittle.interaction", {
-    Trigger: doLittle.Type.extend(function () {
+﻿Dolittle.namespace("Dolittle.interaction", {
+    Trigger: Dolittle.Type.extend(function () {
         var self = this;
 
         this.actions = [];

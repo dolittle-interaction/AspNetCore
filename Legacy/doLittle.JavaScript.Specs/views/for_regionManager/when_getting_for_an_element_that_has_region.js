@@ -27,7 +27,7 @@
     var operationsFactory = { operations: "factory" };
     var tasksFactory = { tasks: "factory" };
 
-    var instance = doLittle.views.regionManager.createWithoutScope({
+    var instance = Dolittle.views.regionManager.createWithoutScope({
         documentService: documentService,
         regionDescriptorManager: regionDescriptorManager,
         messengerFactory: messengerFactory,

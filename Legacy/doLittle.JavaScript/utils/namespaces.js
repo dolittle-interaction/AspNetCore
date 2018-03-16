@@ -1,5 +1,5 @@
-doLittle.namespace("doLittle", {
-    namespaces: doLittle.Singleton(function() {
+Dolittle.namespace("Dolittle", {
+    namespaces: Dolittle.Singleton(function() {
         var self = this;
 
         this.stripPath = function (path) {
@@ -13,20 +13,20 @@ doLittle.namespace("doLittle", {
         };
 
         this.initialize = function () {
-            var scripts = doLittle.assetsManager.getScripts();
+            var scripts = Dolittle.assetsManager.getScripts();
             if (typeof scripts === "undefined") {
                 return;
             }
 
             scripts.forEach(function (fullPath) {
-                var path = doLittle.Path.getPathWithoutFilename(fullPath);
+                var path = Dolittle.Path.getPathWithoutFilename(fullPath);
                 path = self.stripPath(path);
 
-                for (var mapperKey in doLittle.namespaceMappers) {
-                    var mapper = doLittle.namespaceMappers[mapperKey];
+                for (var mapperKey in Dolittle.namespaceMappers) {
+                    var mapper = Dolittle.namespaceMappers[mapperKey];
                     if (typeof mapper.hasMappingFor === "function" && mapper.hasMappingFor(path)) {
                         var namespacePath = mapper.resolve(path);
-                        var namespace = doLittle.namespace(namespacePath);
+                        var namespace = Dolittle.namespace(namespacePath);
 
                         var root = "/" + path + "/";
                         namespace._path = root;

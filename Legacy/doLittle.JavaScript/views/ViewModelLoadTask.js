@@ -1,5 +1,5 @@
-﻿doLittle.namespace("doLittle.views", {
-    ViewModelLoadTask: doLittle.views.ComposeTask.extend(function (files, fileManager) {
+﻿Dolittle.namespace("Dolittle.views", {
+    ViewModelLoadTask: Dolittle.views.ComposeTask.extend(function (files, fileManager) {
         /// <summary>Represents a task for loading viewModels</summary>
         var self = this;
 
@@ -9,7 +9,7 @@
         });
 
         this.execute = function () {
-            var promise = doLittle.execution.Promise.create();
+            var promise = Dolittle.execution.Promise.create();
 
             fileManager.load(files).continueWith(function (instances) {
                 promise.signal(instances);

@@ -1,11 +1,11 @@
-﻿doLittle.namespace("doLittle.read", {
-    queryableFactory: doLittle.Singleton(function () {
+﻿Dolittle.namespace("Dolittle.read", {
+    queryableFactory: Dolittle.Singleton(function () {
         this.create = function (query, region) {
-            var queryable = doLittle.read.Queryable.new({
+            var queryable = Dolittle.read.Queryable.new({
                 query: query
             }, region);
             return queryable;
         };
     })
 });
-doLittle.WellKnownTypesDependencyResolver.types.queryableFactory = doLittle.interaction.queryableFactory;
+Dolittle.WellKnownTypesDependencyResolver.types.queryableFactory = Dolittle.interaction.queryableFactory;

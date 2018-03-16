@@ -8,7 +8,7 @@ describe("when extending an object with same content", function () {
         property: "sheep",
         func: function () { }
     };
-    doLittle.extend(contentObject, extension);
+    Dolittle.extend(contentObject, extension);
     it("should add property", function () {
         expect(contentObject.property).toEqual(extension.property);
     });

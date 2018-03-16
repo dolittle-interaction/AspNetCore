@@ -1,5 +1,5 @@
 describe("when declaring namespace with content", function () {
-    doLittle.namespace("Namespace.With.Content", {
+    Dolittle.namespace("Namespace.With.Content", {
         a_function: function () {
         },
         a_value: 42

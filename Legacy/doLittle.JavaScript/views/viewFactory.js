@@ -1,11 +1,11 @@
-﻿doLittle.namespace("doLittle.views", {
-    viewFactory: doLittle.Singleton(function () {
+﻿Dolittle.namespace("Dolittle.views", {
+    viewFactory: Dolittle.Singleton(function () {
         this.createFrom = function (path) {
-            var view = doLittle.views.View.create({
+            var view = Dolittle.views.View.create({
                 path: path
             });
             return view;
         };
     })
 });
-doLittle.WellKnownTypesDependencyResolver.types.viewFactory = doLittle.views.viewFactory;
+Dolittle.WellKnownTypesDependencyResolver.types.viewFactory = Dolittle.views.viewFactory;

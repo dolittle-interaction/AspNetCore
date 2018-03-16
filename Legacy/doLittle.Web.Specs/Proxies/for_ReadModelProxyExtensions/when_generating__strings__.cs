@@ -1,5 +1,5 @@
-﻿using doLittle.CodeGeneration;
-using doLittle.CodeGeneration.JavaScript;
+﻿using Dolittle.CodeGeneration;
+using Dolittle.CodeGeneration.JavaScript;
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Dynamic;
 
-namespace doLittle.Web.Specs.Proxies.for_ReadModelProxyExtensions
+namespace Dolittle.Web.Specs.Proxies.for_ReadModelProxyExtensions
 {
     public class when_generating__strings__
     {

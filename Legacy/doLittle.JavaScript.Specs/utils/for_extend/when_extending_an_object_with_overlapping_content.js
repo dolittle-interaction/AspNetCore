@@ -9,7 +9,7 @@ describe("when extending an object with overlapping content", function () {
         property: "sheep",
         func: function () { }
     };
-    doLittle.extend(overlappingObject, extension);
+    Dolittle.extend(overlappingObject, extension);
     it("should add property", function () {
         expect(overlappingObject.property).toEqual(extension.property);
     });

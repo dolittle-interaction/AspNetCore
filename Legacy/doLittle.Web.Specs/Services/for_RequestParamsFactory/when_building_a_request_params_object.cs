@@ -1,8 +1,8 @@
-using doLittle.Web.Services;
-using doLittle.Web.Specs.Services.for_RequestParamsFactory.given;
+using Dolittle.Web.Services;
+using Dolittle.Web.Specs.Services.for_RequestParamsFactory.given;
 using Machine.Specifications;
 
-namespace doLittle.Web.Specs.Services.for_RequestParamsFactory
+namespace Dolittle.Web.Specs.Services.for_RequestParamsFactory
 {
     [Subject(typeof(RequestParamsFactory))]
     public class when_building_a_request_params_object : a_request_params_factory

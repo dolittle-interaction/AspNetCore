@@ -4,11 +4,11 @@
     var secondInstance = 42;
 
     beforeEach(function () {
-        existingGetDependenciesFor = doLittle.dependencyResolver.getDependenciesFor;
-        doLittle.dependencyResolver.getDependenciesFor = function () { return []; };
+        existingGetDependenciesFor = Dolittle.dependencyResolver.getDependenciesFor;
+        Dolittle.dependencyResolver.getDependenciesFor = function () { return []; };
 
         var counter = 0;
-        var type = doLittle.Type.extend(function () {
+        var type = Dolittle.Type.extend(function () {
             var self = this;
 
             this.id = counter++;
@@ -19,7 +19,7 @@
     });
 
     afterEach(function () {
-        doLittle.dependencyResolver.getDependenciesFor = existingGetDependenciesFor;
+        Dolittle.dependencyResolver.getDependenciesFor = existingGetDependenciesFor;
     });
 
     it("should have two different instances", function () {

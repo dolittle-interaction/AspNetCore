@@ -1,5 +1,5 @@
-﻿doLittle.namespace("doLittle", {
-    Path: doLittle.Type.extend(function (fullPath) {
+﻿Dolittle.namespace("Dolittle", {
+    Path: Dolittle.Type.extend(function (fullPath) {
         var self = this;
 
         // Based on node.js implementation : http://stackoverflow.com/questions/9451100/filename-extension-in-javascript
@@ -41,7 +41,7 @@
         this.fullPath = fullPath;
 
         this.hasExtension = function () {
-            if (doLittle.isNullOrUndefined(self.extension)) {
+            if (Dolittle.isNullOrUndefined(self.extension)) {
                 return false;
             }
             if (self.extension === "") {
@@ -51,35 +51,35 @@
         };
     })
 });
-doLittle.Path.makeRelative = function (fullPath) {
+Dolittle.Path.makeRelative = function (fullPath) {
     if (fullPath.indexOf("/") === 0) {
         return fullPath.substr(1);
     }
 
     return fullPath;
 };
-doLittle.Path.getPathWithoutFilename = function (fullPath) {
+Dolittle.Path.getPathWithoutFilename = function (fullPath) {
     var lastIndex = fullPath.lastIndexOf("/");
     return fullPath.substr(0, lastIndex);
 };
-doLittle.Path.getFilename = function (fullPath) {
+Dolittle.Path.getFilename = function (fullPath) {
     var lastIndex = fullPath.lastIndexOf("/");
     return fullPath.substr(lastIndex+1);
 };
-doLittle.Path.getFilenameWithoutExtension = function (fullPath) {
+Dolittle.Path.getFilenameWithoutExtension = function (fullPath) {
     var filename = this.getFilename(fullPath);
     var lastIndex = filename.lastIndexOf(".");
     return filename.substr(0,lastIndex);
 };
-doLittle.Path.hasExtension = function (path) {
+Dolittle.Path.hasExtension = function (path) {
     if (path.indexOf("?") > 0) {
         path = path.substr(0, path.indexOf("?"));
     }
     var lastIndex = path.lastIndexOf(".");
     return lastIndex > 0;
 };
-doLittle.Path.changeExtension = function (fullPath, newExtension) {
-    var path = doLittle.Path.create({ fullPath: fullPath });
+Dolittle.Path.changeExtension = function (fullPath, newExtension) {
+    var path = Dolittle.Path.create({ fullPath: fullPath });
     var newPath = path.directory + path.filenameWithoutExtension + "." + newExtension;
     return newPath;
 };

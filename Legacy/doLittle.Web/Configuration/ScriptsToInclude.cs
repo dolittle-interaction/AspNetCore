@@ -1,8 +1,8 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-namespace doLittle.Web.Configuration
+namespace Dolittle.Web.Configuration
 {
     public class ScriptsToInclude
     {
@@ -10,7 +10,7 @@ namespace doLittle.Web.Configuration
         public bool Knockout { get; set; }
         public bool JQueryHistory { get; set; }
         public bool Require { get; set; }
-        public bool doLittle { get; set; }
+        public bool Dolittle { get; set; }
 
         public bool SignalR { get; set; }
 
@@ -20,7 +20,7 @@ namespace doLittle.Web.Configuration
             JQueryHistory = true;
             Knockout = true;
             Require = true;
-            doLittle = true;
+            Dolittle = true;
             SignalR = true;
         }
 
@@ -30,7 +30,7 @@ namespace doLittle.Web.Configuration
             JQueryHistory = false;
             Knockout = false;
             Require = false;
-            doLittle = false;
+            Dolittle = false;
             SignalR = false;
         }
     }

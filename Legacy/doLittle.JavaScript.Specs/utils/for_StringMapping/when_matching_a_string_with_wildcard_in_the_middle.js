@@ -1,5 +1,5 @@
 ﻿describe("when matching a string with wildcard in the middle", function () {
-    var mapping = doLittle.StringMapping.create({
+    var mapping = Dolittle.StringMapping.create({
         format: "{something}/**/for_{else}",
         mappedFormat: "{something}.**.for_{else}"
     });

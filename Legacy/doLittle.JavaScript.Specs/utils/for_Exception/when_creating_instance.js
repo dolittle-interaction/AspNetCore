@@ -1,7 +1,7 @@
 describe("when creating instance", function() {
 	var exceptionName = "SomeException";
 	
-	doLittle.Exception.define(exceptionName);
+	Dolittle.Exception.define(exceptionName);
 
 	var instance = new SomeException();
 	

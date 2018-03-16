@@ -3,8 +3,8 @@
     var paths = [];
 
     beforeEach(function () {
-        doLittle.namespaces = doLittle.namespaces || {};
-        doLittle.namespaces.initialize = sinon.stub();
+        Dolittle.namespaces = Dolittle.namespaces || {};
+        Dolittle.namespaces.initialize = sinon.stub();
         sinon.stub($, "get", function (url, options, callback, type) {
             callback([
                 "Something/cool.js",
@@ -14,7 +14,7 @@
             ]);
         });
 
-        doLittle.path = {
+        Dolittle.path = {
             getPathWithoutFilename: function (path) {
                 if (path.indexOf("Something") == 0) {
                     return "Something";
@@ -26,13 +26,13 @@
             }
         }
 
-        doLittle.assetsManager.initialize();
-        paths = doLittle.assetsManager.getScriptPaths();
+        Dolittle.assetsManager.initialize();
+        paths = Dolittle.assetsManager.getScriptPaths();
     });
 
     afterEach(function () {
         $.get.restore();
-        doLittle.assetsManager.scripts = [];
+        Dolittle.assetsManager.scripts = [];
     });
 
 

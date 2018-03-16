@@ -27,8 +27,8 @@
 
 
     beforeEach(function () {
-        pagingInfoType = doLittle.read.PagingInfo;
-        doLittle.read.PagingInfo = {
+        pagingInfoType = Dolittle.read.PagingInfo;
+        Dolittle.read.PagingInfo = {
             create: function () {
                 return {};
             }
@@ -48,7 +48,7 @@
             }
         };
 
-        queryable = doLittle.read.Queryable.create({
+        queryable = Dolittle.read.Queryable.create({
             query: query,
             region: region,
             queryService: queryService,
@@ -61,7 +61,7 @@
     });
 
     afterEach(function () {
-        doLittle.read.PagingInfo = pagingInfoType;
+        Dolittle.read.PagingInfo = pagingInfoType;
     });
 
 

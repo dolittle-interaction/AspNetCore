@@ -1,6 +1,6 @@
-﻿doLittle.namespace("doLittle.commands", {
-    commandEvents: doLittle.Singleton(function () {
-        this.succeeded = doLittle.Event.create();
-        this.failed = doLittle.Event.create();
+﻿Dolittle.namespace("Dolittle.commands", {
+    commandEvents: Dolittle.Singleton(function () {
+        this.succeeded = Dolittle.Event.create();
+        this.failed = Dolittle.Event.create();
     })
 });

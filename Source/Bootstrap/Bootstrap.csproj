@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="doLittle.DependencyInversion.Bootstrap" Version="2.0.0-alpha2*" />
-    <PackageReference Include="doLittle.Logging" Version="2.0.0-alpha2*" />
+    <PackageReference Include="Dolittle.DependencyInversion.Bootstrap" Version="2.0.0-alpha2*" />
+    <PackageReference Include="Dolittle.Logging" Version="2.0.0-alpha2*" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />    
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.0.1" />

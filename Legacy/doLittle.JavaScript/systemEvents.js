@@ -1,7 +1,7 @@
-﻿doLittle.namespace("doLittle",{
-    systemEvents: doLittle.Singleton(function () {
-        this.readModels = doLittle.read.readModelSystemEvents.create();
-        this.commands = doLittle.commands.commandEvents.create();
+﻿Dolittle.namespace("Dolittle",{
+    systemEvents: Dolittle.Singleton(function () {
+        this.readModels = Dolittle.read.readModelSystemEvents.create();
+        this.commands = Dolittle.commands.commandEvents.create();
     })
 });
-doLittle.WellKnownTypesDependencyResolver.types.systemEvents = doLittle.systemEvents;
+Dolittle.WellKnownTypesDependencyResolver.types.systemEvents = Dolittle.systemEvents;

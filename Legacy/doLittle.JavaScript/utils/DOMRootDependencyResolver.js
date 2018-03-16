@@ -1,4 +1,4 @@
-﻿doLittle.dependencyResolvers.DOMRootDependencyResolver = {
+﻿Dolittle.dependencyResolvers.DOMRootDependencyResolver = {
     canResolve: function (namespace, name) {
         return name === "DOMRoot";
     },
@@ -8,15 +8,15 @@
             return document.body;
         }
 
-        var promise = doLittle.execution.Promise.create();
-        doLittle.dependencyResolvers.DOMRootDependencyResolver.promises.push(promise);
+        var promise = Dolittle.execution.Promise.create();
+        Dolittle.dependencyResolvers.DOMRootDependencyResolver.promises.push(promise);
         return promise;
     }
 };
 
-doLittle.dependencyResolvers.DOMRootDependencyResolver.promises = [];
-doLittle.dependencyResolvers.DOMRootDependencyResolver.documentIsReady = function () {
-    doLittle.dependencyResolvers.DOMRootDependencyResolver.promises.forEach(function (promise) {
+Dolittle.dependencyResolvers.DOMRootDependencyResolver.promises = [];
+Dolittle.dependencyResolvers.DOMRootDependencyResolver.documentIsReady = function () {
+    Dolittle.dependencyResolvers.DOMRootDependencyResolver.promises.forEach(function (promise) {
         promise.signal(document.body);
     });
 };

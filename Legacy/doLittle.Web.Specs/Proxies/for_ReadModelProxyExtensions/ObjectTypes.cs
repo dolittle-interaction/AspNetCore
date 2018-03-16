@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace doLittle.Web.Specs.Proxies.for_ReadModelProxyExtensions
+namespace Dolittle.Web.Specs.Proxies.for_ReadModelProxyExtensions
 {
     class ObjectWithString
     {

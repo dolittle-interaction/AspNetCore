@@ -1,17 +1,17 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System.Text;
 using System.Linq;
-using doLittle.CodeGeneration;
-using doLittle.CodeGeneration.JavaScript;
-using doLittle.Strings;
+using Dolittle.CodeGeneration;
+using Dolittle.CodeGeneration.JavaScript;
+using Dolittle.Strings;
 using System.Reflection;
-using doLittle.Types;
-using doLittle.Queries;
+using Dolittle.Types;
+using Dolittle.Queries;
 
-namespace doLittle.AspNetCore.Queries.Proxies
+namespace Dolittle.AspNetCore.Queries.Proxies
 {
     /// <summary>
     /// 
@@ -55,7 +55,7 @@ namespace doLittle.AspNetCore.Queries.Proxies
                     var queryForTypeName = type.GetTypeInfo().GetInterface(typeof(IQueryFor<>).Name).GetGenericArguments()[0].Name.ToCamelCase();
                     currentNamespace.Content.Assign(name)
                         .WithType(t =>
-                            t.WithSuper("doLittle.read.Query")
+                            t.WithSuper("Dolittle.read.Query")
                                 .Function
                                     .Body
                                         .Variant("self", v => v.WithThis())

@@ -1,19 +1,19 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Threading.Tasks;
-using doLittle.Configuration;
-using doLittle.DependencyInversion;
-using doLittle.Exceptions;
-using doLittle.Execution;
-using doLittle.Logging;
-using doLittle.Security;
-using doLittle.Services;
+using Dolittle.Configuration;
+using Dolittle.DependencyInversion;
+using Dolittle.Exceptions;
+using Dolittle.Execution;
+using Dolittle.Logging;
+using Dolittle.Security;
+using Dolittle.Services;
 using Microsoft.AspNetCore.Http;
 
-namespace doLittle.Web.Services
+namespace Dolittle.Web.Services
 {
     public class RestServiceRouteHttpHandler
     {

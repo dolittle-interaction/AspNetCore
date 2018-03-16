@@ -1,10 +1,10 @@
-﻿doLittle.namespace("doLittle.views", {
-    regionManager: doLittle.Singleton(function (documentService, regionDescriptorManager, messengerFactory, operationsFactory, tasksFactory) {
+﻿Dolittle.namespace("Dolittle.views", {
+    regionManager: Dolittle.Singleton(function (documentService, regionDescriptorManager, messengerFactory, operationsFactory, tasksFactory) {
         /// <summary>Represents a manager that knows how to deal with Regions on the page</summary>
         var self = this;
 
         function createRegionInstance() {
-            var instance = new doLittle.views.Region(messengerFactory, operationsFactory, tasksFactory);
+            var instance = new Dolittle.views.Region(messengerFactory, operationsFactory, tasksFactory);
             return instance;
         }
 
@@ -12,11 +12,11 @@
         function manageInheritance(element) {
             var parentRegion = documentService.getParentRegionFor(element);
             if (parentRegion) {
-                doLittle.views.Region.prototype = parentRegion;
+                Dolittle.views.Region.prototype = parentRegion;
             } else {
                 var topLevel = createRegionInstance();
                 regionDescriptorManager.describeTopLevel(topLevel);
-                doLittle.views.Region.prototype = topLevel;
+                Dolittle.views.Region.prototype = topLevel;
             }
             return parentRegion;
         }
@@ -56,7 +56,7 @@
             /// <param name="view" type="View">View to describe region for</param>
             /// <param name="region" type="Region">Region to describe for</param>
             /// <returns>A promise that can be continued for when the description is done</returns>
-            var promise = doLittle.execution.Promise.create();
+            var promise = Dolittle.execution.Promise.create();
             var element = view.element;
 
             regionDescriptorManager.describe(view, region).continueWith(function () {
@@ -67,12 +67,12 @@
 
         this.getCurrent = function () {
             /// <summary>Gets the current region</summary>
-            return doLittle.views.Region.current;
+            return Dolittle.views.Region.current;
         };
 
         this.evict = function (region) {
             /// <summary>Evict a region from the page</summary>
-            /// <param name="region" type="doLittle.views.Region">Region to evict</param>
+            /// <param name="region" type="Dolittle.views.Region">Region to evict</param>
 
             if (region.parentRegion) {
                 region.parentRegion.children.remove(region);
@@ -81,4 +81,4 @@
         };
     })
 });
-doLittle.WellKnownTypesDependencyResolver.types.regionManager = doLittle.views.regionManage;
+Dolittle.WellKnownTypesDependencyResolver.types.regionManager = Dolittle.views.regionManage;

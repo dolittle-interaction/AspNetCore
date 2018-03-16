@@ -1,8 +1,8 @@
-﻿doLittle.namespace("doLittle.values", {
-    valueConsumers: doLittle.Singleton(function () {
+﻿Dolittle.namespace("Dolittle.values", {
+    valueConsumers: Dolittle.Singleton(function () {
 
         this.getFor = function (instance, propertyName) {
-            var consumer = doLittle.values.DefaultValueConsumer.create({
+            var consumer = Dolittle.values.DefaultValueConsumer.create({
                 target: instance,
                 property: propertyName
             });
@@ -11,4 +11,4 @@
 
     })
 });
-doLittle.WellKnownTypesDependencyResolver.types.valueConsumers = doLittle.values.valueConsumers;
+Dolittle.WellKnownTypesDependencyResolver.types.valueConsumers = Dolittle.values.valueConsumers;

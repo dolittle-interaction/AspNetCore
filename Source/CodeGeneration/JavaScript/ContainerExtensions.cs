@@ -1,5 +1,5 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
@@ -7,12 +7,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using doLittle.Concepts;
-using doLittle.Collections;
-using doLittle.Reflection;
-using doLittle.Strings;
+using Dolittle.Concepts;
+using Dolittle.Collections;
+using Dolittle.Reflection;
+using Dolittle.Strings;
 
-namespace doLittle.CodeGeneration.JavaScript
+namespace Dolittle.CodeGeneration.JavaScript
 {
     /// <summary>
     /// Provides methods for working with <see cref="Container"/>

@@ -6,14 +6,14 @@ describe("when mapping to type with matching observable string property", functi
 	    maps: { hasMapFor: sinon.stub().returns(false) }
 	};
 
-	var type = doLittle.Type.extend(function () {
+	var type = Dolittle.Type.extend(function () {
 	    this.stringProperty = ko.observable("");
 	});
 
 	var mappedInstance = null;
 
 	(function becauseOf(){
-		var mapper = doLittle.mapping.mapper.create(parameters);
+		var mapper = Dolittle.mapping.mapper.create(parameters);
 		mappedInstance = mapper.map(type, data);
 	})();
 

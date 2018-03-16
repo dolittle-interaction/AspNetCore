@@ -1,5 +1,5 @@
-﻿doLittle.namespace("doLittle.tasks", {
-    FileLoadTask: doLittle.tasks.LoadTask.extend(function (files, fileManager) {
+﻿Dolittle.namespace("Dolittle.tasks", {
+    FileLoadTask: Dolittle.tasks.LoadTask.extend(function (files, fileManager) {
         /// <summary>Represents a task for loading view related files asynchronously</summary>
         this.files = files;
 
@@ -11,7 +11,7 @@
         });
 
         this.execute = function () {
-            var promise = doLittle.execution.Promise.create();
+            var promise = Dolittle.execution.Promise.create();
 
             fileManager.load(files).continueWith(function (instances) {
                 promise.signal(instances);

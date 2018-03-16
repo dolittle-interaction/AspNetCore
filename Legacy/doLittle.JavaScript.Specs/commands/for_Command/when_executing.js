@@ -52,7 +52,7 @@
         },
         mapper: {}
     }
-    command = doLittle.commands.Command.create(parameters);
+    command = Dolittle.commands.Command.create(parameters);
     command.execute();
     continueWithCallback("Result");
 

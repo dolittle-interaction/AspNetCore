@@ -1,5 +1,5 @@
 describe("when signalling with callback for continue with", function() {
-	var promise = doLittle.execution.Promise.create();
+	var promise = Dolittle.execution.Promise.create();
 	var continued = false;
 
 	promise.continueWith(function() {

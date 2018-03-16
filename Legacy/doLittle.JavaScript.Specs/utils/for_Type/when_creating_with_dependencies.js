@@ -10,7 +10,7 @@ describe("when creating with dependencies", function() {
 	var instance = null;
 
 	beforeEach(function() {
-		doLittle.dependencyResolver = {
+		Dolittle.dependencyResolver = {
 			getDependenciesFor: function() {
 				return ["something"];
 			},
@@ -19,7 +19,7 @@ describe("when creating with dependencies", function() {
 			}
 		};
 
-		type = doLittle.Type.extend(function(something) {
+		type = Dolittle.Type.extend(function(something) {
 			somethingDependency = something;
 		});		
 
@@ -27,7 +27,7 @@ describe("when creating with dependencies", function() {
 	});
 
 	afterEach(function() {
-		doLittle.functionParser = {};
+		Dolittle.functionParser = {};
 	});
 
 	it("should create with resolved dependencies", function() {

@@ -1,5 +1,5 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
@@ -9,12 +9,12 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using doLittle.Concepts;
-using doLittle.Strings;
-using doLittle.Logging;
-using doLittle.Serialization;
+using Dolittle.Concepts;
+using Dolittle.Strings;
+using Dolittle.Logging;
+using Dolittle.Serialization;
 
-namespace doLittle.Web.Services
+namespace Dolittle.Web.Services
 {
     public class RestServiceMethodInvoker : IRestServiceMethodInvoker
     {

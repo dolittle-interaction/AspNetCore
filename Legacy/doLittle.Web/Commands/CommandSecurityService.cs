@@ -1,14 +1,14 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System.Collections.Generic;
-using doLittle.Applications;
-using doLittle.Commands;
-using doLittle.Lifecycle;
-using doLittle.Security;
+using Dolittle.Applications;
+using Dolittle.Commands;
+using Dolittle.Lifecycle;
+using Dolittle.Security;
 
-namespace doLittle.Web.Commands
+namespace Dolittle.Web.Commands
 {
     public class CommandSecurityService
     {

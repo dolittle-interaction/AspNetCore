@@ -1,4 +1,4 @@
-﻿doLittle.dependencyResolvers.query = {
+﻿Dolittle.dependencyResolvers.query = {
     canResolve: function (namespace, name) {
         if (typeof read !== "undefined") {
             return name in read;

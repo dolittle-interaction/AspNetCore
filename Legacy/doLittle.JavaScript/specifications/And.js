@@ -1,5 +1,5 @@
-﻿doLittle.namespace("doLittle.specifications", {
-    And: doLittle.specifications.Specification.extend(function (leftHandSide, rightHandSide) {
+﻿Dolittle.namespace("Dolittle.specifications", {
+    And: Dolittle.specifications.Specification.extend(function (leftHandSide, rightHandSide) {
         /// <summary>Represents the "and" composite rule based on the specification pattern</summary>
 
         this.isSatisfied = ko.computed(function () {

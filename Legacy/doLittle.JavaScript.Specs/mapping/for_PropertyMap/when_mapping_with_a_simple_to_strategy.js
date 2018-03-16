@@ -1,5 +1,5 @@
 ﻿describe("when mapping with a simple to strategy", function () {
-    var propertyMap = doLittle.mapping.PropertyMap.create({
+    var propertyMap = Dolittle.mapping.PropertyMap.create({
         sourceProperty: "sourceProperty",
         typeConverters: {}
     });

@@ -1,7 +1,7 @@
 ﻿describe("when resolving a type that is registered", function () {
-    doLittle.WellKnownTypesDependencyResolver.types.something = "Hello";
+    Dolittle.WellKnownTypesDependencyResolver.types.something = "Hello";
 
-    var resolver = new doLittle.WellKnownTypesDependencyResolver();
+    var resolver = new Dolittle.WellKnownTypesDependencyResolver();
 
     var result = resolver.resolve(null, "something");
 

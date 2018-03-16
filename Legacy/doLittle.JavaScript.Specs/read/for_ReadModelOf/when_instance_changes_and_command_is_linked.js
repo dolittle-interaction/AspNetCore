@@ -1,5 +1,5 @@
 ﻿describe("when instance changes and command is linked", function () {
-    var readModelOf = doLittle.read.ReadModelOf.create({
+    var readModelOf = Dolittle.read.ReadModelOf.create({
         mapper: {},
         region: {},
         taskFactory: {},

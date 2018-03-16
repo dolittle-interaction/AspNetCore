@@ -1,5 +1,5 @@
 describe("when creating", function() {
-	var instance = doLittle.Import.create();
+	var instance = Dolittle.Import.create();
 	it("should return an instance", function() {
 		expect(instance).not.toBeUndefined();
 	});

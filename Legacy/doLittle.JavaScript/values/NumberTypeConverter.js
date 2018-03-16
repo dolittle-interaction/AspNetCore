@@ -1,5 +1,5 @@
-﻿doLittle.namespace("doLittle.values", {
-    NumberTypeConverter: doLittle.values.TypeConverter.extend(function () {
+﻿Dolittle.namespace("Dolittle.values", {
+    NumberTypeConverter: Dolittle.values.TypeConverter.extend(function () {
         var allowedCharacters = "0123456789.,";
 
         this.supportedType = Number;

@@ -1,5 +1,5 @@
-﻿doLittle.namespace("doLittle.read", {
-    ReadModel: doLittle.Type.extend(function () {
+﻿Dolittle.namespace("Dolittle.read", {
+    ReadModel: Dolittle.Type.extend(function () {
         var self = this;
         var actualReadModel = this;
 

@@ -1,5 +1,5 @@
-﻿doLittle.namespace("doLittle.values", {
-    dependencyProperty: doLittle.Type.extend(function (propertyName) {
+﻿Dolittle.namespace("Dolittle.values", {
+    dependencyProperty: Dolittle.Type.extend(function (propertyName) {
         this.initialize = function (UIElement) { };
         this.dispose = function (UIElement) {};
 
@@ -13,14 +13,14 @@
     })
 });
 
-doLittle.values.DependencyProperty.register = function (owningType, name, dependencyPropertyType) {
+Dolittle.values.DependencyProperty.register = function (owningType, name, dependencyPropertyType) {
 };
 
-doLittle.namespace("doLittle.DOM", {
-    inputValueDependencyProperty: doLittle.values.dependencyProperty.extend(function() {
+Dolittle.namespace("Dolittle.DOM", {
+    inputValueDependencyProperty: Dolittle.values.dependencyProperty.extend(function() {
 
         function inputChanged(e) {
-            if( doLittle.isFunction(e.target._changed) ) {
+            if( Dolittle.isFunction(e.target._changed) ) {
                 e.target._changed(e.value);
             }
         }
@@ -37,4 +37,4 @@ doLittle.namespace("doLittle.DOM", {
 });
 
 
-doLittle.values.DependencyProperty.register(HTMLInputElement, "value", doLittle.DOM.inputValueDependencyProperty);
+Dolittle.values.DependencyProperty.register(HTMLInputElement, "value", Dolittle.DOM.inputValueDependencyProperty);

@@ -1,4 +1,4 @@
-﻿doLittle.namespace("doLittle.io", {
+﻿Dolittle.namespace("Dolittle.io", {
     fileType: {
         unknown: 0,
         text: 1,

@@ -1,8 +1,8 @@
-﻿using doLittle.CodeGeneration.JavaScript;
+﻿using Dolittle.CodeGeneration.JavaScript;
 using Machine.Specifications;
 using System.Linq;
 
-namespace doLittle.Specs.CodeGeneration.JavaScript.for_Observable
+namespace Dolittle.Specs.CodeGeneration.JavaScript.for_Observable
 {
     public class when_adding_extension
     {

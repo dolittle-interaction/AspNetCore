@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.0.2" />
-    <PackageReference Include="doLittle.Runtime.Queries.Coordination" Version="2.0.0-alpha2*" />
-    <PackageReference Include="doLittle.DependencyInversion" Version="2.0.0-alpha2*" />    
+    <PackageReference Include="Dolittle.Runtime.Queries.Coordination" Version="2.0.0-alpha2*" />
+    <PackageReference Include="Dolittle.DependencyInversion" Version="2.0.0-alpha2*" />    
   </ItemGroup>  
 </Project>

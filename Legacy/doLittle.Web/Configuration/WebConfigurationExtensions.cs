@@ -1,12 +1,12 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
-using doLittle.Web.Configuration;
-using doLittle.Web.Pipeline;
+using Dolittle.Web.Configuration;
+using Dolittle.Web.Pipeline;
 
-namespace doLittle.Configuration
+namespace Dolittle.Configuration
 {
     public static class WebConfigurationExtensions
     {

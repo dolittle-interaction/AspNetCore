@@ -1,13 +1,13 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System.Linq;
-using doLittle.Configuration;
-using doLittle.Diagnostics;
-using doLittle.Read;
+using Dolittle.Configuration;
+using Dolittle.Diagnostics;
+using Dolittle.Read;
 
-namespace doLittle.Web.Visualizer.QualityAssurance
+namespace Dolittle.Web.Visualizer.QualityAssurance
 {
 
 

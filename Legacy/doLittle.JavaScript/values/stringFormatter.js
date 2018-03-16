@@ -1,6 +1,6 @@
-﻿doLittle.namespace("doLittle.values", {
-    stringFormatter: doLittle.Singleton(function () {
-        var formatterTypes = doLittle.values.Formatter.getExtenders();
+﻿Dolittle.namespace("Dolittle.values", {
+    stringFormatter: Dolittle.Singleton(function () {
+        var formatterTypes = Dolittle.values.Formatter.getExtenders();
         var formattersByType = {};
 
         formatterTypes.forEach(function (type) {
@@ -9,11 +9,11 @@
         });
 
         function getFormat(element) {
-            if (element.nodeType !== 1 || doLittle.isNullOrUndefined(element.attributes)) {
+            if (element.nodeType !== 1 || Dolittle.isNullOrUndefined(element.attributes)) {
                 return null;
             }
             var stringFormatAttribute = element.attributes.getNamedItem("data-stringformat");
-            if (!doLittle.isNullOrUndefined(stringFormatAttribute)) {
+            if (!Dolittle.isNullOrUndefined(stringFormatAttribute)) {
                 return stringFormatAttribute.value;
             }
 

@@ -1,6 +1,6 @@
 describe("when asking if can perform with multiple custom can operation when set", function() {
 
-	var operation = doLittle.interaction.Operation.create({
+	var operation = Dolittle.interaction.Operation.create({
 		region: {},
 		context: {}
 	});

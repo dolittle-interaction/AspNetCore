@@ -1,5 +1,5 @@
-﻿doLittle.namespace("doLittle.values", {
-    Formatter: doLittle.Type.extend(function () {
+﻿Dolittle.namespace("Dolittle.values", {
+    Formatter: Dolittle.Type.extend(function () {
         this.supportedType = null;
 
         this.format = function (value, format) {

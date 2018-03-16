@@ -1,1 +1,1 @@
-juicer merge doLittle.js -o doLittle.debug.js -s --force -m none
+juicer merge Dolittle.js -o Dolittle.debug.js -s --force -m none

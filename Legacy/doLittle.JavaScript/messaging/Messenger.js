@@ -1,5 +1,5 @@
-doLittle.namespace("doLittle.messaging", {
-    Messenger: doLittle.Type.extend(function () {
+Dolittle.namespace("Dolittle.messaging", {
+    Messenger: Dolittle.Type.extend(function () {
         var subscribers = [];
 
         this.publish = function (topic, message) {
@@ -29,5 +29,5 @@ doLittle.namespace("doLittle.messaging", {
         };
     })
 });
-doLittle.messaging.Messenger.global = doLittle.messaging.Messenger.create();
-doLittle.WellKnownTypesDependencyResolver.types.globalMessenger = doLittle.messaging.Messenger.global;
+Dolittle.messaging.Messenger.global = Dolittle.messaging.Messenger.create();
+Dolittle.WellKnownTypesDependencyResolver.types.globalMessenger = Dolittle.messaging.Messenger.global;

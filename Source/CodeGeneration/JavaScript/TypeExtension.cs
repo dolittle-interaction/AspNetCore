@@ -1,19 +1,19 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-namespace doLittle.CodeGeneration.JavaScript
+namespace Dolittle.CodeGeneration.JavaScript
 {
     /// <summary>
-    /// Represents a doLittle specific Type extension
+    /// Represents a Dolittle specific Type extension
     /// </summary>
     public class TypeExtension : Container
     {
         /// <summary>
         /// Initializes a new instance of <see cref="TypeExtension"/>
         /// </summary>
-        /// <param name="superType">Super type that is being extended, default is "doLittle.Type"</param>
-        public TypeExtension(string superType="doLittle.Type")
+        /// <param name="superType">Super type that is being extended, default is "Dolittle.Type"</param>
+        public TypeExtension(string superType="Dolittle.Type")
         {
             SuperType = superType;
             Function = new Function();

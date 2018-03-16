@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace doLittle.Web.Specs.Services.for_RestServiceMethodInvoker
+namespace Dolittle.Web.Specs.Services.for_RestServiceMethodInvoker
 {
 
 

@@ -1,17 +1,17 @@
 /*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System.Linq;
 using System.Text;
-using doLittle.CodeGeneration;
-using doLittle.CodeGeneration.JavaScript;
-using doLittle.Execution;
-using doLittle.Strings;
-using doLittle.ReadModels;
-using doLittle.Types;
+using Dolittle.CodeGeneration;
+using Dolittle.CodeGeneration.JavaScript;
+using Dolittle.Execution;
+using Dolittle.Strings;
+using Dolittle.ReadModels;
+using Dolittle.Types;
 
-namespace doLittle.AspNetCore.ReadModels.Proxies
+namespace Dolittle.AspNetCore.ReadModels.Proxies
 {
 
     /// <summary>

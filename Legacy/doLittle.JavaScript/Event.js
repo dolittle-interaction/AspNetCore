@@ -1,5 +1,5 @@
-﻿doLittle.namespace("doLittle",{
-    Event: doLittle.Type.extend(function () {
+﻿Dolittle.namespace("Dolittle",{
+    Event: Dolittle.Type.extend(function () {
         var subscribers = [];
 
         this.subscribe = function (subscriber) {

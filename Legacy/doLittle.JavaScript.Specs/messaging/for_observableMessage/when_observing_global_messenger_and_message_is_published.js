@@ -3,8 +3,8 @@
     var observable = null;
     beforeEach(function () {
         var observablesCallback;
-        doLittle.messaging = doLittle.messaging || {};
-        doLittle.messaging.Messenger = {
+        Dolittle.messaging = Dolittle.messaging || {};
+        Dolittle.messaging.Messenger = {
             global: {
                 publish: sinon.stub(),
                 subscribeTo: function (message, callback) {
@@ -22,6 +22,6 @@
     });
 
     it("should not call publish after it has changed the observable", function () {
-        expect(doLittle.messaging.Messenger.global.publish.called).toBe(false);
+        expect(Dolittle.messaging.Messenger.global.publish.called).toBe(false);
     });
 });

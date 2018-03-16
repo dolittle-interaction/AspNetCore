@@ -15,13 +15,13 @@
             }
         };
 
-        doLittle.validation.Rule = {
+        Dolittle.validation.Rule = {
             getExtenders: function () {
                 return [knownRule];
             }
         };
 
-        validator = doLittle.validation.Validator.create({ ruleName: "", options: {} });
+        validator = Dolittle.validation.Validator.create({ ruleName: "", options: {} });
         validator.setOptions(rules);
         validator.validate("something");
     });

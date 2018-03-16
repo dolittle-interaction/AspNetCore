@@ -1,6 +1,6 @@
 var globalId = 0;
-doLittle.namespace("doLittle.interaction.visualStateActions", {
-    Opacity: doLittle.interaction.VisualStateAction.extend(function (documentService) {
+Dolittle.namespace("Dolittle.interaction.visualStateActions", {
+    Opacity: Dolittle.interaction.VisualStateAction.extend(function (documentService) {
         var self = this;
         var element = null;
         var id = documentService.getUniqueStyleName("opacity");

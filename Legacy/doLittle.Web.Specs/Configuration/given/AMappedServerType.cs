@@ -1,4 +1,4 @@
-﻿namespace doLittle.Web.Specs.Configuration.given
+﻿namespace Dolittle.Web.Specs.Configuration.given
 {
     public class AMappedServerType
     {

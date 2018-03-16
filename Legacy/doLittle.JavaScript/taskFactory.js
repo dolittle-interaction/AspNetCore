@@ -1,7 +1,7 @@
-﻿doLittle.namespace("doLittle",{
-    taskFactory: doLittle.Singleton(function () {
+﻿Dolittle.namespace("Dolittle",{
+    taskFactory: Dolittle.Singleton(function () {
         this.createHttpPost = function (url, payload) {
-            var task = doLittle.tasks.HttpPostTask.create({
+            var task = Dolittle.tasks.HttpPostTask.create({
                 url: url,
                 payload: payload
             });
@@ -9,7 +9,7 @@
         };
 
         this.createHttpGet = function (url, payload) {
-            var task = doLittle.tasks.HttpGetTask.create({
+            var task = Dolittle.tasks.HttpGetTask.create({
                 url: url,
                 payload: payload
             });
@@ -17,7 +17,7 @@
         };
 
         this.createQuery = function (query, paging) {
-            var task = doLittle.read.QueryTask.create({
+            var task = Dolittle.read.QueryTask.create({
                 query: query,
                 paging: paging
             });
@@ -25,7 +25,7 @@
         };
 
         this.createReadModel = function (readModelOf, propertyFilters) {
-            var task = doLittle.read.ReadModelTask.create({
+            var task = Dolittle.read.ReadModelTask.create({
                 readModelOf: readModelOf,
                 propertyFilters: propertyFilters
             });
@@ -33,35 +33,35 @@
         };
 
         this.createHandleCommand = function (command) {
-            var task = doLittle.commands.HandleCommandTask.create({
+            var task = Dolittle.commands.HandleCommandTask.create({
                 command: command
             });
             return task;
         };
 
         this.createHandleCommands = function (commands) {
-            var task = doLittle.commands.HandleCommandsTask.create({
+            var task = Dolittle.commands.HandleCommandsTask.create({
                 commands: commands
             });
             return task;
         };
 
         this.createViewLoad = function (files) {
-            var task = doLittle.views.ViewLoadTask.create({
+            var task = Dolittle.views.ViewLoadTask.create({
                 files: files
             });
             return task;
         };
 
         this.createViewModelLoad = function (files) {
-            var task = doLittle.views.ViewModelLoadTask.create({
+            var task = Dolittle.views.ViewModelLoadTask.create({
                 files: files
             });
             return task;
         };
 
         this.createFileLoad = function (files) {
-            var task = doLittle.tasks.FileLoadTask.create({
+            var task = Dolittle.tasks.FileLoadTask.create({
                 files: files
             });
             return task;

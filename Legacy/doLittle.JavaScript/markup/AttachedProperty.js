@@ -1,5 +1,5 @@
-﻿doLittle.namespace("doLittle.markup", {
-    AttachedProperty: doLittle.values.ValueConsumer.extend(function () {
+﻿Dolittle.namespace("Dolittle.markup", {
+    AttachedProperty: Dolittle.values.ValueConsumer.extend(function () {
         this.canNotifyChanges = function () {
             return false;
         };

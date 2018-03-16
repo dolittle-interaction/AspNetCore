@@ -1,5 +1,5 @@
 describe("when resolving asynchronously and system is type", function () {
-    var type = doLittle.Type.extend(function (dependency) {
+    var type = Dolittle.Type.extend(function (dependency) {
         this.something = "Hello";
         this.dependency = dependency;
     });
@@ -13,22 +13,22 @@ describe("when resolving asynchronously and system is type", function () {
     var dependencyResolvers;
 
     beforeEach(function () {
-        configure = doLittle.configure;
-        doLittle.configure = {
+        configure = Dolittle.configure;
+        Dolittle.configure = {
             ready: function (callback) {
                 readyCallback = callback;
             }
         };
 
-        dependencyResolvers = doLittle.dependencyResolvers;
-        doLittle.dependencyResolvers = {
+        dependencyResolvers = Dolittle.dependencyResolvers;
+        Dolittle.dependencyResolvers = {
             getAll: function () {
                 return [{
                     canResolve: function (namespace, name) {
                         return true;
                     },
                     resolve: function (namespace, name) {
-                        var promise = doLittle.execution.Promise.create();
+                        var promise = Dolittle.execution.Promise.create();
                         var system = type;
                         if (name === "dependency") {
                             system = name;
@@ -40,7 +40,7 @@ describe("when resolving asynchronously and system is type", function () {
             }
         };
         
-        doLittle.dependencyResolver
+        Dolittle.dependencyResolver
 				.beginResolve(ns, "something")
 				.continueWith(function (param, next) {
 				    result = param;
@@ -50,8 +50,8 @@ describe("when resolving asynchronously and system is type", function () {
     });
 
     afterEach(function () {
-        doLittle.dependencyResolvers = dependencyResolvers;
-        doLittle.configure = configure;
+        Dolittle.dependencyResolvers = dependencyResolvers;
+        Dolittle.configure = configure;
     });
 
 

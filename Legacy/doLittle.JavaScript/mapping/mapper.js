@@ -1,20 +1,20 @@
-doLittle.namespace("doLittle.mapping", {
-    mapper: doLittle.Type.extend(function (typeConverters, maps) {
+Dolittle.namespace("Dolittle.mapping", {
+    mapper: Dolittle.Type.extend(function (typeConverters, maps) {
         "use strict";
         var self = this;
 
         function getTypeAsString(to, property, value, toValue) {
             var typeAsString = null;
-            if (!doLittle.isNullOrUndefined(value) &&
-                !doLittle.isNullOrUndefined(toValue)) {
+            if (!Dolittle.isNullOrUndefined(value) &&
+                !Dolittle.isNullOrUndefined(toValue)) {
 
                 if (value.constructor !== toValue.constructor) {
                     typeAsString = toValue.constructor.toString().match(/function\040+(\w*)/)[1];
                 }
             }
 
-            if (!doLittle.isNullOrUndefined(to[property]) &&
-                !doLittle.isNullOrUndefined(to[property]._typeAsString)) {
+            if (!Dolittle.isNullOrUndefined(to[property]) &&
+                !Dolittle.isNullOrUndefined(to[property]._typeAsString)) {
                 typeAsString = to[property]._typeAsString;
             }
             return typeAsString;
@@ -28,12 +28,12 @@ doLittle.namespace("doLittle.mapping", {
                     continue;
                 }
 
-                if (!doLittle.isUndefined(from[property])) {
+                if (!Dolittle.isUndefined(from[property])) {
                     
-                    if (doLittle.isObject(from[property]) && doLittle.isObject(to[property])) {
+                    if (Dolittle.isObject(from[property]) && Dolittle.isObject(to[property])) {
                         copyProperties(mappedProperties, from[property], to[property]);
                     } else {
-                        if (!doLittle.isNullOrUndefined(map)) {
+                        if (!Dolittle.isNullOrUndefined(map)) {
                             if (map.canMapProperty(property)) {
                                 map.mapProperty(property, from, to);
 
@@ -45,13 +45,13 @@ doLittle.namespace("doLittle.mapping", {
                             }
                         }
 
-                        if (!doLittle.isUndefined(to[property])) {
+                        if (!Dolittle.isUndefined(to[property])) {
                             var value = ko.unwrap(from[property]);
                             var toValue = ko.unwrap(to[property]);
 
                             var typeAsString = getTypeAsString(to, property, value, toValue);
 
-                            if (!doLittle.isNullOrUndefined(typeAsString) && !doLittle.isNullOrUndefined(value)) {
+                            if (!Dolittle.isNullOrUndefined(typeAsString) && !Dolittle.isNullOrUndefined(value)) {
                                 value = typeConverters.convertFrom(value.toString(), typeAsString);
                             }
 
@@ -77,7 +77,7 @@ doLittle.namespace("doLittle.mapping", {
 
         function mapSingleInstance(type, data, mappedProperties) {
             if (data) {
-                if (!doLittle.isNullOrUndefined(data._sourceType)) {
+                if (!Dolittle.isNullOrUndefined(data._sourceType)) {
                     type = eval(data._sourceType);
                 }
             }
@@ -106,7 +106,7 @@ doLittle.namespace("doLittle.mapping", {
 
         this.map = function (type, data) {
             var mappedProperties = [];
-            if (doLittle.isArray(data)) {
+            if (Dolittle.isArray(data)) {
                 return mapMultipleInstances(type, data, mappedProperties);
             } else {
                 return mapSingleInstance(type, data, mappedProperties);
@@ -126,4 +126,4 @@ doLittle.namespace("doLittle.mapping", {
         };
     })
 });
-doLittle.WellKnownTypesDependencyResolver.types.mapper = doLittle.mapping.mapper;
+Dolittle.WellKnownTypesDependencyResolver.types.mapper = Dolittle.mapping.mapper;

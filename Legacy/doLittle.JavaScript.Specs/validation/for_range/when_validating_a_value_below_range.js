@@ -1,5 +1,5 @@
 ﻿describe("when validating a value below range", function () {
-    var validator = doLittle.validation.range.create({ options: { min: 5, max: 10 } });
+    var validator = Dolittle.validation.range.create({ options: { min: 5, max: 10 } });
     var result = validator.validate("4");
 
     it("should not be valid", function () {

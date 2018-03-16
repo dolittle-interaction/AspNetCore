@@ -28,7 +28,7 @@
         },
         mapper: {}
     }
-    var command = doLittle.commands.Command.create(parameters);
+    var command = Dolittle.commands.Command.create(parameters);
 
     it("should add the integer property as an observable", function () {
         expect(ko.isObservable(command.integer)).toBe(true);

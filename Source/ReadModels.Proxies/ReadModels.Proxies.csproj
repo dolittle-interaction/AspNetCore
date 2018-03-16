@@ -11,8 +11,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.0.2" />
-    <PackageReference Include="doLittle.Types" Version="2.0.0-alpha2*" />
-    <PackageReference Include="doLittle.Runtime.ReadModels" Version="2.0.0-alpha2*" />
+    <PackageReference Include="Dolittle.Types" Version="2.0.0-alpha2*" />
+    <PackageReference Include="Dolittle.Runtime.ReadModels" Version="2.0.0-alpha2*" />
   </ItemGroup>
 
 </Project>

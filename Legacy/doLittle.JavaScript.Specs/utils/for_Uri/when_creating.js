@@ -1,6 +1,6 @@
 describe("when creating", function() {
-	var firstInstance = doLittle.Uri.create("http://www.vg.no");
-	var secondInstance = doLittle.Uri.create("http://www.vg.no");
+	var firstInstance = Dolittle.Uri.create("http://www.vg.no");
+	var secondInstance = Dolittle.Uri.create("http://www.vg.no");
 	
 	it("should return an instance", function() {
 		expect(firstInstance).not.toBeUndefined();

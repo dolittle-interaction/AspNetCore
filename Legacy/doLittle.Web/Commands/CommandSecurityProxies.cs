@@ -1,5 +1,5 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
@@ -8,18 +8,18 @@ using System.Dynamic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using doLittle.Applications;
-using doLittle.CodeGeneration;
-using doLittle.CodeGeneration.JavaScript;
-using doLittle.Commands;
-using doLittle.Execution;
-using doLittle.Lifecycle;
-using doLittle.Strings;
-using doLittle.Types;
-using doLittle.Web.Configuration;
-using doLittle.Web.Proxies;
+using Dolittle.Applications;
+using Dolittle.CodeGeneration;
+using Dolittle.CodeGeneration.JavaScript;
+using Dolittle.Commands;
+using Dolittle.Execution;
+using Dolittle.Lifecycle;
+using Dolittle.Strings;
+using Dolittle.Types;
+using Dolittle.Web.Configuration;
+using Dolittle.Web.Proxies;
 
-namespace doLittle.Web.Commands
+namespace Dolittle.Web.Commands
 {
     public class CommandSecurityProxies : IProxyGenerator
     {
@@ -76,7 +76,7 @@ namespace doLittle.Web.Commands
                     var name = $"{type.Name.ToCamelCase()}SecurityContext";
                     currentNamespace.Content.Assign(name)
                         .WithType(t => t
-                            .WithSuper("doLittle.commands.CommandSecurityContext")
+                            .WithSuper("Dolittle.commands.CommandSecurityContext")
                             .Function
                             .Body
                             .Variant("self", v => v.WithThis())

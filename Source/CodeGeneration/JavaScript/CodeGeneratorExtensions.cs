@@ -1,10 +1,10 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 doLittle. All rights reserved.
+ *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
 
-namespace doLittle.CodeGeneration.JavaScript
+namespace Dolittle.CodeGeneration.JavaScript
 {
     /// <summary>
     /// Provides methods for working with the <see cref="ICodeGenerator"/>
@@ -12,12 +12,12 @@ namespace doLittle.CodeGeneration.JavaScript
     public static class CodeGeneratorExtensions
     {
         /// <summary>
-        /// Start a doLittle namespace
+        /// Start a Dolittle namespace
         /// </summary>
         /// <param name="generator"><see cref="ICodeGenerator"/> to create from</param>
         /// <param name="name">Name of namespace</param>
         /// <param name="callback"><see cref="Action{ObjectLiteral}"/> that gets called to build the object literal for the namespace</param>
-        /// <returns><see cref="doLittle.CodeGeneration.JavaScript.Namespace"/> that is built</returns>
+        /// <returns><see cref="Dolittle.CodeGeneration.JavaScript.Namespace"/> that is built</returns>
         public static Namespace Namespace(this ICodeGenerator generator, string name, Action<ObjectLiteral> callback)
         {
             var ns = generator.Namespace(name);
@@ -26,11 +26,11 @@ namespace doLittle.CodeGeneration.JavaScript
         }
 
         /// <summary>
-        /// Start a doLittle namespace
+        /// Start a Dolittle namespace
         /// </summary>
         /// <param name="generator"><see cref="ICodeGenerator"/> to create from</param>
         /// <param name="name">Name of namespace</param>
-        /// <returns><see cref="doLittle.CodeGeneration.JavaScript.Namespace"/> that is built</returns>
+        /// <returns><see cref="Dolittle.CodeGeneration.JavaScript.Namespace"/> that is built</returns>
         public static Namespace Namespace(this ICodeGenerator generator, string name)
         {
             var ns = new Namespace(name);

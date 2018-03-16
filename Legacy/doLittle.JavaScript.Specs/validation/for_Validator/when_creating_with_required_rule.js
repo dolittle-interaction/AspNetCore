@@ -8,13 +8,13 @@
             _name: "required",
             create: sinon.stub()
         };
-        doLittle.validation.Rule = {
+        Dolittle.validation.Rule = {
             getExtenders: function () {
                 return [required];
             }
         }
 
-        validator = doLittle.validation.Validator.create({
+        validator = Dolittle.validation.Validator.create({
             required: options
         });
     });

@@ -1,10 +1,10 @@
-﻿doLittle.namespace("doLittle.views", {
-    ViewBindingHandlerTemplateEngine: doLittle.Type.extend(function (viewModelManager, regionManager, UIManager) {
+﻿Dolittle.namespace("Dolittle.views", {
+    ViewBindingHandlerTemplateEngine: Dolittle.Type.extend(function (viewModelManager, regionManager, UIManager) {
         var self = this;
         this.renderTemplate = function (template, bindingContext, options) {
             var templateSource;
-            if (doLittle.isNullOrUndefined(options.element.templateSource)) {
-                templateSource = doLittle.views.ViewBindingHandlerTemplateSource.create({
+            if (Dolittle.isNullOrUndefined(options.element.templateSource)) {
+                templateSource = Dolittle.views.ViewBindingHandlerTemplateSource.create({
                     viewUri: options.viewUri,
                     region: options.region
                 });
@@ -13,7 +13,7 @@
                 templateSource = options.element.templateSource;
             }
 
-            if (doLittle.isNullOrUndefined(options.element.view)) {
+            if (Dolittle.isNullOrUndefined(options.element.view)) {
                 templateSource.loadFor(options.element, options.view, options.region).continueWith(function (view) {
                     options.element.view = view;
                     regionManager.describe(options.view, options.region).continueWith(function () {
@@ -24,7 +24,7 @@
 
                             var instance;
 
-                            if (!doLittle.isNullOrUndefined(view.viewModelType)) {
+                            if (!Dolittle.isNullOrUndefined(view.viewModelType)) {
                                 var viewModelParameters = options.viewModelParameters;
                                 viewModelParameters.region = options.region;
 
@@ -62,9 +62,9 @@
 
 (function () {
     var nativeTemplateEngine = new ko.nativeTemplateEngine();
-    var baseCreate = doLittle.views.ViewBindingHandlerTemplateEngine.create;
-    doLittle.views.ViewBindingHandlerTemplateEngine.create = function () {
-        var instance = baseCreate.call(doLittle.views.ViewBindingHandlerTemplateEngine, arguments);
+    var baseCreate = Dolittle.views.ViewBindingHandlerTemplateEngine.create;
+    Dolittle.views.ViewBindingHandlerTemplateEngine.create = function () {
+        var instance = baseCreate.call(Dolittle.views.ViewBindingHandlerTemplateEngine, arguments);
 
         for (var property in nativeTemplateEngine) {
             if (!instance.hasOwnProperty(property)) {

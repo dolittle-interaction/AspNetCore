@@ -5,17 +5,17 @@
     var anExtensionOfTheSecondExtendedType = null;
 
     beforeEach(function () {
-        doLittle.dependencyResolver = {
+        Dolittle.dependencyResolver = {
             getDependenciesFor: sinon.stub()
         };
-        initialType = doLittle.Type.extend(initialType);
+        initialType = Dolittle.Type.extend(initialType);
         extendedType = initialType.extend(function (foo){});
         aSecondExtendedType = initialType.extend(function (bar) { });
         anExtensionOfTheSecondExtendedType = aSecondExtendedType.extend(function (func){});
     });
 
     afterEach(function () {
-        doLittle.functionParser = {};
+        Dolittle.functionParser = {};
     });
 
     it("should return these types from the types that extend inital type", function () {
@@ -26,8 +26,8 @@
         expect(extenders.length).toEqual(3);
     });
     
-    it("should return these types from the types that extend doLittle type", function () {
-        var extenders = doLittle.Type.getExtenders();
+    it("should return these types from the types that extend Dolittle type", function () {
+        var extenders = Dolittle.Type.getExtenders();
         expect(extenders).toContain(extendedType);
         expect(extenders).toContain(aSecondExtendedType);
         expect(extenders).toContain(anExtensionOfTheSecondExtendedType);

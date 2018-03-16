@@ -7,12 +7,12 @@
         getExtendersIn = function (namespace) { return [Test.extender]; };
 
     beforeEach(function () {
-        doLittle.namespace("Test", { extender: doLittle.Type.extend(function () { }) });
+        Dolittle.namespace("Test", { extender: Dolittle.Type.extend(function () { }) });
         namespace = Test.extender._namespace;
 
-        doLittle.commands.Command = { getExtendersIn: getExtendersIn };
+        Dolittle.commands.Command = { getExtendersIn: getExtendersIn };
 
-        resolver = new doLittle.KnownArtifactTypesDependencyResolver();
+        resolver = new Dolittle.KnownArtifactTypesDependencyResolver();
         propertyToResolve = "commandTypes";
         namespace = {};
         

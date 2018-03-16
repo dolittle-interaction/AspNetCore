@@ -1,5 +1,5 @@
 ﻿describe("when included", function () {
-    it("should have doLittle namespace defined", function () {
-        expect(doLittle).toBeDefined();
+    it("should have Dolittle namespace defined", function () {
+        expect(Dolittle).toBeDefined();
     });
 });

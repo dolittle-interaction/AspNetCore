@@ -10,19 +10,19 @@
     var converted = null;
     beforeEach(function () {
        
-        typeConverterBefore = doLittle.values.TypeConverter;
-        doLittle.values.TypeConverter = {
+        typeConverterBefore = Dolittle.values.TypeConverter;
+        Dolittle.values.TypeConverter = {
             getExtenders: function () {
                 return [typeConverterType]
             }
         };
 
-        var typeConverters = doLittle.values.typeConverters.createWithoutScope();
+        var typeConverters = Dolittle.values.typeConverters.createWithoutScope();
         converted = typeConverters.convertTo(42);
     });
 
     afterEach(function () {
-        doLittle.views.TypeConverter = typeConverterBefore;
+        Dolittle.views.TypeConverter = typeConverterBefore;
     });
 
     it("should return the converted value from the converter", function () {

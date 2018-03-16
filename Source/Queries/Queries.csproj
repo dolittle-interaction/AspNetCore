@@ -7,9 +7,9 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.0.2" />
-    <PackageReference Include="doLittle.Dynamic" Version="2.0.0-alpha2*" />
-    <PackageReference Include="doLittle.Strings" Version="2.0.0-alpha2*" />
-    <PackageReference Include="doLittle.Serialization.Json" Version="2.0.0-alpha2*" />
-    <PackageReference Include="doLittle.Runtime.Queries.Coordination" Version="2.0.0-alpha2*" />    
+    <PackageReference Include="Dolittle.Dynamic" Version="2.0.0-alpha2*" />
+    <PackageReference Include="Dolittle.Strings" Version="2.0.0-alpha2*" />
+    <PackageReference Include="Dolittle.Serialization.Json" Version="2.0.0-alpha2*" />
+    <PackageReference Include="Dolittle.Runtime.Queries.Coordination" Version="2.0.0-alpha2*" />    
   </ItemGroup>  
 </Project>

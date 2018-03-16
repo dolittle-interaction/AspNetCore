@@ -1,4 +1,4 @@
-doLittle.namespace("doLittle", {
+Dolittle.namespace("Dolittle", {
     Guid : {
         create: function() {
             function S4() {

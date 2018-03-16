@@ -4,7 +4,7 @@
         someAction: 42
     };
 
-    var trigger = doLittle.interaction.Trigger.create();
+    var trigger = Dolittle.interaction.Trigger.create();
     trigger.addAction(action);
 
     it("should have one action", function () {

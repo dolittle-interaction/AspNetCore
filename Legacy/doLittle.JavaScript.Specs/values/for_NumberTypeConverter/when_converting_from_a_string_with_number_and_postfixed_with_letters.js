@@ -1,6 +1,6 @@
 ﻿describe("when converting from a string with number and postfixed with letters", function () {
 
-    var converter = doLittle.values.NumberTypeConverter.create();
+    var converter = Dolittle.values.NumberTypeConverter.create();
 
     var result = converter.convertFrom("42something");
 

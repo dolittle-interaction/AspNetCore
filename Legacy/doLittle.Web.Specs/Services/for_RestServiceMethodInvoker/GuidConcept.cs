@@ -1,7 +1,7 @@
 ﻿using System;
-using doLittle.Concepts;
+using Dolittle.Concepts;
 
-namespace doLittle.Web.Specs.Services.for_RestServiceMethodInvoker
+namespace Dolittle.Web.Specs.Services.for_RestServiceMethodInvoker
 {
     public class GuidConcept : ConceptAs<Guid>
     {

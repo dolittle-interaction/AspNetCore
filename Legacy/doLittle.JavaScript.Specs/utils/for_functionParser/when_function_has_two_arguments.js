@@ -1,7 +1,7 @@
 describe("when function has two arguments", function() {
 	var func = function(first, second) {};
 
-	var result = doLittle.functionParser.parse(func);
+	var result = Dolittle.functionParser.parse(func);
 		
 	it("should return array with one argument", function() {
 		expect(result.length).toBe(2);

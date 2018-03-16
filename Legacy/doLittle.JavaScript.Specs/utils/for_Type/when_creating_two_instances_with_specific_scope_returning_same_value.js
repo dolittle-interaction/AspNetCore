@@ -3,11 +3,11 @@
     var firstInstance = null;
     var secondInstance = null;
     beforeEach(function () {
-        doLittle.dependencyResolver = {
+        Dolittle.dependencyResolver = {
             getDependenciesFor: sinon.stub()
         };
 
-        type = doLittle.Type.extend(function () {
+        type = Dolittle.Type.extend(function () {
         }).scopeTo({
             getFor: function () {
                 return "Something";
@@ -18,7 +18,7 @@
     });
 
     afterEach(function () {
-        doLittle.dependencyResolver = {};
+        Dolittle.dependencyResolver = {};
     });
 
     it("should return same instances", function () {

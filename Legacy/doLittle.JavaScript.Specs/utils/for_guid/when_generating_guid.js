@@ -1,5 +1,5 @@
 ﻿describe("when generating guid", function () {
-    var result = doLittle.Guid.create();
+    var result = Dolittle.Guid.create();
 
     it("should return something", function () {
         expect(result).toBeDefined();

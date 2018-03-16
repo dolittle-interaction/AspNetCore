@@ -1,6 +1,6 @@
 describe("when getting state by name and it exists", function() {
 
-	var group = doLittle.interaction.VisualStateGroup.create({dispatcher: {}});
+	var group = Dolittle.interaction.VisualStateGroup.create({dispatcher: {}});
 	var firstState = {
 		name: "Something else"
 	};

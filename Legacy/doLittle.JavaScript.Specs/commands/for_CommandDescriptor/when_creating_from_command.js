@@ -2,18 +2,18 @@
     var command = {
         _name: "DoSomething",
         _generatedFrom: "Somewhere",
-        id: doLittle.Guid.create(),
+        id: Dolittle.Guid.create(),
         parameters: {},
         someFunction: function () { },
         someObservable: ko.observable(1)
     };
     var commandDescriptor = null;
 
-    var oldCommand = doLittle.commands.Command;
+    var oldCommand = Dolittle.commands.Command;
 
     beforeEach(function () {
 
-        doLittle.commands.Command = {
+        Dolittle.commands.Command = {
             create: function () {
                 return {
                     _name: "",
@@ -22,12 +22,12 @@
             }
         };
 
-        commandDescriptor = doLittle.commands.CommandDescriptor.createFrom(command);
+        commandDescriptor = Dolittle.commands.CommandDescriptor.createFrom(command);
 
     });
 
     afterEach(function () {
-        doLittle.commands.Command = oldCommand;
+        Dolittle.commands.Command = oldCommand;
     });
 
     it("should return an instance", function () {

@@ -1,8 +1,8 @@
-doLittle.namespace("doLittle.values", {
-    typeConverters: doLittle.Singleton(function () {
+Dolittle.namespace("Dolittle.values", {
+    typeConverters: Dolittle.Singleton(function () {
         var convertersByType = {};
 
-        var typeConverterTypes = doLittle.values.TypeConverter.getExtenders();
+        var typeConverterTypes = Dolittle.values.TypeConverter.getExtenders();
         typeConverterTypes.forEach(function (type) {
             var converter = type.create();
             convertersByType[converter.supportedType] = converter;
@@ -10,7 +10,7 @@ doLittle.namespace("doLittle.values", {
 
         this.convertFrom = function (value, type) {
             var actualType = null;
-            if (doLittle.isString(type)) {
+            if (Dolittle.isString(type)) {
                 actualType = eval(type);
             } else {
                 actualType = type;
@@ -23,7 +23,7 @@ doLittle.namespace("doLittle.values", {
         };
 
         this.convertTo = function (value) {
-            if (doLittle.isNullOrUndefined(value)) {
+            if (Dolittle.isNullOrUndefined(value)) {
                 return value;
             }
             for (var converter in convertersByType) {
@@ -37,4 +37,4 @@ doLittle.namespace("doLittle.values", {
         };
     })
 });
-doLittle.WellKnownTypesDependencyResolver.types.typeConverters = doLittle.values.typeConverters;
+Dolittle.WellKnownTypesDependencyResolver.types.typeConverters = Dolittle.values.typeConverters;

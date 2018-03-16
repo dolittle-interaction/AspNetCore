@@ -46,7 +46,7 @@ describe("when hooking up with three anchor tags were two have navigation attrib
 				}
 			}
 		});
-		doLittle.navigation.navigationManager.hookup(root[0]);
+		Dolittle.navigation.navigationManager.hookup(root[0]);
 	});
 	
 	

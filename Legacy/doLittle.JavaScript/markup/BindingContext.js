@@ -1,8 +1,8 @@
-﻿doLittle.namespace("doLittle.markup", {
-    BindingContext: doLittle.Type.extend(function () {
+﻿Dolittle.namespace("Dolittle.markup", {
+    BindingContext: Dolittle.Type.extend(function () {
         this.parent = null;
         this.current = null;
 
-        this.changed = doLittle.Event.create();
+        this.changed = Dolittle.Event.create();
     })
 });

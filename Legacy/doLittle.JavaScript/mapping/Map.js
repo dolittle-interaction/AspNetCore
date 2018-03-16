@@ -1,5 +1,5 @@
-﻿doLittle.namespace("doLittle.mapping", {
-    Map: doLittle.Type.extend(function () {
+﻿Dolittle.namespace("Dolittle.mapping", {
+    Map: Dolittle.Type.extend(function () {
         var self = this;
 
         var properties = {};
@@ -16,7 +16,7 @@
         };
 
         this.property = function (property) {
-            var propertyMap = doLittle.mapping.PropertyMap.create({ sourceProperty: property });
+            var propertyMap = Dolittle.mapping.PropertyMap.create({ sourceProperty: property });
             properties[property] = propertyMap;
             return propertyMap;
         };

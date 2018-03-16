@@ -4,18 +4,18 @@
     var result = null;
 
     beforeEach(function () {
-        mapType = doLittle.mapping.Map;
-        doLittle.mapping.Map = doLittle.Type.extend(function () { });
+        mapType = Dolittle.mapping.Map;
+        Dolittle.mapping.Map = Dolittle.Type.extend(function () { });
 
-        var maps = doLittle.mapping.maps.createWithoutScope();
-        var sourceType = doLittle.Type.extend(function () { });
-        var targetType = doLittle.Type.extend(function () { });
+        var maps = Dolittle.mapping.maps.createWithoutScope();
+        var sourceType = Dolittle.Type.extend(function () { });
+        var targetType = Dolittle.Type.extend(function () { });
 
         result = maps.hasMapFor(sourceType, targetType);
     });
 
     afterEach(function () {
-        doLittle.mapping.Map = mapType;
+        Dolittle.mapping.Map = mapType;
     });
 
     it("should not have map", function () {

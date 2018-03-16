@@ -1,23 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard1.6</TargetFrameworks>
-    <AssemblyName>doLittle.Web</AssemblyName>
-    <PackageId>doLittle.Web</PackageId>
+    <AssemblyName>Dolittle.Web</AssemblyName>
+    <PackageId>Dolittle.Web</PackageId>
   </PropertyGroup>
 
   <PropertyGroup>
     <Version>1.0.0</Version>
-    <Description>doLittle is a platform designed to build Line of Business applications without sacrificing architectural quality, code quality or scalability.</Description>
+    <Description>Dolittle is a platform designed to build Line of Business applications without sacrificing architectural quality, code quality or scalability.</Description>
     <Copyright>Copyright 2008 - 2017 Dolittle</Copyright>
     <Authors>all contributors</Authors>
     <TargetFrameworks>netstandard1.6</TargetFrameworks>
     <DebugType>portable</DebugType>
     <PackageTags>MVVM;SOLID;CQRS;LOB</PackageTags>
-    <PackageReleaseNotes>https://github.com/doLittle/DotNET.Core/blob/master/CHANGELOG.md</PackageReleaseNotes>
-    <PackageIconUrl>https://github.com/doLittle/DotNET.Core/raw/master/Media/Logo/logo_128x128.png</PackageIconUrl>
-    <PackageLicenseUrl>https://github.com/doLittle/DotNET.Core/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageReleaseNotes>https://github.com/Dolittle/DotNET.Core/blob/master/CHANGELOG.md</PackageReleaseNotes>
+    <PackageIconUrl>https://github.com/Dolittle/DotNET.Core/raw/master/Media/Logo/logo_128x128.png</PackageIconUrl>
+    <PackageLicenseUrl>https://github.com/Dolittle/DotNET.Core/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/doLittle/DotNET.Core</RepositoryUrl>
+    <RepositoryUrl>https://github.com/Dolittle/DotNET.Core</RepositoryUrl>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
 
@@ -28,7 +28,7 @@
 
   <Target Name="CopyJavaScript" BeforeTargets="Build">
     <Copy
-        SourceFiles="../doLittle.JavaScript/doLittle.debug.js"
+        SourceFiles="../Dolittle.JavaScript/Dolittle.debug.js"
         DestinationFolder="./Scripts"
         />
   </Target>
@@ -61,9 +61,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\doLittle\doLittle.csproj" />
-    <ProjectReference Include="..\doLittle.JavaScript\doLittle.JavaScript.csproj" />
-    <ProjectReference Include="..\doLittle.JSON\doLittle.JSON.csproj" />
+    <ProjectReference Include="..\Dolittle\Dolittle.csproj" />
+    <ProjectReference Include="..\Dolittle.JavaScript\Dolittle.JavaScript.csproj" />
+    <ProjectReference Include="..\Dolittle.JSON\Dolittle.JSON.csproj" />
   </ItemGroup>
   
   <ItemGroup>
@@ -74,10 +74,10 @@
 
     <PackageReference Include="System.Collections.Specialized" Version="4.3.0" />
     <PackageReference Include="System.Linq.Queryable" Version="4.3.0" />
-    <PackageReference Include="doLittle.Assemblies" Version="2.0.0-*"/>
-    <PackageReference Include="doLittle.DependencyInversion" Version="2.0.0-*"/>
-    <PackageReference Include="doLittle.Execution" Version="2.0.0-*"/>
-    <PackageReference Include="doLittle.Types" Version="2.0.0-*"/>
+    <PackageReference Include="Dolittle.Assemblies" Version="2.0.0-*"/>
+    <PackageReference Include="Dolittle.DependencyInversion" Version="2.0.0-*"/>
+    <PackageReference Include="Dolittle.Execution" Version="2.0.0-*"/>
+    <PackageReference Include="Dolittle.Types" Version="2.0.0-*"/>
     
   </ItemGroup>
 </Project>

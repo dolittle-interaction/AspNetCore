@@ -11,19 +11,19 @@
     var input = "42";
     beforeEach(function () {
        
-        typeConverterBefore = doLittle.values.TypeConverter;
-        doLittle.values.TypeConverter = {
+        typeConverterBefore = Dolittle.values.TypeConverter;
+        Dolittle.values.TypeConverter = {
             getExtenders: function () {
                 return [typeConverterType]
             }
         };
 
-        var typeConverters = doLittle.values.typeConverters.createWithoutScope();
+        var typeConverters = Dolittle.values.typeConverters.createWithoutScope();
         converted = typeConverters.convertTo(input, Number);
     });
 
     afterEach(function () {
-        doLittle.views.TypeConverter = typeConverterBefore;
+        Dolittle.views.TypeConverter = typeConverterBefore;
     });
 
     it("should return the same value as input", function () {

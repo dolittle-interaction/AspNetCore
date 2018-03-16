@@ -1,5 +1,5 @@
-﻿doLittle.namespace("doLittle.interaction", {
-    Action: doLittle.Type.extend(function () {
+﻿Dolittle.namespace("Dolittle.interaction", {
+    Action: Dolittle.Type.extend(function () {
         this.perform = function () {
         };
     })

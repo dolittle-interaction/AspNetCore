@@ -136,7 +136,7 @@
     "xmp"
 ];
 HTMLElement.prototype.isKnownType = function () {
-    if (!doLittle.isNullOrUndefined("HTMLUnknownElement")) {
+    if (!Dolittle.isNullOrUndefined("HTMLUnknownElement")) {
         if (this.constructor.toString().indexOf("HTMLUnknownElement") < 0) {
             return true;
         }

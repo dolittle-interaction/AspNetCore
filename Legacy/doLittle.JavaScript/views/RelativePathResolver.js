@@ -1,5 +1,5 @@
-﻿doLittle.namespace("doLittle.views", {
-    RelativePathResolver: doLittle.views.PathResolver.extend(function () {
+﻿Dolittle.namespace("Dolittle.views", {
+    RelativePathResolver: Dolittle.views.PathResolver.extend(function () {
         this.canResolve = function (element, path) {
             var closest = $(element).closest("[data-view]");
             if (closest.length === 1) {
@@ -13,14 +13,14 @@
             var closest = $(element).closest("[data-urimapper]");
             if (closest.length === 1) {
                 var mapperName = $(closest[0]).data("urimapper");
-                if (doLittle.uriMappers[mapperName].hasMappingFor(path) === true) {
-                    return doLittle.uriMappers[mapperName].resolve(path);
+                if (Dolittle.uriMappers[mapperName].hasMappingFor(path) === true) {
+                    return Dolittle.uriMappers[mapperName].resolve(path);
                 }
             }
-            return doLittle.uriMappers.default.resolve(path);
+            return Dolittle.uriMappers.default.resolve(path);
         };
     })
 });
-if (typeof doLittle.views.pathResolvers !== "undefined") {
-    doLittle.views.pathResolvers.RelativePathResolver = doLittle.views.RelativePathResolver;
+if (typeof Dolittle.views.pathResolvers !== "undefined") {
+    Dolittle.views.pathResolvers.RelativePathResolver = Dolittle.views.RelativePathResolver;
 }

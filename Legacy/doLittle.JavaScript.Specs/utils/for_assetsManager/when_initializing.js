@@ -2,18 +2,18 @@ describe("when initializing", function () {
     var extension = "";
 
     beforeEach(function () {
-        doLittle.namespaces = doLittle.namespaces || {};
-        doLittle.namespaces.initialize = sinon.stub();
+        Dolittle.namespaces = Dolittle.namespaces || {};
+        Dolittle.namespaces.initialize = sinon.stub();
         sinon.stub($, "get", function (url, parameters, callback) {
             extension = parameters.extension;
         });
 
-        doLittle.assetsManager.initialize();
+        Dolittle.assetsManager.initialize();
     });
 
     afterEach(function () {
         $.get.restore();
-        doLittle.assetsManager.scripts = [];
+        Dolittle.assetsManager.scripts = [];
     });
 
     it("should call server to get assets", function () {

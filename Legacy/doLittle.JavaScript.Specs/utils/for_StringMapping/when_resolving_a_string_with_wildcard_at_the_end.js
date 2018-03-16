@@ -1,6 +1,6 @@
 ﻿describe("when resolving a string with wildcard at the end", function () {
     var expectedResult = "this.is.a.wildcard.string";
-    var mapping = doLittle.StringMapping.create({
+    var mapping = Dolittle.StringMapping.create({
         format: "{something}/**/",
         mappedFormat: "{something}.**."
     });

@@ -1,12 +1,12 @@
-﻿doLittle.namespace("doLittle",{
-    documentService: doLittle.Singleton(function (DOMRoot) {
+﻿Dolittle.namespace("Dolittle",{
+    documentService: Dolittle.Singleton(function (DOMRoot) {
         var self = this;
 
         this.DOMRoot = DOMRoot;
 
         this.pageHasViewModel = function (viewModel) {
             var context = ko.contextFor($("body")[0]);
-            if (doLittle.isUndefined(context)) {
+            if (Dolittle.isUndefined(context)) {
                 return false;
             }
             return context.$data === viewModel;
@@ -14,9 +14,9 @@
 
         this.getViewModelNameFor = function (element) {
             var dataViewModelName = element.attributes.getNamedItem("data-viewmodel-name");
-            if (doLittle.isNullOrUndefined(dataViewModelName)) {
+            if (Dolittle.isNullOrUndefined(dataViewModelName)) {
                 dataViewModelName = document.createAttribute("data-viewmodel-name");
-                dataViewModelName.value = doLittle.Guid.create();
+                dataViewModelName.value = Dolittle.Guid.create();
             }
             element.attributes.setNamedItem(dataViewModelName);
             return dataViewModelName.value;
@@ -31,7 +31,7 @@
         };
 
         this.hasViewModelParameters = function (element) {
-            return !doLittle.isNullOrUndefined(element.viewModelParameters);
+            return !Dolittle.isNullOrUndefined(element.viewModelParameters);
         };
 
         this.cleanChildrenOf = function (element) {
@@ -45,7 +45,7 @@
 
         this.hasViewFile = function (element) {
             var attribute = element.attributes["data-view-file"];
-            return !doLittle.isNullOrUndefined(attribute);
+            return !Dolittle.isNullOrUndefined(attribute);
         };
 
         this.getViewFileFrom = function (element) {
@@ -100,7 +100,7 @@
         this.setRegionOn = function (element, region) {
             /// <summary>Set region on a specific element</summary>
             /// <param name="element" type="HTMLElement">HTML Element to set on</param>
-            /// <param name="region" type="doLittle.views.Region">Region to set on element</param>
+            /// <param name="region" type="Dolittle.views.Region">Region to set on element</param>
 
             element.region = region;
         };
@@ -116,7 +116,7 @@
             /// <param name="callback" type="Function">Callback to call for each element found</param>
             /// <param name="element" type="HTMLElement" optional="true">Optional root element</param>
             element = element || self.DOMRoot;
-            if (!doLittle.isNullOrUndefined(element)) {
+            if (!Dolittle.isNullOrUndefined(element)) {
                 callback(element);
 
                 if( element.hasChildNodes() ) {
@@ -133,7 +133,7 @@
         };
 
         this.getUniqueStyleName = function(prefix) {
-            var id = doLittle.Guid.create();
+            var id = Dolittle.Guid.create();
             var name = prefix+"_"+id;
             return name;
         };

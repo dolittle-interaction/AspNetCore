@@ -1,5 +1,5 @@
 ﻿describe("when validating with empty string", function () {
-    var validator = doLittle.validation.notNull.create({ options: {} });
+    var validator = Dolittle.validation.notNull.create({ options: {} });
     var result = validator.validate("");
 
     it("should be valid", function () {

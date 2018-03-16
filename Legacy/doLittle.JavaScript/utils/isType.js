@@ -1,6 +1,6 @@
-doLittle.namespace("doLittle", {
+Dolittle.namespace("Dolittle", {
     isType: function (o) {
-        if (doLittle.isNullOrUndefined(o)) {
+        if (Dolittle.isNullOrUndefined(o)) {
             return false;
         }
 		return typeof o._typeId !== "undefined";

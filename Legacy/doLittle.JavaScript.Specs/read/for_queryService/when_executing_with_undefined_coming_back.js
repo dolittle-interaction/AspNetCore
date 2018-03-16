@@ -25,7 +25,7 @@
             return task;
         }
     };
-    var instance = doLittle.read.queryService.createWithoutScope({
+    var instance = Dolittle.read.queryService.createWithoutScope({
         taskFactory: taskFactory,
         mapper: mapper
     });

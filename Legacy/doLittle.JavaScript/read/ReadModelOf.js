@@ -1,11 +1,11 @@
-doLittle.namespace("doLittle.read", {
-    ReadModelOf: doLittle.Type.extend(function (region, mapper, taskFactory, readModelSystemEvents) {
+Dolittle.namespace("Dolittle.read", {
+    ReadModelOf: Dolittle.Type.extend(function (region, mapper, taskFactory, readModelSystemEvents) {
         var self = this;
         this.target = null;
 
         this._name = "";
         this._generatedFrom = "";
-        this._readModelType = doLittle.Type.extend(function () { });
+        this._readModelType = Dolittle.Type.extend(function () { });
         this.instance = ko.observable();
         this.commandToPopulate = null;
         this.region = region;
@@ -21,7 +21,7 @@ doLittle.namespace("doLittle.read", {
         function performLoad(target, propertyFilters) {
             var task = taskFactory.createReadModel(target, propertyFilters);
             target.region.tasks.execute(task).continueWith(function (data) {
-                if (!doLittle.isNullOrUndefined(data)) {
+                if (!Dolittle.isNullOrUndefined(data)) {
                     var mappedReadModel = mapper.map(target._readModelType, data);
                     self.instance(mappedReadModel);
                 } else {

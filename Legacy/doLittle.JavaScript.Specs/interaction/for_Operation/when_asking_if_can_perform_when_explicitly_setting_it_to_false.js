@@ -1,6 +1,6 @@
 describe("when asking if can perform when explicitly setting it to false", function() {
 
-	var operation = doLittle.interaction.Operation.create({
+	var operation = Dolittle.interaction.Operation.create({
 		region: {},
 		context: {}
 	});

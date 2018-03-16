@@ -1,10 +1,10 @@
-﻿doLittle.namespace("doLittle.commands");
-doLittle.commands.CommandRequest = function(command) {
+﻿Dolittle.namespace("Dolittle.commands");
+Dolittle.commands.CommandRequest = function(command) {
     var self = this;
 
     var builtInCommand = {};
-    if (typeof doLittle.commands.Command !== "undefined") {
-        builtInCommand = doLittle.commands.Command.create({
+    if (typeof Dolittle.commands.Command !== "undefined") {
+        builtInCommand = Dolittle.commands.Command.create({
             region: { commands: [] },
             commandCoordinator: {},
             commandValidationService: {},
@@ -52,7 +52,7 @@ doLittle.commands.CommandRequest = function(command) {
     }
 
     this.type = command._commandType;
-    this.correlationId = doLittle.Guid.create();
+    this.correlationId = Dolittle.Guid.create();
 
     var properties = getPropertiesFromCommand(command);
     var commandContent = ko.toJS(properties);
@@ -60,7 +60,7 @@ doLittle.commands.CommandRequest = function(command) {
 };
 
 
-doLittle.commands.CommandRequest.createFrom = function (command) {
-    var commandDescriptor = new doLittle.commands.CommandRequest(command);
+Dolittle.commands.CommandRequest.createFrom = function (command) {
+    var commandDescriptor = new Dolittle.commands.CommandRequest(command);
     return commandDescriptor;
 };

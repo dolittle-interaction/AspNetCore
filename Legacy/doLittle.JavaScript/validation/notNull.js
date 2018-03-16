@@ -1,7 +1,7 @@
-doLittle.namespace("doLittle.validation", {
-    notNull: doLittle.validation.Rule.extend(function () {
+Dolittle.namespace("Dolittle.validation", {
+    notNull: Dolittle.validation.Rule.extend(function () {
         this.validate = function (value) {
-            return !(doLittle.isUndefined(value) || doLittle.isNull(value));
+            return !(Dolittle.isUndefined(value) || Dolittle.isNull(value));
         };
     })
 });
