@@ -4,18 +4,19 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Linq;
+using System.Reflection;
+using Dolittle.AspNetCore.Bootstrap;
 using Dolittle.Assemblies;
 using Dolittle.Collections;
 using Dolittle.DependencyInversion;
+using Dolittle.DependencyInversion.Bootstrap;
 using Dolittle.DependencyInversion.Scopes;
 using Dolittle.DependencyInversion.Strategies;
 using Dolittle.Logging;
-using Microsoft.Extensions.Logging;
-using System.Reflection;
 using Dolittle.Reflection;
-using Microsoft.AspNetCore.Mvc;
-using Dolittle.AspNetCore.Bootstrap;
 using Dolittle.Types;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -28,22 +29,20 @@ namespace Microsoft.Extensions.DependencyInjection
         /// Adds Dolittle services
         /// </summary>
         /// <returns></returns>
-        public static void AddDolittle(this IServiceCollection services, ILoggerFactory loggerFactory = null)
+        public static BootResult AddDolittle(this IServiceCollection services, ILoggerFactory loggerFactory = null)
         {
-            if (loggerFactory == null) loggerFactory = new LoggerFactory();
+            if (loggerFactory == null)loggerFactory = new LoggerFactory();
 
             var logAppenders = Dolittle.Logging.Bootstrap.EntryPoint.Initialize(loggerFactory);
             var logger = new Logger(logAppenders);
+            services.AddSingleton(typeof(Dolittle.Logging.ILogger), logger);
 
             var assemblies = Dolittle.Assemblies.Bootstrap.EntryPoint.Initialize(logger);
             var typeFinder = Dolittle.Types.Bootstrap.EntryPoint.Initialize(assemblies);
 
-            services.AddSingleton(typeof(IAssemblies), assemblies);
-            services.AddSingleton(typeof(Dolittle.Logging.ILogger), logger);
+            var bootResult = Dolittle.DependencyInversion.Bootstrap.Boot.Start(assemblies, typeFinder, logger);
 
-            var discoveredBindings = Dolittle.DependencyInversion.Bootstrap.EntryPoint.DiscoverBindings(assemblies, typeFinder);
-
-            var translatedServices = discoveredBindings.Select(GetServiceDescriptor);
+            var translatedServices = bootResult.Bindings.Select(GetServiceDescriptor);
             translatedServices.ForEach(service =>
             {
                 if (!services.Any(s => s.ServiceType == service.ServiceType))
@@ -53,6 +52,8 @@ namespace Microsoft.Extensions.DependencyInjection
             });
 
             AddMvcOptions(services, typeFinder);
+
+            return new BootResult(bootResult.Container, assemblies, typeFinder, bootResult.Bindings);
         }
 
         static void AddMvcOptions(IServiceCollection services, ITypeFinder typeFinder)
@@ -60,8 +61,8 @@ namespace Microsoft.Extensions.DependencyInjection
             var mvcOptionsAugmenters = typeFinder.FindMultiple<ICanAddMvcOptions>();
             mvcOptionsAugmenters.ForEach(augmenterType =>
             {
-                if (!augmenterType.HasDefaultConstructor()) throw new ArgumentException($"Type '{augmenterType.AssemblyQualifiedName}' is missing a default constructor");
-                var augmenter = Activator.CreateInstance(augmenterType) as ICanAddMvcOptions;
+                if (!augmenterType.HasDefaultConstructor())throw new ArgumentException($"Type '{augmenterType.AssemblyQualifiedName}' is missing a default constructor");
+                var augmenter = Activator.CreateInstance(augmenterType)as ICanAddMvcOptions;
                 services.Configure<MvcOptions>(augmenter.Add);
             });
         }
