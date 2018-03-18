@@ -11,6 +11,11 @@ using Dolittle.DependencyInversion.Scopes;
 using Dolittle.DependencyInversion.Strategies;
 using Dolittle.Logging;
 using Microsoft.Extensions.Logging;
+using System.Reflection;
+using Dolittle.Reflection;
+using Microsoft.AspNetCore.Mvc;
+using Dolittle.AspNetCore.Bootstrap;
+using Dolittle.Types;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -25,7 +30,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns></returns>
         public static void AddDolittle(this IServiceCollection services, ILoggerFactory loggerFactory = null)
         {
-            if (loggerFactory == null)loggerFactory = new LoggerFactory();
+            if (loggerFactory == null) loggerFactory = new LoggerFactory();
 
             var logAppenders = Dolittle.Logging.Bootstrap.EntryPoint.Initialize(loggerFactory);
             var logger = new Logger(logAppenders);
@@ -47,6 +52,18 @@ namespace Microsoft.Extensions.DependencyInjection
                 }
             });
 
+            AddMvcOptions(services, typeFinder);
+        }
+
+        static void AddMvcOptions(IServiceCollection services, ITypeFinder typeFinder)
+        {
+            var mvcOptionsAugmenters = typeFinder.FindMultiple<ICanAddMvcOptions>();
+            mvcOptionsAugmenters.ForEach(augmenterType =>
+            {
+                if (!augmenterType.HasDefaultConstructor()) throw new ArgumentException($"Type '{augmenterType.AssemblyQualifiedName}' is missing a default constructor");
+                var augmenter = Activator.CreateInstance(augmenterType) as ICanAddMvcOptions;
+                services.Configure<MvcOptions>(augmenter.Add);
+            });
         }
 
         static ServiceDescriptor GetServiceDescriptor(Binding binding)
