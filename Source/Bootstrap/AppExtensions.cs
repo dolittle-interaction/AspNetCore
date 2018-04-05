@@ -31,13 +31,14 @@ namespace Microsoft.AspNetCore.Builder
         /// Run as a single page application - typically end off your application configuration in Startup.cs with this
         /// </summary>
         /// <param name="app"><see cref="IApplicationBuilder"/> you're building</param>
-        /// <param name="environment">The <see cref="IHostingEnvironment"/></param>
         /// <param name="pathToFile">Optional path to file that will be sent as the single page</param>
         /// <remarks>
         /// If there is no path to a file given, it will default to index.html inside your wwwwroot
         /// </remarks>
-         public static void RunAsSinglePageApplication(this IApplicationBuilder app, IHostingEnvironment environment, string pathToFile = null)
+         public static void RunAsSinglePageApplication(this IApplicationBuilder app, string pathToFile = null)
          {
+             var environment = app.ApplicationServices.GetService(typeof(IHostingEnvironment)) as IHostingEnvironment;
+
             app.Run(async context =>
             {
                 if( Path.HasExtension(context.Request.Path)) await Task.CompletedTask;
