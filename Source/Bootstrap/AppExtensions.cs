@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.FileProviders.Physical;
 
-namespace Microsoft.AspNetCore.Builder.Extensions
+namespace Microsoft.AspNetCore.Builder
  {
      /// <summary>
      /// Extensions for <see cref="IApplicationBuilder"/>
