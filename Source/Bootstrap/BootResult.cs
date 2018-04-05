@@ -6,7 +6,7 @@ using Dolittle.Assemblies;
 using Dolittle.DependencyInversion;
 using Dolittle.Types;
 
-namespace Microsoft.Extensions.DependencyInjection
+namespace Dolittle.AspNetCore.Bootstrap
 {
     /// <summary>
     /// Represents a result of booting
@@ -16,27 +16,19 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <summary>
         /// Initializes a new instance of <see cref="BootResult"/>
         /// </summary>
-        /// <param name="container"><see cref="IContainer"/> used</param>
         /// <param name="assemblies"><see cref="IAssemblies"/> used</param>
         /// <param name="typeFinder"><see cref="ITypeFinder"/> used</param>
         /// <param name="bindings"><see cref="IBindingCollection">Bindings</see> setup</param>
         public BootResult(
-            IContainer container,
             IAssemblies assemblies,
             ITypeFinder typeFinder,
             IBindingCollection bindings)
         {
-            Container = container;
             Assemblies = assemblies;
             TypeFinder = typeFinder;
             Bindings = bindings;
 
         }
-
-        /// <summary>
-        /// Gets the <see cref="IContainer"/>
-        /// </summary>
-        public IContainer Container {  get; }
 
         /// <summary>
         /// Gets the <see cref="IAssemblies"/>

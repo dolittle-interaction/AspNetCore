@@ -17,6 +17,7 @@ using Dolittle.Reflection;
 using Dolittle.Types;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using BootResult = Dolittle.AspNetCore.Bootstrap.BootResult;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -40,9 +41,10 @@ namespace Microsoft.Extensions.DependencyInjection
             var assemblies = Dolittle.Assemblies.Bootstrap.EntryPoint.Initialize(logger);
             var typeFinder = Dolittle.Types.Bootstrap.EntryPoint.Initialize(assemblies);
 
-            var bootResult = Dolittle.DependencyInversion.Bootstrap.Boot.Start(assemblies, typeFinder, logger);
+            var bindings = Dolittle.DependencyInversion.Bootstrap.Boot.Start(assemblies, typeFinder, logger, typeof(Container));
 
-            var translatedServices = bootResult.Bindings.Select(GetServiceDescriptor);
+            /*
+            var translatedServices = bindings.Select(GetServiceDescriptor);
             translatedServices.ForEach(service =>
             {
                 if (!services.Any(s => s.ServiceType == service.ServiceType))
@@ -50,10 +52,11 @@ namespace Microsoft.Extensions.DependencyInjection
                     services.Add(service);
                 }
             });
+            */
 
             AddMvcOptions(services, typeFinder);
 
-            return new BootResult(bootResult.Container, assemblies, typeFinder, bootResult.Bindings);
+            return new BootResult(assemblies, typeFinder, bindings);
         }
 
         static void AddMvcOptions(IServiceCollection services, ITypeFinder typeFinder)
