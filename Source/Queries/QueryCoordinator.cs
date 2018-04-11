@@ -4,17 +4,17 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
+using System.Reflection;
+using Dolittle.Concepts;
 using Dolittle.DependencyInversion;
 using Dolittle.Dynamic;
 using Dolittle.Logging;
 using Dolittle.Queries;
 using Dolittle.Queries.Coordination;
-using Dolittle.Types;
-using Dolittle.Strings;
-using Microsoft.AspNetCore.Mvc;
-using System.Reflection;
 using Dolittle.Serialization.Json;
-using Dolittle.Concepts;
+using Dolittle.Strings;
+using Dolittle.Types;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Dolittle.AspNetCore.Queries
 {
@@ -50,7 +50,7 @@ namespace Dolittle.AspNetCore.Queries
         {
             _typeFinder = typeFinder;
             _container = container;
-            
+
             _queryCoordinator = queryCoordinator;
             _queries = queries;
             _logger = logger;
@@ -89,7 +89,6 @@ namespace Dolittle.AspNetCore.Queries
             return content;
         }
 
-
         void AddClientTypeInformation(QueryResult result)
         {
             var items = new List<object>();
@@ -110,17 +109,25 @@ namespace Dolittle.AspNetCore.Queries
                 var property = queryType.GetTypeInfo().GetProperty(propertyName);
                 if (property != null)
                 {
-                    object value;
-                    if( property.PropertyType.IsConcept() ) 
+                    var propertyValue = descriptor.Parameters[key].ToString();
+                    object value = null;
+                    if (property.PropertyType.IsConcept())
                     {
                         var valueType = property.PropertyType.GetConceptValueType();
-                        var underlyingValue = Convert.ChangeType(descriptor.Parameters[key].ToString(),valueType);
-                        value = ConceptFactory.CreateConceptInstance(property.PropertyType, valueType);
-                    } else 
-                    {
-                        value = Convert.ChangeType(descriptor.Parameters[key].ToString(),property.PropertyType);    
+                        object underlyingValue = null;
+                        try
+                        {
+                            if (valueType == typeof(Guid))underlyingValue = Guid.Parse(propertyValue);
+                            else underlyingValue = Convert.ChangeType(propertyValue, valueType);
+                            value = ConceptFactory.CreateConceptInstance(property.PropertyType, valueType);
+                        }
+                        catch { }
                     }
-                    
+                    else
+                    {
+                        value = Convert.ChangeType(propertyValue, property.PropertyType);
+                    }
+
                     property.SetValue(instance, value, null);
                 }
             }
