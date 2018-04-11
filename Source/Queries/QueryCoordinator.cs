@@ -119,7 +119,7 @@ namespace Dolittle.AspNetCore.Queries
                         {
                             if (valueType == typeof(Guid))underlyingValue = Guid.Parse(propertyValue);
                             else underlyingValue = Convert.ChangeType(propertyValue, valueType);
-                            value = ConceptFactory.CreateConceptInstance(property.PropertyType, valueType);
+                            value = ConceptFactory.CreateConceptInstance(property.PropertyType, underlyingValue);
                         }
                         catch { }
                     }
