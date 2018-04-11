@@ -14,6 +14,7 @@ using Dolittle.Strings;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
 using Dolittle.Serialization.Json;
+using Dolittle.Concepts;
 
 namespace Dolittle.AspNetCore.Queries
 {
@@ -109,7 +110,17 @@ namespace Dolittle.AspNetCore.Queries
                 var property = queryType.GetTypeInfo().GetProperty(propertyName);
                 if (property != null)
                 {
-                    var value = Convert.ChangeType(descriptor.Parameters[key].ToString(),property.PropertyType);
+                    object value;
+                    if( property.PropertyType.IsConcept() ) 
+                    {
+                        var valueType = property.PropertyType.GetConceptValueType();
+                        var underlyingValue = Convert.ChangeType(descriptor.Parameters[key].ToString(),valueType);
+                        value = ConceptFactory.CreateConceptInstance(property.PropertyType, valueType);
+                    } else 
+                    {
+                        value = Convert.ChangeType(descriptor.Parameters[key].ToString(),property.PropertyType);    
+                    }
+                    
                     property.SetValue(instance, value, null);
                 }
             }
