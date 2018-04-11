@@ -18,35 +18,6 @@ using Dolittle.Serialization.Json;
 namespace Dolittle.AspNetCore.Queries
 {
     /// <summary>
-    /// 
-    /// </summary>
-    public class QueryRequest
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        public QueryRequest()
-        {
-            Parameters = new Dictionary<string, object>();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public string NameOfQuery { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public string GeneratedFrom { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public IDictionary<string, object> Parameters { get; private set; }
-    }
-
-    /// <summary>
     /// Represents an API endpoint for working with <see cref="IQuery">queries</see>
     /// </summary>
     [Route("api/Dolittle/Queries")]
