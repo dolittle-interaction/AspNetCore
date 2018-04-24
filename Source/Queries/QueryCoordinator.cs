@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Dolittle.Concepts;
 using Dolittle.DependencyInversion;
@@ -105,8 +106,12 @@ namespace Dolittle.AspNetCore.Queries
         {
             foreach (var key in descriptor.Parameters.Keys)
             {
-                var propertyName = key.ToPascalCase();
-                var property = queryType.GetTypeInfo().GetProperty(propertyName);
+                var property = queryType
+                                    .GetTypeInfo()
+                                    .GetProperties()
+                                    .SingleOrDefault(_ => _
+                                        .Name.Equals(key, StringComparison.InvariantCultureIgnoreCase)
+                                    );
                 if (property != null)
                 {
                     var propertyValue = descriptor.Parameters[key].ToString();
