@@ -130,7 +130,8 @@ namespace Dolittle.AspNetCore.Queries
                     }
                     else
                     {
-                        value = Convert.ChangeType(propertyValue, property.PropertyType);
+                        if(property.PropertyType == typeof(Guid)) value = Guid.Parse(propertyValue);
+                        else value = Convert.ChangeType(propertyValue, property.PropertyType);
                     }
 
                     property.SetValue(instance, value, null);
