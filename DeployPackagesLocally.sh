@@ -9,3 +9,8 @@ fi
 
 #rm $PACKAGEDIR/*
 dotnet pack -p:PackageVersion=2.0.0-alpha2.1000 --include-symbols --include-source -o $PACKAGEDIR
+
+for f in ../Packages/*.symbols.nupkg; do
+  mv ${f} ${f/.symbols/}
+done
+
