@@ -12,7 +12,9 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.0.2" />
     <PackageReference Include="Dolittle.Types" Version="2.0.0-alpha2*" />
+    <PackageReference Include="Dolittle.SDK.Artifacts" Version="2.0.0-alpha2*" />
     <PackageReference Include="Dolittle.SDK.Commands" Version="2.0.0-alpha2*" />
+    <PackageReference Include="Dolittle.SDK.Validation" Version="2.0.0-alpha2*" />
   </ItemGroup>
 
 </Project>

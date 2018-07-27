@@ -6,11 +6,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using Dolittle.Applications;
+using Dolittle.Artifacts;
 using Dolittle.CodeGeneration;
 using Dolittle.CodeGeneration.JavaScript;
 using Dolittle.Commands;
-using Dolittle.Execution;
 using Dolittle.Strings;
 using Dolittle.Types;
 
@@ -23,8 +22,7 @@ namespace Dolittle.AspNetCore.Commands.Proxies
     {
         internal static List<string> _namespacesToExclude = new List<string>();
 
-        IApplicationArtifacts _applicationArtifacts;
-        IApplicationArtifactIdentifierStringConverter _applicationArtifactIdentifierStringConverter;
+        IArtifactTypeMap _artifactTypeMap;
         ITypeFinder _typeFinder;
         IInstancesOf<ICanExtendCommandProperty> _commandPropertyExtenders;
         ICodeGenerator _codeGenerator;
@@ -46,20 +44,17 @@ namespace Dolittle.AspNetCore.Commands.Proxies
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="applicationArtifacts"></param>
-        /// <param name="applicationArtifactIdentifierStringConverter"></param>
+        /// <param name="artifactTypeMap"></param>
         /// <param name="typeFinder"></param>
         /// <param name="commandPropertyExtenders"></param>
         /// <param name="codeGenerator"></param>
         public CommandProxies(
-            IApplicationArtifacts applicationArtifacts,
-            IApplicationArtifactIdentifierStringConverter applicationArtifactIdentifierStringConverter, 
+            IArtifactTypeMap artifactTypeMap,
             ITypeFinder typeFinder, 
             IInstancesOf<ICanExtendCommandProperty> commandPropertyExtenders,
             ICodeGenerator codeGenerator)
         {
-            _applicationArtifacts = applicationArtifacts;
-            _applicationArtifactIdentifierStringConverter = applicationArtifactIdentifierStringConverter;
+            _artifactTypeMap = artifactTypeMap;
             _typeFinder = typeFinder;
             _commandPropertyExtenders = commandPropertyExtenders;
             _codeGenerator = codeGenerator;
@@ -86,17 +81,16 @@ namespace Dolittle.AspNetCore.Commands.Proxies
                 {
                     if (type.GetTypeInfo().IsGenericType) continue;
 
-                    var identifier = _applicationArtifacts.Identify(type);
-                    var identifierAsString = _applicationArtifactIdentifierStringConverter.AsString(identifier);
+                    var identifier = _artifactTypeMap.GetArtifactFor(type);
 
-                    var name = ((string)identifier.Artifact.Name).ToCamelCase();
+                    var name = type.Name.ToCamelCase();
                     currentNamespace.Content.Assign(name)
                         .WithType(t =>
                             t.WithSuper("Dolittle.commands.Command")
                                 .Function
                                     .Body
                                         .Variant("self", v => v.WithThis())
-                                        .Property("_commandType", p => p.WithString(identifierAsString))
+                                        .Property("_commandType", p => p.WithString(identifier.Id.ToString()))
 
                                         .WithObservablePropertiesFrom(type, excludePropertiesFrom: typeof(ICommand), observableVisitor: (propertyName, observable) =>
                                         {
