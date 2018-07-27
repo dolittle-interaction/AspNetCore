@@ -10,22 +10,22 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.FileProviders.Physical;
 
 namespace Microsoft.AspNetCore.Builder
- {
-     /// <summary>
-     /// Extensions for <see cref="IApplicationBuilder"/>
-     /// </summary>
-     public static class ApplicationBuilderExtensions
-     {
+{
+    /// <summary>
+    /// Extensions for <see cref="IApplicationBuilder"/>
+    /// </summary>
+    public static class ApplicationBuilderExtensions
+    {
 
-         /// <summary>
-         /// Use Dolittle for the given application
-         /// </summary>
-         /// <param name="app"><see cref="IApplicationBuilder"/> to use Dolittle for</param>
-         public static void UseDolittle(this IApplicationBuilder app)
-         {
-            var committedEventStreamCoordinator = app.ApplicationServices.GetService(typeof(ICommittedEventStreamCoordinator))as ICommittedEventStreamCoordinator;
+        /// <summary>
+        /// Use Dolittle for the given application
+        /// </summary>
+        /// <param name="app"><see cref="IApplicationBuilder"/> to use Dolittle for</param>
+        public static void UseDolittle(this IApplicationBuilder app)
+        {
+            var committedEventStreamCoordinator = app.ApplicationServices.GetService(typeof(ICommittedEventStreamCoordinator)) as ICommittedEventStreamCoordinator;
             committedEventStreamCoordinator.Initialize();
-         }
+        }
 
         /// <summary>
         /// Run as a single page application - typically end off your application configuration in Startup.cs with this
@@ -35,18 +35,18 @@ namespace Microsoft.AspNetCore.Builder
         /// <remarks>
         /// If there is no path to a file given, it will default to index.html inside your wwwwroot
         /// </remarks>
-         public static void RunAsSinglePageApplication(this IApplicationBuilder app, string pathToFile = null)
-         {
-             var environment = app.ApplicationServices.GetService(typeof(IHostingEnvironment)) as IHostingEnvironment;
+        public static void RunAsSinglePageApplication(this IApplicationBuilder app, string pathToFile = null)
+        {
+            var environment = app.ApplicationServices.GetService(typeof(IHostingEnvironment)) as IHostingEnvironment;
 
             app.Run(async context =>
             {
-                if( Path.HasExtension(context.Request.Path)) await Task.CompletedTask;
+                if (Path.HasExtension(context.Request.Path)) await Task.CompletedTask;
                 context.Request.Path = new PathString("/");
-                
+
                 var path = pathToFile ?? $"{environment.ContentRootPath}/wwwroot/index.html";
                 await context.Response.SendFileAsync(new PhysicalFileInfo(new FileInfo(path)));
-            });            
-         }
-     }
- }
+            });
+        }
+    }
+}
