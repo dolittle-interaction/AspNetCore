@@ -4,6 +4,8 @@
  *--------------------------------------------------------------------------------------------*/
 using System.IO;
 using System.Threading.Tasks;
+using Dolittle.Bootstrapping;
+using Dolittle.DependencyInversion;
 using Dolittle.Runtime.Events.Coordination;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -25,6 +27,9 @@ namespace Microsoft.AspNetCore.Builder
         {
             var committedEventStreamCoordinator = app.ApplicationServices.GetService(typeof(ICommittedEventStreamCoordinator)) as ICommittedEventStreamCoordinator;
             committedEventStreamCoordinator.Initialize();
+
+            var container = app.ApplicationServices.GetService(typeof(IContainer)) as IContainer;
+            Bootstrapper.Start(container);
         }
 
         /// <summary>
