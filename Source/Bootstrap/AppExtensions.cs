@@ -5,6 +5,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using Dolittle.Runtime.Events.Coordination;
+using Dolittle.AspNetCore.Bootstrap;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.FileProviders.Physical;
@@ -23,6 +24,8 @@ namespace Microsoft.AspNetCore.Builder
          /// <param name="app"><see cref="IApplicationBuilder"/> to use Dolittle for</param>
          public static void UseDolittle(this IApplicationBuilder app)
          {
+             app.UseMiddleware<HealthCheckMiddleware>();
+             
             var committedEventStreamCoordinator = app.ApplicationServices.GetService(typeof(ICommittedEventStreamCoordinator))as ICommittedEventStreamCoordinator;
             committedEventStreamCoordinator.Initialize();
          }
