@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Dolittle.Bootstrapping;
 using Dolittle.DependencyInversion;
 using Dolittle.Runtime.Events.Coordination;
+using Dolittle.AspNetCore.Bootstrap;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.FileProviders.Physical;
@@ -19,13 +20,15 @@ namespace Microsoft.AspNetCore.Builder
     public static class ApplicationBuilderExtensions
     {
 
-        /// <summary>
-        /// Use Dolittle for the given application
-        /// </summary>
-        /// <param name="app"><see cref="IApplicationBuilder"/> to use Dolittle for</param>
-        public static void UseDolittle(this IApplicationBuilder app)
-        {
-            var committedEventStreamCoordinator = app.ApplicationServices.GetService(typeof(ICommittedEventStreamCoordinator)) as ICommittedEventStreamCoordinator;
+         /// <summary>
+         /// Use Dolittle for the given application
+         /// </summary>
+         /// <param name="app"><see cref="IApplicationBuilder"/> to use Dolittle for</param>
+         public static void UseDolittle(this IApplicationBuilder app)
+         {
+             app.UseMiddleware<HealthCheckMiddleware>();
+             
+            var committedEventStreamCoordinator = app.ApplicationServices.GetService(typeof(ICommittedEventStreamCoordinator))as ICommittedEventStreamCoordinator;
             committedEventStreamCoordinator.Initialize();
 
             var container = app.ApplicationServices.GetService(typeof(IContainer)) as IContainer;
