@@ -2,29 +2,18 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using Dolittle.Applications;
-using Dolittle.CodeGeneration;
-using Dolittle.CodeGeneration.JavaScript;
 using Dolittle.Commands;
-using Dolittle.Execution;
-using Dolittle.Strings;
-using Dolittle.Types;
 
 namespace Dolittle.AspNetCore.Commands.Proxies
 {
     /// <summary>
-    /// 
+    /// Defines the proxy generation for <see cref="ICommand">commands</see>
     /// </summary>
     public interface ICommandProxies
     {
         /// <summary>
-        /// 
+        /// Generate proxies for <see cref="ICommand">commands</see> in the running process
         /// </summary>
         string Generate();
-
     }
 }
