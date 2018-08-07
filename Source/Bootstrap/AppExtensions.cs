@@ -28,9 +28,6 @@ namespace Microsoft.AspNetCore.Builder
          {
              app.UseMiddleware<HealthCheckMiddleware>();
              
-            var committedEventStreamCoordinator = app.ApplicationServices.GetService(typeof(ICommittedEventStreamCoordinator))as ICommittedEventStreamCoordinator;
-            committedEventStreamCoordinator.Initialize();
-
             var container = app.ApplicationServices.GetService(typeof(IContainer)) as IContainer;
             Bootstrapper.Start(container);
         }
