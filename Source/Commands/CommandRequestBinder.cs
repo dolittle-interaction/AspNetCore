@@ -47,7 +47,8 @@ namespace Dolittle.AspNetCore.Commands
 
                     commandRequest = new CommandRequest(
                         commandRequest.CorrelationId, 
-                        commandRequest.Type, 
+                        commandRequest.Type.Id,
+                        commandRequest.Type.Generation, 
                         commandRequest.Content.ToDictionary(keyValue => keyValue.Key.ToPascalCase(), keyValue => keyValue.Value)
                     );
 
