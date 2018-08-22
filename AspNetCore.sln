@@ -21,7 +21,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReadModels.Proxies", "Sourc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Queries.Proxies", "Source\Queries.Proxies\Queries.Proxies.csproj", "{9140437F-C5B6-4B2C-B995-F1FE7495F837}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCore", "AggregatedPackage\AspNetCore.csproj", "{F0EA0F75-E105-4E3D-A174-D28BB24AF716}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCore", "Source\AggregatedPackage\AspNetCore.csproj", "{F0EA0F75-E105-4E3D-A174-D28BB24AF716}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
