@@ -2,9 +2,12 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Dolittle.Artifacts;
 using Dolittle.Reflection;
 using Dolittle.Runtime.Commands;
 using Dolittle.Serialization.Json;
@@ -43,13 +46,15 @@ namespace Dolittle.AspNetCore.Commands
                 using(var reader = new StreamReader(buffer))
                 {
                     var json = await reader.ReadToEndAsync();
-                    var commandRequest = _serializer.FromJson<CommandRequest>(json);
 
-                    commandRequest = new CommandRequest(
-                        commandRequest.CorrelationId, 
-                        commandRequest.Type.Id,
-                        commandRequest.Type.Generation, 
-                        commandRequest.Content.ToDictionary(keyValue => keyValue.Key.ToPascalCase(), keyValue => keyValue.Value)
+                    var commandRequestKeyValues = _serializer.GetKeyValuesFromJson(json);
+                    var content = _serializer.GetKeyValuesFromJson(commandRequestKeyValues["content"].ToString());
+
+                    var commandRequest = new CommandRequest(
+                        Guid.Parse(commandRequestKeyValues["correlationId"].ToString()),
+                        Guid.Parse(commandRequestKeyValues["type"].ToString()),
+                        ArtifactGeneration.First,
+                        content.ToDictionary(keyValue => keyValue.Key.ToPascalCase(), keyValue => keyValue.Value)
                     );
 
                     bindingContext.Result = ModelBindingResult.Success(commandRequest);
