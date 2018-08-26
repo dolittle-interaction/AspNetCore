@@ -55,6 +55,7 @@ namespace Dolittle.AspNetCore.Commands
                         Guid.Parse(commandRequestKeyValues["type"].ToString()),
                         ArtifactGeneration.First,
                         content.ToDictionary(keyValue => keyValue.Key.ToPascalCase(), keyValue => keyValue.Value)
+
                     );
 
                     bindingContext.Result = ModelBindingResult.Success(commandRequest);
