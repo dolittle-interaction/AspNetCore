@@ -5,7 +5,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Dolittle.Execution;
+using Dolittle.Lifecycle;
 using Microsoft.AspNetCore.Hosting;
 
 namespace Dolittle.AspNetCore.Assets
