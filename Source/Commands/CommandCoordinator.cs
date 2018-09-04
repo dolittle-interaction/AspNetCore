@@ -3,12 +3,15 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System.Collections.Generic;
+using System.Security.Claims;
 using Dolittle.Commands;
+using Dolittle.Execution;
 using Dolittle.Runtime.Commands;
 using Dolittle.Runtime.Commands.Coordination;
+using Dolittle.Serialization.Json;
+using Dolittle.Tenancy;
 using Dolittle.Types;
 using Microsoft.AspNetCore.Mvc;
-using Dolittle.Serialization.Json;
 
 namespace Dolittle.AspNetCore.Commands
 {
@@ -21,21 +24,25 @@ namespace Dolittle.AspNetCore.Commands
         readonly ICommandCoordinator _commandCoordinator;
         readonly IInstancesOf<ICommand> _commands;
         readonly ISerializer _serializer;
+        readonly IExecutionContextManager _executionContextManager;
 
         /// <summary>
         /// Initializes a new instance of <see cref="CommandCoordinator"/>
         /// </summary>
         /// <param name="commandCoordinator">The underlying <see cref="ICommandCoordinator"/> </param>
+        /// <param name="executionContextManager"><see cref="IExecutionContextManager"/> for dealing with the <see cref="IExecutionContext"/></param>
         /// <param name="serializer"><see cref="ISerializer"/> for serialization purposes</param>
         /// <param name="commands">Instances of <see cref="ICommand"/></param>
         public CommandCoordinator(
             ICommandCoordinator commandCoordinator,
+            IExecutionContextManager executionContextManager,
             ISerializer serializer,
             IInstancesOf<ICommand> commands)
         {
             _commandCoordinator = commandCoordinator;
             _commands = commands;
             _serializer = serializer;
+            _executionContextManager = executionContextManager;
         }
 
         /// <summary>
@@ -46,6 +53,8 @@ namespace Dolittle.AspNetCore.Commands
         [HttpPost]
         public ActionResult Handle([FromBody] CommandRequest command)
         {
+            _executionContextManager.CurrentFor(TenantId.Unknown, command.CorrelationId, ClaimsPrincipal.Current);
+
             var result = _commandCoordinator.Handle(command);
             var content = new ContentResult();
             content.Content = _serializer.ToJson(result, SerializationOptions.CamelCase);
