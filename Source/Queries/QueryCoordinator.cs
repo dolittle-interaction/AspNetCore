@@ -6,14 +6,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Security.Claims;
 using Dolittle.Concepts;
 using Dolittle.DependencyInversion;
 using Dolittle.Dynamic;
+using Dolittle.Execution;
 using Dolittle.Logging;
 using Dolittle.Queries;
 using Dolittle.Queries.Coordination;
 using Dolittle.Serialization.Json;
-using Dolittle.Strings;
+using Dolittle.Tenancy;
 using Dolittle.Types;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,6 +33,7 @@ namespace Dolittle.AspNetCore.Queries
         readonly IInstancesOf<IQuery> _queries;
         readonly ILogger _logger;
         readonly ISerializer _serializer;
+        private readonly IExecutionContextManager _executionContextManager;
 
         /// <summary>
         /// Initializes a new instance of <see cref="QueryCoordinator"/>
@@ -38,6 +41,7 @@ namespace Dolittle.AspNetCore.Queries
         /// <param name="typeFinder"></param>
         /// <param name="container"></param>
         /// <param name="queryCoordinator">The underlying <see cref="IQueryCoordinator"/> </param>
+        /// <param name="executionContextManager"></param>
         /// <param name="queries"></param>
         /// <param name="serializer"></param>
         /// <param name="logger"></param>
@@ -45,6 +49,7 @@ namespace Dolittle.AspNetCore.Queries
             ITypeFinder typeFinder,
             IContainer container,
             IQueryCoordinator queryCoordinator,
+            IExecutionContextManager executionContextManager,
             IInstancesOf<IQuery> queries,
             ISerializer serializer,
             ILogger logger)
@@ -56,6 +61,7 @@ namespace Dolittle.AspNetCore.Queries
             _queries = queries;
             _logger = logger;
             _serializer = serializer;
+            _executionContextManager = executionContextManager;
         }
 
         /// <summary>
@@ -66,17 +72,18 @@ namespace Dolittle.AspNetCore.Queries
         [HttpPost]
         public ActionResult Handle([FromBody] QueryRequest queryRequest)
         {
+            _executionContextManager.CurrentFor(TenantId.Unknown, CorrelationId.New(), ClaimsPrincipal.Current);
             QueryResult queryResult = null;
             try
             {
                 _logger.Information($"Executing query : {queryRequest.NameOfQuery}");
                 var queryType = _typeFinder.GetQueryTypeByName(queryRequest.GeneratedFrom);
-                var query = _container.Get(queryType)as IQuery;
+                var query = _container.Get(queryType) as IQuery;
 
                 PopulateProperties(queryRequest, queryType, query);
 
                 queryResult = _queryCoordinator.Execute(query, new PagingInfo());
-                if (queryResult.Success)AddClientTypeInformation(queryResult);
+                if (queryResult.Success) AddClientTypeInformation(queryResult);
             }
             catch (Exception ex)
             {
@@ -107,11 +114,11 @@ namespace Dolittle.AspNetCore.Queries
             foreach (var key in descriptor.Parameters.Keys)
             {
                 var property = queryType
-                                    .GetTypeInfo()
-                                    .GetProperties()
-                                    .SingleOrDefault(_ => _
-                                        .Name.Equals(key, StringComparison.InvariantCultureIgnoreCase)
-                                    );
+                    .GetTypeInfo()
+                    .GetProperties()
+                    .SingleOrDefault(_ => _
+                        .Name.Equals(key, StringComparison.InvariantCultureIgnoreCase)
+                    );
                 if (property != null)
                 {
                     var propertyValue = descriptor.Parameters[key].ToString();
@@ -122,7 +129,7 @@ namespace Dolittle.AspNetCore.Queries
                         object underlyingValue = null;
                         try
                         {
-                            if (valueType == typeof(Guid))underlyingValue = Guid.Parse(propertyValue);
+                            if (valueType == typeof(Guid)) underlyingValue = Guid.Parse(propertyValue);
                             else underlyingValue = Convert.ChangeType(propertyValue, valueType);
                             value = ConceptFactory.CreateConceptInstance(property.PropertyType, underlyingValue);
                         }
@@ -130,7 +137,7 @@ namespace Dolittle.AspNetCore.Queries
                     }
                     else
                     {
-                        if(property.PropertyType == typeof(Guid)) value = Guid.Parse(propertyValue);
+                        if (property.PropertyType == typeof(Guid)) value = Guid.Parse(propertyValue);
                         else value = Convert.ChangeType(propertyValue, property.PropertyType);
                     }
 
