@@ -30,7 +30,7 @@ namespace Dolittle.AspNetCore.Commands
         /// Initializes a new instance of <see cref="CommandCoordinator"/>
         /// </summary>
         /// <param name="commandCoordinator">The underlying <see cref="ICommandCoordinator"/> </param>
-        /// <param name="executionContextManager"><see cref="IExecutionContextManager"/> for dealing with the <see cref="IExecutionContext"/></param>
+        /// <param name="executionContextManager"><see cref="IExecutionContextManager"/> for dealing with the <see cref="ExecutionContext"/></param>
         /// <param name="serializer"><see cref="ISerializer"/> for serialization purposes</param>
         /// <param name="commands">Instances of <see cref="ICommand"/></param>
         public CommandCoordinator(
