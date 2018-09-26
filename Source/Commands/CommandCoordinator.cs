@@ -8,6 +8,7 @@ using Dolittle.Commands;
 using Dolittle.Execution;
 using Dolittle.Runtime.Commands;
 using Dolittle.Runtime.Commands.Coordination;
+using Dolittle.Security;
 using Dolittle.Serialization.Json;
 using Dolittle.Tenancy;
 using Dolittle.Types;
@@ -53,7 +54,7 @@ namespace Dolittle.AspNetCore.Commands
         [HttpPost]
         public ActionResult Handle([FromBody] CommandRequest command)
         {
-            _executionContextManager.CurrentFor(TenantId.Unknown, command.CorrelationId, ClaimsPrincipal.Current);
+            _executionContextManager.CurrentFor(TenantId.Unknown, command.CorrelationId, ClaimsPrincipal.Current.ToClaims());
 
             var result = _commandCoordinator.Handle(command);
             var content = new ContentResult();
