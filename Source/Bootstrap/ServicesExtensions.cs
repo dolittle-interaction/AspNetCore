@@ -12,13 +12,13 @@ using Dolittle.DependencyInversion;
 using Dolittle.DependencyInversion.Bootstrap;
 using Dolittle.DependencyInversion.Scopes;
 using Dolittle.DependencyInversion.Strategies;
+using Dolittle.Execution;
 using Dolittle.Logging;
 using Dolittle.Reflection;
 using Dolittle.Types;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using BootResult = Dolittle.AspNetCore.Bootstrap.BootResult;
-
 namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
@@ -32,6 +32,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns></returns>
         public static BootResult AddDolittle(this IServiceCollection services, ILoggerFactory loggerFactory = null)
         {
+            ExecutionContextManager.SetInitialExecutionContext();
+
             if (loggerFactory == null)loggerFactory = new LoggerFactory();
 
             var logAppenders = Dolittle.Logging.Bootstrap.EntryPoint.Initialize(loggerFactory);
@@ -42,18 +44,6 @@ namespace Microsoft.Extensions.DependencyInjection
             var typeFinder = Dolittle.Types.Bootstrap.EntryPoint.Initialize(assemblies);
 
             var bindings = Dolittle.DependencyInversion.Bootstrap.Boot.Start(assemblies, typeFinder, logger, typeof(Container));
-
-            /*
-            var translatedServices = bindings.Select(GetServiceDescriptor);
-            translatedServices.ForEach(service =>
-            {
-                if (!services.Any(s => s.ServiceType == service.ServiceType))
-                {
-                    services.Add(service);
-                }
-            });
-            */
-
             AddMvcOptions(services, typeFinder);
 
             return new BootResult(assemblies, typeFinder, bindings);
