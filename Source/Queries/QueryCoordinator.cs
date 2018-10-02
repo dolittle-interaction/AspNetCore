@@ -14,6 +14,7 @@ using Dolittle.Execution;
 using Dolittle.Logging;
 using Dolittle.Queries;
 using Dolittle.Queries.Coordination;
+using Dolittle.Security;
 using Dolittle.Serialization.Json;
 using Dolittle.Tenancy;
 using Dolittle.Types;
@@ -72,7 +73,7 @@ namespace Dolittle.AspNetCore.Queries
         [HttpPost]
         public ActionResult Handle([FromBody] QueryRequest queryRequest)
         {
-            _executionContextManager.CurrentFor(TenantId.Unknown, CorrelationId.New(), ClaimsPrincipal.Current);
+            _executionContextManager.CurrentFor(TenantId.Unknown, CorrelationId.New(), ClaimsPrincipal.Current.ToClaims());
             QueryResult queryResult = null;
             try
             {
