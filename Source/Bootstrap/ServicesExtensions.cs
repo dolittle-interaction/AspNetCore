@@ -42,7 +42,8 @@ namespace Microsoft.Extensions.DependencyInjection
 
             var assemblies = Dolittle.Assemblies.Bootstrap.EntryPoint.Initialize(logger);
             var typeFinder = Dolittle.Types.Bootstrap.EntryPoint.Initialize(assemblies);
-
+            Dolittle.Resources.Configuration.Bootstrap.EntryPoint.Initialize(typeFinder);
+            
             var bindings = Dolittle.DependencyInversion.Bootstrap.Boot.Start(assemblies, typeFinder, logger, typeof(Container));
             AddMvcOptions(services, typeFinder);
 
