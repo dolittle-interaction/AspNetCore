@@ -13,6 +13,7 @@ namespace Dolittle.Tenancy.Strategies.Hostname
     [Singleton]
     public class HostnameStrategy : ICanResolveATenant
     {
+        const char _hostnameSegmentSeparator = '.';
         /// <inheritdoc/>
         public TenantStrategy Strategy => "hostname";
         /// <inheritdoc/>
@@ -26,21 +27,27 @@ namespace Dolittle.Tenancy.Strategies.Hostname
             switch (configuration.Configuration.Segments)
             {
                 case Segments.All:
-                    return ResolveTenantIdForAllSegments(httpRequest.Host);
+                    return ResolveTenantIdForAllSegments(httpRequest.Host, configuration);
                 case Segments.First:
-                    return ResolveTenantIdForFirstSegment(httpRequest.Host);
+                    return ResolveTenantIdForFirstSegment(httpRequest.Host, configuration);
                 default:
                     return TenantId.Unknown;
             }
         }
 
-        TenantId ResolveTenantIdForAllSegments(HostString host)
+        TenantId ResolveTenantIdForAllSegments(HostString host, HostnameStrategyResource configuration)
         {
-            return TenantId.System;
+            var tenantSegment = host.Host;
+            if (! configuration.Map.ContainsKey(tenantSegment)) throw new CouldNotMapTenantSegmentToTenantId(tenantSegment);
+            return configuration.Map[tenantSegment];
         }
-        TenantId ResolveTenantIdForFirstSegment(HostString host)
+        TenantId ResolveTenantIdForFirstSegment(HostString host, HostnameStrategyResource configuration)
         {
-            return TenantId.System;
+            var segments = host.Host.Split(_hostnameSegmentSeparator);
+            if (segments.Length < 2) throw new CannotResolveTenantFromHostname(host.Host);
+            var tenantSegment = segments[0];
+            if (! configuration.Map.ContainsKey(tenantSegment)) throw new CouldNotMapTenantSegmentToTenantId(tenantSegment);
+            return configuration.Map[tenantSegment];
         }
     }
 }
