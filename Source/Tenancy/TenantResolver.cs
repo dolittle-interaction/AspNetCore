@@ -5,11 +5,13 @@
 using Dolittle.Tenancy.Strategies;
 using Dolittle.Tenancy.Configuration;
 using Microsoft.AspNetCore.Http;
+using Dolittle.Lifecycle;
 
 namespace Dolittle.Tenancy
 {
 
     /// <inheritdoc/>
+    [Singleton]
     public class TenantResolver : ITenantResolver
     {
         readonly ITenantMapManager _tenantMapManager;
