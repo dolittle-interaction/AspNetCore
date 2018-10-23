@@ -4,8 +4,8 @@
  *--------------------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Security.Claims;
+using Dolittle.AspNetCore.Execution;
 using Dolittle.Commands;
-using Dolittle.Execution;
 using Dolittle.Runtime.Commands;
 using Dolittle.Runtime.Commands.Coordination;
 using Dolittle.Security;
@@ -25,25 +25,29 @@ namespace Dolittle.AspNetCore.Commands
         readonly ICommandCoordinator _commandCoordinator;
         readonly IInstancesOf<ICommand> _commands;
         readonly ISerializer _serializer;
-        readonly IExecutionContextManager _executionContextManager;
+        readonly IExecutionContextConfigurator _executionContextConfigurator;
+        readonly ITenantResolver _tenantResolver;
 
         /// <summary>
         /// Initializes a new instance of <see cref="CommandCoordinator"/>
         /// </summary>
         /// <param name="commandCoordinator">The underlying <see cref="ICommandCoordinator"/> </param>
-        /// <param name="executionContextManager"><see cref="IExecutionContextManager"/> for dealing with the <see cref="ExecutionContext"/></param>
+        /// <param name="executionContextConfigurator"><see cref="IExecutionContextConfigurator"/> for configuring the <see cref="Dolittle.Execution.ExecutionContext"/></param>
+        /// <param name="tenantResolver"></param>
         /// <param name="serializer"><see cref="ISerializer"/> for serialization purposes</param>
         /// <param name="commands">Instances of <see cref="ICommand"/></param>
         public CommandCoordinator(
             ICommandCoordinator commandCoordinator,
-            IExecutionContextManager executionContextManager,
+            IExecutionContextConfigurator executionContextConfigurator,
+            ITenantResolver tenantResolver,
             ISerializer serializer,
             IInstancesOf<ICommand> commands)
         {
             _commandCoordinator = commandCoordinator;
             _commands = commands;
             _serializer = serializer;
-            _executionContextManager = executionContextManager;
+            _executionContextConfigurator = executionContextConfigurator;
+            _tenantResolver = tenantResolver;
         }
 
         /// <summary>
@@ -54,7 +58,8 @@ namespace Dolittle.AspNetCore.Commands
         [HttpPost]
         public ActionResult Handle([FromBody] CommandRequest command)
         {
-            _executionContextManager.CurrentFor(TenantId.Unknown, command.CorrelationId, ClaimsPrincipal.Current.ToClaims());
+            
+            _executionContextConfigurator.ConfigureFor(_tenantResolver.Resolve(HttpContext.Request), command.CorrelationId, ClaimsPrincipal.Current.ToClaims());
 
             var result = _commandCoordinator.Handle(command);
             var content = new ContentResult();

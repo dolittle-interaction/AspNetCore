@@ -7,10 +7,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Security.Claims;
+using Dolittle.AspNetCore.Execution;
 using Dolittle.Concepts;
 using Dolittle.DependencyInversion;
 using Dolittle.Dynamic;
-using Dolittle.Execution;
 using Dolittle.Logging;
 using Dolittle.Queries;
 using Dolittle.Queries.Coordination;
@@ -31,10 +31,11 @@ namespace Dolittle.AspNetCore.Queries
         readonly ITypeFinder _typeFinder;
         readonly IContainer _container;
         readonly IQueryCoordinator _queryCoordinator;
+        readonly IExecutionContextConfigurator _executionContextConfigurator;
+        readonly ITenantResolver _tenantResolver;
         readonly IInstancesOf<IQuery> _queries;
         readonly ILogger _logger;
         readonly ISerializer _serializer;
-        private readonly IExecutionContextManager _executionContextManager;
 
         /// <summary>
         /// Initializes a new instance of <see cref="QueryCoordinator"/>
@@ -42,7 +43,8 @@ namespace Dolittle.AspNetCore.Queries
         /// <param name="typeFinder"></param>
         /// <param name="container"></param>
         /// <param name="queryCoordinator">The underlying <see cref="IQueryCoordinator"/> </param>
-        /// <param name="executionContextManager"></param>
+        /// <param name="executionContextConfigurator"></param>
+        /// <param name="tenantResolver"></param>
         /// <param name="queries"></param>
         /// <param name="serializer"></param>
         /// <param name="logger"></param>
@@ -50,19 +52,20 @@ namespace Dolittle.AspNetCore.Queries
             ITypeFinder typeFinder,
             IContainer container,
             IQueryCoordinator queryCoordinator,
-            IExecutionContextManager executionContextManager,
+            IExecutionContextConfigurator executionContextConfigurator,
+            ITenantResolver tenantResolver,
             IInstancesOf<IQuery> queries,
             ISerializer serializer,
             ILogger logger)
         {
             _typeFinder = typeFinder;
             _container = container;
-
             _queryCoordinator = queryCoordinator;
+            _executionContextConfigurator = executionContextConfigurator;
+            _tenantResolver = tenantResolver;
             _queries = queries;
-            _logger = logger;
             _serializer = serializer;
-            _executionContextManager = executionContextManager;
+            _logger = logger;
         }
 
         /// <summary>
@@ -73,7 +76,7 @@ namespace Dolittle.AspNetCore.Queries
         [HttpPost]
         public ActionResult Handle([FromBody] QueryRequest queryRequest)
         {
-            _executionContextManager.CurrentFor(TenantId.Unknown, CorrelationId.New(), ClaimsPrincipal.Current.ToClaims());
+            _executionContextConfigurator.ConfigureFor(_tenantResolver.Resolve(HttpContext.Request), Dolittle.Execution.CorrelationId.New(), ClaimsPrincipal.Current.ToClaims());
             QueryResult queryResult = null;
             try
             {
