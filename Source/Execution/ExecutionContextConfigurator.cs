@@ -11,7 +11,9 @@ using Dolittle.Tenancy;
 
 namespace Dolittle.AspNetCore.Execution
 {
-    /// <inheritdoc/>
+    /// <summary>
+    /// Represents an implementation of <see cref="IExecutionContextConfigurator"/>
+    /// </summary>
     [Singleton]
     public class ExecutionContextConfigurator : IExecutionContextConfigurator
     {
