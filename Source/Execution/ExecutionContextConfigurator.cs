@@ -5,12 +5,14 @@
 
 using Dolittle.Applications;
 using Dolittle.Execution;
+using Dolittle.Lifecycle;
 using Dolittle.Security;
 using Dolittle.Tenancy;
 
 namespace Dolittle.AspNetCore.Execution
 {
     /// <inheritdoc/>
+    [Singleton]
     public class ExecutionContextConfigurator : IExecutionContextConfigurator
     {
         const string ASPNETCORE_ENVIRONMENT = "ASPNETCORE_ENVIRONMENT";
