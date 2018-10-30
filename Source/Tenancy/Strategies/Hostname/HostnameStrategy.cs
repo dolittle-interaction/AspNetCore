@@ -44,7 +44,7 @@ namespace Dolittle.Tenancy.Strategies.Hostname
         TenantId ResolveTenantIdForFirstSegment(HostString host, HostnameStrategyResource configuration)
         {
             var segments = host.Host.Split(_hostnameSegmentSeparator);
-            if (segments.Length < 2) throw new CannotResolveTenantFromHostname(host.Host);
+            if (segments.Length < 1) throw new CannotResolveTenantFromHostname(host.Host);
             var tenantSegment = segments[0];
             if (! configuration.Map.ContainsKey(tenantSegment)) throw new CouldNotMapTenantSegmentToTenantId(tenantSegment);
             return configuration.Map[tenantSegment];
