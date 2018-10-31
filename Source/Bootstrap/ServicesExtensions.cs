@@ -74,7 +74,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns></returns>
         public static BootResult AddDolittle(this IServiceCollection services, ILoggerFactory loggerFactory = null)
         {
-            ExecutionContextManager.SetInitialExecutionContext();
+            _initialExecutionContext = ExecutionContextManager.SetInitialExecutionContext();
 
             if (loggerFactory == null)loggerFactory = new LoggerFactory();
 
