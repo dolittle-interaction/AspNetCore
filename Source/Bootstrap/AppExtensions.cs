@@ -29,6 +29,7 @@ namespace Microsoft.AspNetCore.Builder
              app.UseMiddleware<HealthCheckMiddleware>();
              
             var container = app.ApplicationServices.GetService(typeof(IContainer)) as IContainer;
+            Microsoft.Extensions.DependencyInjection.ServicesExtensions.Container = container;
             Bootstrapper.Start(container);
         }
 
