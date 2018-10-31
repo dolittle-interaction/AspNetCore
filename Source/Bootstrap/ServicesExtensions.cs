@@ -5,6 +5,7 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using Dolittle.AspNetCore.Bootstrap;
 using Dolittle.Assemblies;
 using Dolittle.Collections;
@@ -26,26 +27,69 @@ namespace Microsoft.Extensions.DependencyInjection
     /// </summary>
     public static class ServicesExtensions
     {
+        static readonly AsyncLocal<LoggingContext>  _currentLoggingContext = new AsyncLocal<LoggingContext>();
+        static IExecutionContextManager _executionContextManager;
+        static Dolittle.Execution.ExecutionContext _initialExecutionContext;
+
+        static LoggingContext GetCurrentLoggingContext()
+        {
+            Dolittle.Execution.ExecutionContext executionContext = null;
+
+            if( _executionContextManager == null && Container != null )
+                _executionContextManager = Container.Get<IExecutionContextManager>();
+
+            if (LoggingContextIsSet())
+            {
+                if (_executionContextManager != null) SetLatestLoggingContext();
+                return _currentLoggingContext.Value;
+            }
+            
+            if( _executionContextManager != null ) executionContext = _executionContextManager.Current;
+            else executionContext = _initialExecutionContext;
+
+            var loggingContext = CreateLoggingContextFrom(executionContext);
+            _currentLoggingContext.Value = loggingContext;
+
+            return loggingContext;
+        }
+        static bool LoggingContextIsSet() => 
+            _currentLoggingContext != null && _currentLoggingContext.Value != null;
+
+        static void SetLatestLoggingContext() => 
+            _currentLoggingContext.Value = CreateLoggingContextFrom(_executionContextManager.Current);
+            
+        
+        static LoggingContext CreateLoggingContextFrom(Dolittle.Execution.ExecutionContext executionContext) =>
+            new LoggingContext {
+                Application = executionContext.Application,
+                BoundedContext = executionContext.BoundedContext,
+                CorrelationId = executionContext.CorrelationId,
+                Environment = executionContext.Environment,
+                TenantId = executionContext.Tenant
+            };
+        internal static IContainer Container;
         /// <summary>
         /// Adds Dolittle services
         /// </summary>
         /// <returns></returns>
         public static BootResult AddDolittle(this IServiceCollection services, ILoggerFactory loggerFactory = null)
         {
-            ExecutionContextManager.SetInitialExecutionContext();
+            _initialExecutionContext = ExecutionContextManager.SetInitialExecutionContext();
 
             if (loggerFactory == null)loggerFactory = new LoggerFactory();
 
-            var logAppenders = Dolittle.Logging.Bootstrap.EntryPoint.Initialize(loggerFactory);
+            var logAppenders = Dolittle.Logging.Bootstrap.EntryPoint.Initialize(loggerFactory, GetCurrentLoggingContext);
             var logger = new Logger(logAppenders);
             services.AddSingleton(typeof(Dolittle.Logging.ILogger), logger);
-
+            
             var assemblies = Dolittle.Assemblies.Bootstrap.EntryPoint.Initialize(logger);
             var typeFinder = Dolittle.Types.Bootstrap.EntryPoint.Initialize(assemblies);
             Dolittle.Resources.Configuration.Bootstrap.EntryPoint.Initialize(typeFinder);
             
             var bindings = Dolittle.DependencyInversion.Bootstrap.Boot.Start(assemblies, typeFinder, logger, typeof(Container));
+            
             AddMvcOptions(services, typeFinder);
+            
 
             return new BootResult(assemblies, typeFinder, bindings);
         }
