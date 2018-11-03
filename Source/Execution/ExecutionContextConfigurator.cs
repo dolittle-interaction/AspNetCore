@@ -49,7 +49,7 @@ namespace Dolittle.AspNetCore.Execution
 
         Environment DeduceEnvironment()
         {
-            var aspnetcoreEnvironment = System.Environment.GetEnvironmentVariable(ASPNETCORE_ENVIRONMENT).ToLower();
+            var aspnetcoreEnvironment = System.Environment.GetEnvironmentVariable(ASPNETCORE_ENVIRONMENT)?.ToLower() ?? "undetermined";
 
             switch(aspnetcoreEnvironment)
             {
