@@ -23,15 +23,23 @@ namespace Dolittle.Tenancy.Strategies.Hostname
         public TenantId ResolveTenant(Func<Type, object> getConfigurationCallback, HttpRequest httpRequest)
         {
             var configuration = (HostnameStrategyResource) getConfigurationCallback(StrategyConfigurationType);
-            
-            switch (configuration.Configuration.Segments)
+            try 
             {
-                case Segments.All:
-                    return ResolveTenantIdForAllSegments(httpRequest.Host, configuration);
-                case Segments.First:
-                    return ResolveTenantIdForFirstSegment(httpRequest.Host, configuration);
-                default:
-                    return TenantId.Unknown;
+                switch (configuration.Configuration.Segments)
+                {
+                    case Segments.All:
+                        return ResolveTenantIdForAllSegments(httpRequest.Host, configuration);
+                    case Segments.First:
+                        return ResolveTenantIdForFirstSegment(httpRequest.Host, configuration);
+                    default:
+                        return TenantId.Unknown;
+                }
+            }
+            catch (Exception)
+            {
+                if (!configuration.FallbackToDeveloperTenant) throw;
+                
+                return TenantId.Development;
             }
         }
 
