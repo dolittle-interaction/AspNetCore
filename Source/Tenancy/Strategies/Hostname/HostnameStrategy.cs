@@ -37,7 +37,7 @@ namespace Dolittle.Tenancy.Strategies.Hostname
             }
             catch (Exception)
             {
-                if (!configuration.FallbackToDevTenant) throw;
+                if (!configuration.FallbackToDeveloperTenant) throw;
                 
                 return TenantId.Development;
             }
