@@ -2,10 +2,12 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using Dolittle.AspNetCore.Execution;
 using Dolittle.Commands;
+using Dolittle.Logging;
 using Dolittle.Runtime.Commands;
 using Dolittle.Runtime.Commands.Coordination;
 using Dolittle.Security;
@@ -27,6 +29,7 @@ namespace Dolittle.AspNetCore.Commands
         readonly ISerializer _serializer;
         readonly IExecutionContextConfigurator _executionContextConfigurator;
         readonly ITenantResolver _tenantResolver;
+        readonly ILogger _logger;
 
         /// <summary>
         /// Initializes a new instance of <see cref="CommandCoordinator"/>
@@ -36,18 +39,22 @@ namespace Dolittle.AspNetCore.Commands
         /// <param name="tenantResolver"></param>
         /// <param name="serializer"><see cref="ISerializer"/> for serialization purposes</param>
         /// <param name="commands">Instances of <see cref="ICommand"/></param>
+        /// <param name="logger"></param>
         public CommandCoordinator(
             ICommandCoordinator commandCoordinator,
             IExecutionContextConfigurator executionContextConfigurator,
             ITenantResolver tenantResolver,
             ISerializer serializer,
-            IInstancesOf<ICommand> commands)
+            IInstancesOf<ICommand> commands,
+            ILogger logger
+            )
         {
             _commandCoordinator = commandCoordinator;
             _commands = commands;
             _serializer = serializer;
             _executionContextConfigurator = executionContextConfigurator;
             _tenantResolver = tenantResolver;
+            _logger = logger;
         }
 
         /// <summary>
@@ -58,11 +65,24 @@ namespace Dolittle.AspNetCore.Commands
         [HttpPost]
         public ActionResult Handle([FromBody] CommandRequest command)
         {
-            
-            _executionContextConfigurator.ConfigureFor(_tenantResolver.Resolve(HttpContext.Request), command.CorrelationId, ClaimsPrincipal.Current.ToClaims());
-
-            var result = _commandCoordinator.Handle(command);
             var content = new ContentResult();
+            CommandResult result = null;
+            try 
+            {
+                _executionContextConfigurator.ConfigureFor(_tenantResolver.Resolve(HttpContext.Request), command.CorrelationId, ClaimsPrincipal.Current.ToClaims());
+                result = _commandCoordinator.Handle(command);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Could not handle command request");
+                result = new CommandResult()
+                {
+                    Command = command,
+                    Exception = ex,
+                    ExceptionMessage = ex.Message
+                };
+            }
+
             content.Content = _serializer.ToJson(result, SerializationOptions.CamelCase);
             content.ContentType = "application/json";
             return content;
