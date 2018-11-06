@@ -78,7 +78,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             if (loggerFactory == null)loggerFactory = new LoggerFactory();
 
-            var logAppenders = Dolittle.Logging.Bootstrap.EntryPoint.Initialize(loggerFactory, GetCurrentLoggingContext);
+            var logAppenders = Dolittle.Logging.Bootstrap.EntryPoint.Initialize(loggerFactory, GetCurrentLoggingContext, GetRunningEnvironment());
             var logger = new Logger(logAppenders);
             services.AddSingleton(typeof(Dolittle.Logging.ILogger), logger);
             
@@ -123,6 +123,20 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             if (binding.Scope is Dolittle.DependencyInversion.Scopes.Singleton)return ServiceLifetime.Singleton;
             return ServiceLifetime.Transient;
+        }
+        static Dolittle.Execution.Environment GetRunningEnvironment()
+        {
+            var aspnetcoreEnvironment = System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")?.ToLower() ?? "undetermined";
+
+            switch(aspnetcoreEnvironment)
+            {
+                case "development":
+                    return "Development";
+                case "production":
+                    return "Production";
+                default:
+                    return Dolittle.Execution.Environment.Undetermined;
+            }
         }
     }
 }
