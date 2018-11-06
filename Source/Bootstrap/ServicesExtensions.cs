@@ -43,6 +43,8 @@ namespace Microsoft.Extensions.DependencyInjection
 
             var logAppenders = Dolittle.Logging.Bootstrap.EntryPoint.Initialize(loggerFactory, GetCurrentLoggingContext, GetRunningEnvironment());
             var logger = new Logger(logAppenders);
+
+            SetupUnhandledExceptionHandler(logger);
             services.AddSingleton(typeof(Dolittle.Logging.ILogger), logger);
             
 
