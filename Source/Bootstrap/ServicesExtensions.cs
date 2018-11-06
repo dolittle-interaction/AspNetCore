@@ -31,6 +31,33 @@ namespace Microsoft.Extensions.DependencyInjection
         static IExecutionContextManager _executionContextManager;
         static Dolittle.Execution.ExecutionContext _initialExecutionContext;
 
+        /// <summary>
+        /// Adds Dolittle services
+        /// </summary>
+        /// <returns></returns>
+        public static BootResult AddDolittle(this IServiceCollection services, ILoggerFactory loggerFactory = null)
+        {
+            _initialExecutionContext = ExecutionContextManager.SetInitialExecutionContext();
+
+            if (loggerFactory == null)loggerFactory = new LoggerFactory();
+
+            var logAppenders = Dolittle.Logging.Bootstrap.EntryPoint.Initialize(loggerFactory, GetCurrentLoggingContext, GetRunningEnvironment());
+            var logger = new Logger(logAppenders);
+            services.AddSingleton(typeof(Dolittle.Logging.ILogger), logger);
+            
+
+
+            var assemblies = Dolittle.Assemblies.Bootstrap.EntryPoint.Initialize(logger);
+            var typeFinder = Dolittle.Types.Bootstrap.EntryPoint.Initialize(assemblies);
+            Dolittle.Resources.Configuration.Bootstrap.EntryPoint.Initialize(typeFinder);
+            
+            var bindings = Dolittle.DependencyInversion.Bootstrap.Boot.Start(assemblies, typeFinder, logger, typeof(Container));
+            
+            AddMvcOptions(services, typeFinder);
+            
+
+            return new BootResult(assemblies, typeFinder, bindings);
+        }
         static LoggingContext GetCurrentLoggingContext()
         {
             Dolittle.Execution.ExecutionContext executionContext = null;
@@ -68,32 +95,15 @@ namespace Microsoft.Extensions.DependencyInjection
                 TenantId = executionContext.Tenant
             };
         internal static IContainer Container;
-        /// <summary>
-        /// Adds Dolittle services
-        /// </summary>
-        /// <returns></returns>
-        public static BootResult AddDolittle(this IServiceCollection services, ILoggerFactory loggerFactory = null)
+        
+        static void SetupUnhandledExceptionHandler(Dolittle.Logging.ILogger logger)
         {
-            _initialExecutionContext = ExecutionContextManager.SetInitialExecutionContext();
-
-            if (loggerFactory == null)loggerFactory = new LoggerFactory();
-
-            var logAppenders = Dolittle.Logging.Bootstrap.EntryPoint.Initialize(loggerFactory, GetCurrentLoggingContext, GetRunningEnvironment());
-            var logger = new Logger(logAppenders);
-            services.AddSingleton(typeof(Dolittle.Logging.ILogger), logger);
-            
-            var assemblies = Dolittle.Assemblies.Bootstrap.EntryPoint.Initialize(logger);
-            var typeFinder = Dolittle.Types.Bootstrap.EntryPoint.Initialize(assemblies);
-            Dolittle.Resources.Configuration.Bootstrap.EntryPoint.Initialize(typeFinder);
-            
-            var bindings = Dolittle.DependencyInversion.Bootstrap.Boot.Start(assemblies, typeFinder, logger, typeof(Container));
-            
-            AddMvcOptions(services, typeFinder);
-            
-
-            return new BootResult(assemblies, typeFinder, bindings);
+            AppDomain.CurrentDomain.UnhandledException += (object sender, UnhandledExceptionEventArgs args) => 
+            {
+                var exception = (Exception) args.ExceptionObject;
+                logger.Error(exception, "Unhandled Exception");
+            };
         }
-
         static void AddMvcOptions(IServiceCollection services, ITypeFinder typeFinder)
         {
             var mvcOptionsAugmenters = typeFinder.FindMultiple<ICanAddMvcOptions>();
