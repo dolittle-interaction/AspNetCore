@@ -12,6 +12,11 @@ namespace Dolittle.Tenancy.Strategies.Hostname
     public class HostnameStrategyResource
     {
         /// <summary>
+        /// Gets whether or not the tenant strategy system should fallback to the Development <see cref="TenantId"/> if tenant could not resolved 
+        /// </summary>
+        /// <value></value>
+        public bool FallbackToDeveloperTenant {get; set;} 
+        /// <summary>
         /// Gets the Configuration
         /// </summary>
         public HostnameConfiguration Configuration {get; set;}

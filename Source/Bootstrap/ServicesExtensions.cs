@@ -5,7 +5,9 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using Dolittle.AspNetCore.Bootstrap;
+using Dolittle.AspNetCore.Execution;
 using Dolittle.Assemblies;
 using Dolittle.Bootstrapping;
 using Dolittle.Collections;
@@ -32,14 +34,14 @@ namespace Microsoft.Extensions.DependencyInjection
         /// Adds Dolittle services
         /// </summary>
         /// <returns></returns>
-        public static BootloaderResult AddDolittle(this IServiceCollection services, IHostingEnvironment hostingEnvironment, ILoggerFactory loggerFactory = null)
+        public static BootloaderResult AddDolittle(this IServiceCollection services, ILoggerFactory loggerFactory = null)
         {
             var bootloader = Bootloader.Configure()
                 .UseContainer<Container>();
 
             if( loggerFactory != null ) bootloader = bootloader.UseLoggerFactory(loggerFactory);
 
-            if( hostingEnvironment.IsDevelopment() ) bootloader = bootloader.Development();
+            if( EnvironmentUtilities.GetExecutionEnvironment() == Dolittle.Execution.Environment.Development ) bootloader = bootloader.Development();
 
             var bootloaderResult = bootloader.Start();
 
@@ -47,7 +49,15 @@ namespace Microsoft.Extensions.DependencyInjection
 
             return bootloaderResult;
         }
-
+        
+        static void SetupUnhandledExceptionHandler(Dolittle.Logging.ILogger logger)
+        {
+            AppDomain.CurrentDomain.UnhandledException += (object sender, UnhandledExceptionEventArgs args) => 
+            {
+                var exception = (Exception) args.ExceptionObject;
+                logger.Error(exception, "Unhandled Exception");
+            };
+        }
         static void AddMvcOptions(IServiceCollection services, ITypeFinder typeFinder)
         {
             var mvcOptionsAugmenters = typeFinder.FindMultiple<ICanAddMvcOptions>();

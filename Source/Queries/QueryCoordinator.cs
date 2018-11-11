@@ -76,10 +76,11 @@ namespace Dolittle.AspNetCore.Queries
         [HttpPost]
         public ActionResult Handle([FromBody] QueryRequest queryRequest)
         {
-            _executionContextConfigurator.ConfigureFor(_tenantResolver.Resolve(HttpContext.Request), Dolittle.Execution.CorrelationId.New(), ClaimsPrincipal.Current.ToClaims());
+            var content = new ContentResult();
             QueryResult queryResult = null;
             try
             {
+                _executionContextConfigurator.ConfigureFor(_tenantResolver.Resolve(HttpContext.Request), Dolittle.Execution.CorrelationId.New(), ClaimsPrincipal.Current.ToClaims());
                 _logger.Information($"Executing query : {queryRequest.NameOfQuery}");
                 var queryType = _typeFinder.GetQueryTypeByName(queryRequest.GeneratedFrom);
                 var query = _container.Get(queryType) as IQuery;
@@ -92,10 +93,13 @@ namespace Dolittle.AspNetCore.Queries
             catch (Exception ex)
             {
                 _logger.Error(ex, $"Error executing query : '{queryRequest.NameOfQuery}'");
-                queryResult = new QueryResult { Exception = ex };
+                queryResult = new QueryResult 
+                { 
+                    Exception = ex,
+                    QueryName = queryRequest.NameOfQuery
+                };
             }
 
-            var content = new ContentResult();
             content.Content = _serializer.ToJson(queryResult, SerializationOptions.CamelCase);
             content.ContentType = "application/json";
             return content;
