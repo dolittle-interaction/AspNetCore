@@ -17,6 +17,7 @@ using Dolittle.Execution;
 using Dolittle.Logging;
 using Dolittle.Reflection;
 using Dolittle.Types;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -31,11 +32,16 @@ namespace Microsoft.Extensions.DependencyInjection
         /// Adds Dolittle services
         /// </summary>
         /// <returns></returns>
-        public static BootloaderResult AddDolittle(this IServiceCollection services, ILoggerFactory loggerFactory = null)
+        public static BootloaderResult AddDolittle(this IServiceCollection services, IHostingEnvironment hostingEnvironment, ILoggerFactory loggerFactory = null)
         {
-            var bootloaderResult = Bootloader.Configure()
-                .UseContainer<Container>()
-                .Start();
+            var bootloader = Bootloader.Configure()
+                .UseContainer<Container>();
+
+            if( loggerFactory != null ) bootloader = bootloader.UseLoggerFactory(loggerFactory);
+
+            if( hostingEnvironment.IsDevelopment() ) bootloader = bootloader.Development();
+
+            var bootloaderResult = bootloader.Start();
 
             AddMvcOptions(services, bootloaderResult.TypeFinder);
 
