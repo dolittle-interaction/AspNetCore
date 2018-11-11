@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using Dolittle.AspNetCore.Bootstrap;
 using Dolittle.Assemblies;
+using Dolittle.Bootstrapping;
 using Dolittle.Collections;
 using Dolittle.DependencyInversion;
 using Dolittle.DependencyInversion.Bootstrap;
@@ -18,7 +19,7 @@ using Dolittle.Reflection;
 using Dolittle.Types;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using BootResult = Dolittle.AspNetCore.Bootstrap.BootResult;
+
 namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
@@ -30,24 +31,15 @@ namespace Microsoft.Extensions.DependencyInjection
         /// Adds Dolittle services
         /// </summary>
         /// <returns></returns>
-        public static BootResult AddDolittle(this IServiceCollection services, ILoggerFactory loggerFactory = null)
+        public static BootloaderResult AddDolittle(this IServiceCollection services, ILoggerFactory loggerFactory = null)
         {
-            ExecutionContextManager.SetInitialExecutionContext();
+            var bootloaderResult = Bootloader.Configure()
+                .UseContainer<Container>()
+                .Start();
 
-            if (loggerFactory == null)loggerFactory = new LoggerFactory();
+            AddMvcOptions(services, bootloaderResult.TypeFinder);
 
-            var logAppenders = Dolittle.Logging.Bootstrap.EntryPoint.Initialize(loggerFactory);
-            var logger = new Logger(logAppenders);
-            services.AddSingleton(typeof(Dolittle.Logging.ILogger), logger);
-
-            var assemblies = Dolittle.Assemblies.Bootstrap.EntryPoint.Initialize(logger);
-            var typeFinder = Dolittle.Types.Bootstrap.EntryPoint.Initialize(assemblies);
-            Dolittle.Resources.Configuration.Bootstrap.EntryPoint.Initialize(typeFinder);
-            
-            var bindings = Dolittle.DependencyInversion.Bootstrap.Boot.Start(assemblies, typeFinder, logger, typeof(Container));
-            AddMvcOptions(services, typeFinder);
-
-            return new BootResult(assemblies, typeFinder, bindings);
+            return bootloaderResult;
         }
 
         static void AddMvcOptions(IServiceCollection services, ITypeFinder typeFinder)
