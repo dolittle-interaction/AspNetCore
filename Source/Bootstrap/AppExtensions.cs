@@ -27,10 +27,6 @@ namespace Microsoft.AspNetCore.Builder
          public static void UseDolittle(this IApplicationBuilder app)
          {
              app.UseMiddleware<HealthCheckMiddleware>();
-             
-            var container = app.ApplicationServices.GetService(typeof(IContainer)) as IContainer;
-            Microsoft.Extensions.DependencyInjection.ServicesExtensions.Container = container;
-            Bootstrapper.Start(container);
         }
 
         /// <summary>
