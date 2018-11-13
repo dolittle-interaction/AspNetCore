@@ -26,6 +26,7 @@ namespace Microsoft.AspNetCore.Builder
          /// <param name="app"><see cref="IApplicationBuilder"/> to use Dolittle for</param>
          public static void UseDolittle(this IApplicationBuilder app)
          {
+             Bootstrapper.Start(app.ApplicationServices.GetService(typeof(IContainer)) as IContainer);
              app.UseMiddleware<HealthCheckMiddleware>();
         }
 
