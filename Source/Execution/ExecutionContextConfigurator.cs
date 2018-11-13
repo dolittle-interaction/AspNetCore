@@ -42,7 +42,7 @@ namespace Dolittle.AspNetCore.Execution
 
             _executionContextManager.SetConstants(executionApplication, executionBoundedContext, executionEnvironment);
 
-            return _executionContextManager.CurrentFor(tenantId, correlationId, claims);
+            return _executionContextManager.CurrentFor(tenantId, correlationId, claims ?? Dolittle.Security.Claims.Empty);
         }
 
         Application DeduceApplication()
