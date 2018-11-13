@@ -11,14 +11,13 @@ using Dolittle.Tenancy;
 
 namespace Dolittle.AspNetCore.Execution
 {
+
     /// <summary>
     /// Represents an implementation of <see cref="IExecutionContextConfigurator"/>
     /// </summary>
     [Singleton]
     public class ExecutionContextConfigurator : IExecutionContextConfigurator
     {
-        const string ASPNETCORE_ENVIRONMENT = "ASPNETCORE_ENVIRONMENT";
-        
         readonly IExecutionContextManager _executionContextManager;
 
         /// <summary>
@@ -37,8 +36,7 @@ namespace Dolittle.AspNetCore.Execution
         /// <inheritdoc/>
         public ExecutionContext ConfigureFor(TenantId tenantId, CorrelationId correlationId, Claims claims)
         {
-            
-            var executionEnvironment = DeduceEnvironment();
+            var executionEnvironment = EnvironmentUtilities.GetExecutionEnvironment();
             var executionApplication = DeduceApplication();
             var executionBoundedContext = DeduceBoundedContext();
 
@@ -47,20 +45,6 @@ namespace Dolittle.AspNetCore.Execution
             return _executionContextManager.CurrentFor(tenantId, correlationId, claims ?? Dolittle.Security.Claims.Empty);
         }
 
-        Environment DeduceEnvironment()
-        {
-            var aspnetcoreEnvironment = System.Environment.GetEnvironmentVariable(ASPNETCORE_ENVIRONMENT)?.ToLower() ?? "undetermined";
-
-            switch(aspnetcoreEnvironment)
-            {
-                case "development":
-                    return "Development";
-                case "production":
-                    return "Production";
-                default:
-                    return Environment.Undetermined;
-            }
-        }
         Application DeduceApplication()
         {
             return _executionContextManager.Current.Application;

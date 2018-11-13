@@ -7,7 +7,9 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using Dolittle.AspNetCore.Bootstrap;
+using Dolittle.AspNetCore.Execution;
 using Dolittle.Assemblies;
+using Dolittle.Bootstrapping;
 using Dolittle.Collections;
 using Dolittle.DependencyInversion;
 using Dolittle.DependencyInversion.Bootstrap;
@@ -17,9 +19,10 @@ using Dolittle.Execution;
 using Dolittle.Logging;
 using Dolittle.Reflection;
 using Dolittle.Types;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using BootResult = Dolittle.AspNetCore.Bootstrap.BootResult;
+
 namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
@@ -27,76 +30,25 @@ namespace Microsoft.Extensions.DependencyInjection
     /// </summary>
     public static class ServicesExtensions
     {
-        static readonly AsyncLocal<LoggingContext>  _currentLoggingContext = new AsyncLocal<LoggingContext>();
-        static IExecutionContextManager _executionContextManager;
-        static Dolittle.Execution.ExecutionContext _initialExecutionContext;
-
         /// <summary>
         /// Adds Dolittle services
         /// </summary>
         /// <returns></returns>
-        public static BootResult AddDolittle(this IServiceCollection services, ILoggerFactory loggerFactory = null)
+        public static BootloaderResult AddDolittle(this IServiceCollection services, ILoggerFactory loggerFactory = null)
         {
-            _initialExecutionContext = ExecutionContextManager.SetInitialExecutionContext();
+            var bootloader = Bootloader.Configure()
+                .UseContainer<Container>();
 
-            if (loggerFactory == null)loggerFactory = new LoggerFactory();
+            if( loggerFactory != null ) bootloader = bootloader.UseLoggerFactory(loggerFactory);
 
-            var logAppenders = Dolittle.Logging.Bootstrap.EntryPoint.Initialize(loggerFactory, GetCurrentLoggingContext, GetRunningEnvironment());
-            var logger = new Logger(logAppenders);
+            if( EnvironmentUtilities.GetExecutionEnvironment() == Dolittle.Execution.Environment.Development ) bootloader = bootloader.Development();
 
-            SetupUnhandledExceptionHandler(logger);
-            services.AddSingleton(typeof(Dolittle.Logging.ILogger), logger);
-            
+            var bootloaderResult = bootloader.Start();
 
+            AddMvcOptions(services, bootloaderResult.TypeFinder);
 
-            var assemblies = Dolittle.Assemblies.Bootstrap.EntryPoint.Initialize(logger);
-            var typeFinder = Dolittle.Types.Bootstrap.EntryPoint.Initialize(assemblies);
-            Dolittle.Resources.Configuration.Bootstrap.EntryPoint.Initialize(typeFinder);
-            
-            var bindings = Dolittle.DependencyInversion.Bootstrap.Boot.Start(assemblies, typeFinder, logger, typeof(Container));
-            
-            AddMvcOptions(services, typeFinder);
-            
-
-            return new BootResult(assemblies, typeFinder, bindings);
+            return bootloaderResult;
         }
-        static LoggingContext GetCurrentLoggingContext()
-        {
-            Dolittle.Execution.ExecutionContext executionContext = null;
-
-            if( _executionContextManager == null && Container != null )
-                _executionContextManager = Container.Get<IExecutionContextManager>();
-
-            if (LoggingContextIsSet())
-            {
-                if (_executionContextManager != null) SetLatestLoggingContext();
-                return _currentLoggingContext.Value;
-            }
-            
-            if( _executionContextManager != null ) executionContext = _executionContextManager.Current;
-            else executionContext = _initialExecutionContext;
-
-            var loggingContext = CreateLoggingContextFrom(executionContext);
-            _currentLoggingContext.Value = loggingContext;
-
-            return loggingContext;
-        }
-        static bool LoggingContextIsSet() => 
-            _currentLoggingContext != null && _currentLoggingContext.Value != null;
-
-        static void SetLatestLoggingContext() => 
-            _currentLoggingContext.Value = CreateLoggingContextFrom(_executionContextManager.Current);
-            
-        
-        static LoggingContext CreateLoggingContextFrom(Dolittle.Execution.ExecutionContext executionContext) =>
-            new LoggingContext {
-                Application = executionContext.Application,
-                BoundedContext = executionContext.BoundedContext,
-                CorrelationId = executionContext.CorrelationId,
-                Environment = executionContext.Environment,
-                TenantId = executionContext.Tenant
-            };
-        internal static IContainer Container;
         
         static void SetupUnhandledExceptionHandler(Dolittle.Logging.ILogger logger)
         {
@@ -135,20 +87,6 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             if (binding.Scope is Dolittle.DependencyInversion.Scopes.Singleton)return ServiceLifetime.Singleton;
             return ServiceLifetime.Transient;
-        }
-        static Dolittle.Execution.Environment GetRunningEnvironment()
-        {
-            var aspnetcoreEnvironment = System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")?.ToLower() ?? "undetermined";
-
-            switch(aspnetcoreEnvironment)
-            {
-                case "development":
-                    return "Development";
-                case "production":
-                    return "Production";
-                default:
-                    return Dolittle.Execution.Environment.Undetermined;
-            }
         }
     }
 }
