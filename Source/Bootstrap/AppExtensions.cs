@@ -4,10 +4,12 @@
  *--------------------------------------------------------------------------------------------*/
 using System.IO;
 using System.Threading.Tasks;
+using Dolittle.Applications;
 using Dolittle.AspNetCore.Bootstrap;
 using Dolittle.Bootstrapping;
 using Dolittle.DependencyInversion;
 using Dolittle.DependencyInversion.Bootstrap;
+using Dolittle.Execution;
 using Dolittle.Runtime.Events.Coordination;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -30,6 +32,7 @@ namespace Microsoft.AspNetCore.Builder
             var container = app.ApplicationServices.GetService(typeof(IContainer)) as IContainer;
             Boot.ContainerReady(container);
             Bootstrapper.Start(container);
+            container.Get<IExecutionContextManager>().SetConstants(container.Get<Application>(), container.Get<BoundedContext>(), container.Get<Environment>());
             app.UseMiddleware<HealthCheckMiddleware>();
         }
 
