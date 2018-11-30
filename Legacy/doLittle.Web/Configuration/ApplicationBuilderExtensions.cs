@@ -33,11 +33,6 @@ namespace Microsoft.AspNetCore.Builder
 
             builder.Use(WebCallContext.Middleware);
 
-            builder.Map("/Dolittle/Application", a => a.Run(Application));
-            builder.Map("/Dolittle/Proxies", a => a.Run(Proxies));
-            builder.Map("/Dolittle/Security", a => a.Run(SecurityProxies));
-            builder.Map("/Dolittle/AssetsManager", a => a.Run(AssetsManager));
-
             var routeBuilder = new RouteBuilder(builder);
             routeBuilder.MapService<CommandCoordinatorService>("Dolittle/CommandCoordinator");
             routeBuilder.MapService<CommandSecurityService>("Dolittle/CommandSecurity");
@@ -61,46 +56,6 @@ namespace Microsoft.AspNetCore.Builder
             }
 
             return builder;
-        }
-
-        static async Task Application(HttpContext context)
-        {
-            var configuration = Configure.Instance.Container.Get<ConfigurationAsJavaScript>();
-            context.Response.ContentType = "text/javascript";
-            if (context.Request.Query.ContainsKey("nocache")) configuration.Initialize();
-            await context.Response.WriteAsync(configuration.AsString);
-        }
-
-
-        static async Task Proxies(HttpContext context)
-        {
-            var proxies = Configure.Instance.Container.Get<GeneratedProxies>();
-            context.Response.ContentType = "text/javascript";
-            await context.Response.WriteAsync(proxies.All);
-        }
-
-        static async Task SecurityProxies(HttpContext context)
-        {
-            var proxies = Configure.Instance.Container.Get<CommandSecurityProxies>();
-            context.Response.ContentType = "text/javascript";
-            await context.Response.WriteAsync(proxies.Generate());
-        }
-
-        static async Task AssetsManager(HttpContext context)
-        {
-            var assetsManager = Configure.Instance.Container.Get<IAssetsManager>();
-            context.Response.ContentType = "text/javascript";
-
-            IEnumerable<string> assets = new string[0];
-            if (context.Request.Query.ContainsKey("extension"))
-            {
-                var extension = context.Request.Query["extension"];
-                assets = assetsManager.GetFilesForExtension(extension);
-                if (context.Request.Query.ContainsKey("structure"))
-                    assets = assetsManager.GetStructureForExtension(extension);
-            }
-            var serialized = JsonConvert.SerializeObject(assets);
-            await context.Response.WriteAsync(serialized);
         }
     }
 }
