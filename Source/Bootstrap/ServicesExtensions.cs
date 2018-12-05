@@ -4,22 +4,13 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Linq;
-using System.Reflection;
-using System.Threading;
 using Dolittle.AspNetCore.Bootstrap;
 using Dolittle.AspNetCore.Execution;
-using Dolittle.Assemblies;
-using Dolittle.Bootstrapping;
+using Dolittle.Booting;
 using Dolittle.Collections;
 using Dolittle.DependencyInversion;
-using Dolittle.DependencyInversion.Bootstrap;
-using Dolittle.DependencyInversion.Scopes;
-using Dolittle.DependencyInversion.Strategies;
-using Dolittle.Execution;
-using Dolittle.Logging;
 using Dolittle.Reflection;
 using Dolittle.Types;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -36,12 +27,12 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns></returns>
         public static BootloaderResult AddDolittle(this IServiceCollection services, ILoggerFactory loggerFactory = null)
         {
-            var bootloader = Bootloader.Configure()
+            var bootloader = Bootloader.Configure(_ => {
+                if( loggerFactory != null ) _ = _.UseLoggerFactory(loggerFactory);
+                if( EnvironmentUtilities.GetExecutionEnvironment() == Dolittle.Execution.Environment.Development ) _ = _.Development();
+                _.SkipBootprocedures()
                 .UseContainer<Container>();
-
-            if( loggerFactory != null ) bootloader = bootloader.UseLoggerFactory(loggerFactory);
-
-            if( EnvironmentUtilities.GetExecutionEnvironment() == Dolittle.Execution.Environment.Development ) bootloader = bootloader.Development();
+            });
 
             var bootloaderResult = bootloader.Start();
 

@@ -10,8 +10,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dolittle.Bootstrapping" Version="2.0.0-alpha2*" />
-    <PackageReference Include="Dolittle.DependencyInversion.Bootstrap" Version="2.0.0-alpha2*" />
+    <PackageReference Include="Dolittle.Booting" Version="2.0.0-alpha2*" />
+    <PackageReference Include="Dolittle.DependencyInversion.Booting" Version="2.0.0-alpha2*" />
     <PackageReference Include="Dolittle.Logging" Version="2.0.0-alpha2*" />
     <PackageReference Include="Dolittle.ResourceTypes.Configuration" Version="2.0.0-alpha2*" />
     <PackageReference Include="Dolittle.Runtime.Events" Version="2.0.0-alpha2*" />

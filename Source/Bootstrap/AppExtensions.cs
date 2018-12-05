@@ -5,11 +5,9 @@
 using System.IO;
 using System.Threading.Tasks;
 using Dolittle.AspNetCore.Bootstrap;
-using Dolittle.Bootstrapping;
+using Dolittle.Booting;
 using Dolittle.DependencyInversion;
-using Dolittle.DependencyInversion.Bootstrap;
 using Dolittle.Logging;
-using Dolittle.Runtime.Events.Coordination;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.FileProviders.Physical;
@@ -30,8 +28,9 @@ namespace Microsoft.AspNetCore.Builder
         {
             var container = app.ApplicationServices.GetService(typeof(IContainer)) as IContainer;
             var logger = app.ApplicationServices.GetService(typeof(ILogger)) as ILogger;
-            Boot.ContainerReady(container);
-            Bootstrapper.Start(logger,container);
+            Dolittle.DependencyInversion.Booting.Boot.ContainerReady(container);
+            var bootProcedures = container.Get<IBootProcedures>();
+            bootProcedures.Perform();
             app.UseMiddleware<HealthCheckMiddleware>();
         }
 
