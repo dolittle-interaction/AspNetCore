@@ -4,10 +4,14 @@
  *--------------------------------------------------------------------------------------------*/
 using System.IO;
 using System.Threading.Tasks;
+using Dolittle.Applications;
 using Dolittle.AspNetCore.Bootstrap;
 using Dolittle.Booting;
 using Dolittle.DependencyInversion;
+using Dolittle.DependencyInversion.Booting;
 using Dolittle.Logging;
+using Dolittle.Execution;
+using Dolittle.Runtime.Events.Coordination;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.FileProviders.Physical;
@@ -27,6 +31,7 @@ namespace Microsoft.AspNetCore.Builder
         public static void UseDolittle(this IApplicationBuilder app)
         {
             var container = app.ApplicationServices.GetService(typeof(IContainer)) as IContainer;
+
             var logger = app.ApplicationServices.GetService(typeof(ILogger)) as ILogger;
             Dolittle.DependencyInversion.Booting.Boot.ContainerReady(container);
             var bootProcedures = container.Get<IBootProcedures>();
