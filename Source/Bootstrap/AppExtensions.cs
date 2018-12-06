@@ -6,9 +6,10 @@ using System.IO;
 using System.Threading.Tasks;
 using Dolittle.Applications;
 using Dolittle.AspNetCore.Bootstrap;
-using Dolittle.Bootstrapping;
+using Dolittle.Booting;
 using Dolittle.DependencyInversion;
-using Dolittle.DependencyInversion.Bootstrap;
+using Dolittle.DependencyInversion.Booting;
+using Dolittle.Logging;
 using Dolittle.Execution;
 using Dolittle.Runtime.Events.Coordination;
 using Microsoft.AspNetCore.Hosting;
@@ -30,9 +31,11 @@ namespace Microsoft.AspNetCore.Builder
         public static void UseDolittle(this IApplicationBuilder app)
         {
             var container = app.ApplicationServices.GetService(typeof(IContainer)) as IContainer;
-            Boot.ContainerReady(container);
-            Bootstrapper.Start(container);
-            container.Get<IExecutionContextManager>().SetConstants(container.Get<Application>(), container.Get<BoundedContext>(), container.Get<Environment>());
+
+            var logger = app.ApplicationServices.GetService(typeof(ILogger)) as ILogger;
+            Dolittle.DependencyInversion.Booting.Boot.ContainerReady(container);
+            var bootProcedures = container.Get<IBootProcedures>();
+            bootProcedures.Perform();
             app.UseMiddleware<HealthCheckMiddleware>();
         }
 
