@@ -33,7 +33,11 @@ namespace Microsoft.AspNetCore.Builder
             var container = app.ApplicationServices.GetService(typeof(IContainer)) as IContainer;
 
             var logger = app.ApplicationServices.GetService(typeof(ILogger)) as ILogger;
+
             Dolittle.DependencyInversion.Booting.Boot.ContainerReady(container);
+            
+            Dolittle.Booting.BootStages.ContainerReady(container);
+
             var bootProcedures = container.Get<IBootProcedures>();
             bootProcedures.Perform();
             app.UseMiddleware<HealthCheckMiddleware>();
