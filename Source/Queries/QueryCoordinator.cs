@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using Dolittle.AspNetCore.Execution;
 using Dolittle.Concepts;
 using Dolittle.DependencyInversion;
@@ -74,7 +75,7 @@ namespace Dolittle.AspNetCore.Queries
         /// <param name="queryRequest"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Handle([FromBody] QueryRequest queryRequest)
+        public async Task<IActionResult> Handle([FromBody] QueryRequest queryRequest)
         {
             var content = new ContentResult();
             QueryResult queryResult = null;
@@ -87,7 +88,7 @@ namespace Dolittle.AspNetCore.Queries
 
                 PopulateProperties(queryRequest, queryType, query);
 
-                queryResult = _queryCoordinator.Execute(query, new PagingInfo());
+                queryResult = await _queryCoordinator.Execute(query, new PagingInfo());
                 if (queryResult.Success) AddClientTypeInformation(queryResult);
             }
             catch (Exception ex)
