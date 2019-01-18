@@ -160,9 +160,19 @@ namespace Dolittle.AspNetCore.Queries
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IEnumerable<IQuery> Commands()
+        public IEnumerable<IQuery> Queries()
         {
-            return _queries;
+            try
+            {
+                _executionContextConfigurator.ConfigureFor(_tenantResolver.Resolve(HttpContext.Request), Dolittle.Execution.CorrelationId.New(), ClaimsPrincipal.Current.ToClaims());
+                return _queries.ToList();
+            }
+            catch(Exception ex)
+            {
+
+                _logger.Error(ex, $"Error listing queries.");
+                throw;
+            }
         }
     }
 }
