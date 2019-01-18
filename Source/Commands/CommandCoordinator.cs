@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using Dolittle.AspNetCore.Execution;
 using Dolittle.Commands;
@@ -95,7 +96,17 @@ namespace Dolittle.AspNetCore.Commands
         [HttpGet]
         public IEnumerable<ICommand> Commands()
         {
-            return _commands;
+            try
+            {
+                _executionContextConfigurator.ConfigureFor(_tenantResolver.Resolve(HttpContext.Request), Dolittle.Execution.CorrelationId.New(), ClaimsPrincipal.Current.ToClaims());
+                return _commands.ToList();
+            }
+            catch(Exception ex)
+            {
+
+                _logger.Error(ex, $"Error listing commands.");
+                throw;
+            }
         }
 
     }
