@@ -40,6 +40,47 @@ namespace Microsoft.Extensions.DependencyInjection
 
             return bootloaderResult;
         }
+
+        /// <summary>
+        /// Adds Dolittle services
+        /// </summary>
+        /// <returns></returns>
+        public static BootloaderResult AddDolittle(this IServiceCollection services, Action<IBootBuilder> builderDelegate, ILoggerFactory loggerFactory = null)
+        {
+            var bootloader = Bootloader.Configure(_ => {
+                if( loggerFactory != null ) _ = _.UseLoggerFactory(loggerFactory);
+                if( EnvironmentUtilities.GetExecutionEnvironment() == Dolittle.Execution.Environment.Development ) _ = _.Development();
+                _.SkipBootprocedures()
+                .UseContainer<Container>();
+                builderDelegate(_);
+            });
+
+            var bootloaderResult = bootloader.Start();
+
+            AddMvcOptions(services, bootloaderResult.TypeFinder);
+
+            return bootloaderResult;
+        }  
+
+        /// <summary>
+        /// Adds Dolittle services
+        /// </summary>
+        /// <returns></returns>
+        public static BootloaderResult AddDolittle(this IServiceCollection services, Action<IBootBuilder> builderDelegate)
+        {
+            var bootloader = Bootloader.Configure(_ => {
+                if( EnvironmentUtilities.GetExecutionEnvironment() == Dolittle.Execution.Environment.Development ) _ = _.Development();
+                _.SkipBootprocedures()
+                .UseContainer<Container>();
+                builderDelegate(_);
+            });
+
+            var bootloaderResult = bootloader.Start();
+
+            AddMvcOptions(services, bootloaderResult.TypeFinder);
+
+            return bootloaderResult;
+        }        
         
         static void SetupUnhandledExceptionHandler(Dolittle.Logging.ILogger logger)
         {
