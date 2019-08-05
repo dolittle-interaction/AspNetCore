@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Dolittle.AspNetCore.Execution;
+using Dolittle.Collections;
 using Dolittle.Concepts;
 using Dolittle.DependencyInversion;
 using Dolittle.Dynamic;
@@ -20,6 +21,7 @@ using Dolittle.Serialization.Json;
 using Dolittle.Tenancy;
 using Dolittle.Types;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
 namespace Dolittle.AspNetCore.Queries
 {
@@ -86,7 +88,8 @@ namespace Dolittle.AspNetCore.Queries
                 var queryType = _typeFinder.GetQueryTypeByName(queryRequest.GeneratedFrom);
                 var query = _container.Get(queryType) as IQuery;
 
-                PopulateProperties(queryRequest, queryType, query);
+                var properties = queryType.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty).ToDictionary(p => p.Name.ToLowerInvariant(), p => p);
+                CopyPropertiesFromRequestToQuery(queryRequest, query, properties);
 
                 queryResult = await _queryCoordinator.Execute(query, new PagingInfo());
                 if (queryResult.Success) AddClientTypeInformation(queryResult);
@@ -118,43 +121,6 @@ namespace Dolittle.AspNetCore.Queries
             result.Items = items;
         }
 
-        void PopulateProperties(QueryRequest descriptor, Type queryType, object instance)
-        {
-            foreach (var key in descriptor.Parameters.Keys)
-            {
-                var property = queryType
-                    .GetTypeInfo()
-                    .GetProperties()
-                    .SingleOrDefault(_ => _
-                        .Name.Equals(key, StringComparison.InvariantCultureIgnoreCase)
-                    );
-                if (property != null)
-                {
-                    var propertyValue = descriptor.Parameters[key].ToString();
-                    object value = null;
-                    if (property.PropertyType.IsConcept())
-                    {
-                        var valueType = property.PropertyType.GetConceptValueType();
-                        object underlyingValue = null;
-                        try
-                        {
-                            if (valueType == typeof(Guid)) underlyingValue = Guid.Parse(propertyValue);
-                            else underlyingValue = Convert.ChangeType(propertyValue, valueType);
-                            value = ConceptFactory.CreateConceptInstance(property.PropertyType, underlyingValue);
-                        }
-                        catch { }
-                    }
-                    else
-                    {
-                        if (property.PropertyType == typeof(Guid)) value = Guid.Parse(propertyValue);
-                        else value = Convert.ChangeType(propertyValue, property.PropertyType);
-                    }
-
-                    property.SetValue(instance, value, null);
-                }
-            }
-        }
-
         /// <summary>
         /// 
         /// </summary>
@@ -173,6 +139,54 @@ namespace Dolittle.AspNetCore.Queries
                 _logger.Error(ex, $"Error listing queries.");
                 throw;
             }
+        }
+
+        void CopyPropertiesFromRequestToQuery(QueryRequest request, object instance, Dictionary<string, PropertyInfo> properties)
+        {
+            request.Parameters.Keys.ForEach(propertyName =>
+            {
+                var lowerCasedPropertyName = propertyName.ToLowerInvariant();
+                if (properties.ContainsKey(lowerCasedPropertyName))
+                {
+                    var property = properties[lowerCasedPropertyName];
+                    object value = request.Parameters[propertyName];
+
+                    value = HandleValue(property.PropertyType, value);
+                    property.SetValue(instance, value);
+                }
+            });
+        }
+
+        object HandleValue(Type targetType, object value)
+        {
+            if (value is JArray ||  value is JObject)
+            {
+                value = _serializer.FromJson(targetType, value.ToString());
+            }
+            else if (targetType.IsConcept())
+            {
+                value = ConceptFactory.CreateConceptInstance(targetType, value);
+            }
+            else if (targetType == typeof(DateTimeOffset))
+            {
+                if(value is DateTime time)
+                    value = new DateTimeOffset(time);
+            }
+            else if (targetType.IsEnum)
+            {
+                value = Enum.Parse(targetType, value.ToString());
+            }
+            else if (targetType == typeof(Guid))
+            {
+                value = Guid.Parse(value.ToString());
+            }
+            else
+            {
+                if (!targetType.IsAssignableFrom(value.GetType()))
+                    value = System.Convert.ChangeType(value, targetType);
+            }
+
+            return value;
         }
     }
 }
