@@ -2,7 +2,6 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -19,17 +18,17 @@ namespace Dolittle.AspNetCore.Authentication
     /// <summary>
     /// Represents an <see cref="AuthenticationHandler{Scheme}"/> for handling authentication
     /// </summary>
-    public class Handler : AuthenticationHandler<SchemeOptions>
+    public class HttpHeaderHandler : AuthenticationHandler<HttpHeaderSchemeOptions>
     {
         /// <summary>
-        /// Instantiates an instance of <see cref="Handler"/>
+        /// Instantiates an instance of <see cref="HttpHeaderHandler"/>
         /// </summary>
         /// <param name="options"></param>
         /// <param name="logger"></param>
         /// <param name="encoder"></param>
         /// <param name="clock"></param>
         /// <returns></returns>
-        public Handler(IOptionsMonitor<SchemeOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock) : base(options, logger, encoder, clock) {}
+        public HttpHeaderHandler(IOptionsMonitor<HttpHeaderSchemeOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock) : base(options, logger, encoder, clock) {}
 
         /// <summary>
         /// 
@@ -38,21 +37,24 @@ namespace Dolittle.AspNetCore.Authentication
         protected override Task<AuthenticateResult> HandleAuthenticateAsync()
         {
             var claims = new List<Claim>();
-            if (Request.Headers.TryGetValue("Claims", out var claimsValues)) {
-
-                if (!claimsValues.Any()) return Task.FromResult(AuthenticateResult.NoResult());
-                claimsValues.ForEach(_ => {
-                    var split = _.Split('=', 2);
-                    claims.Add(new Claim(split[0], split[1]));
-                });
+            var claimHeaders = Request.Headers.Where(_ => _.Key.StartsWith("Claim-"));
+            if (claimHeaders.Any()) 
+            {
+                foreach (var header in claimHeaders)
+                {
+                    if (!header.Value.Any()) throw new ClaimHasNoValues(header.Key);
+                    else if (header.Value.Count > 1) throw new ClaimHasMultipleValues(header.Key);
+                    else claims.Add(new Claim(header.Key, header.Value.FirstOrDefault()));
+                }
+                var identities = new []{new ClaimsIdentity(claims, "Dolittle.Headers")};
+                var principal = new ClaimsPrincipal(identities);
                 return Task.FromResult(AuthenticateResult.Success(new AuthenticationTicket(
-                    new ClaimsPrincipal(new []{new ClaimsIdentity(claims, "Dolittle.Headers")}),
+                    principal,
                     new AuthenticationProperties(),
                     Scheme.Name
                 )));
             }
-            else 
-                return Task.FromResult(AuthenticateResult.NoResult());
+            return Task.FromResult(AuthenticateResult.NoResult());
         }
     }
 }

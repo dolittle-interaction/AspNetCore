@@ -10,6 +10,7 @@ using Dolittle.Tenancy;
 using Dolittle.Security;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Authentication;
 
 namespace Dolittle.AspNetCore.Bootstrap
 {
@@ -20,7 +21,6 @@ namespace Dolittle.AspNetCore.Bootstrap
     {
         readonly RequestDelegate _next;
         readonly IExecutionContextManager _executionContextManager;
-        readonly ExecutionContextSetupConfigurationDelegate _callback;
         readonly ExecutionContextSetupConfiguration _configuration;
         
         /// <summary>
@@ -28,13 +28,11 @@ namespace Dolittle.AspNetCore.Bootstrap
         /// </summary>
         /// <param name="next"></param>
         /// <param name="executionContextManager"></param>
-        /// <param name="executionContextSetupConfigurationCallback"></param>
-        public ExecutionContextSetup(RequestDelegate next, IExecutionContextManager executionContextManager, ExecutionContextSetupConfigurationDelegate executionContextSetupConfigurationCallback)
+        public ExecutionContextSetup(RequestDelegate next, IExecutionContextManager executionContextManager)
         {
             _next = next;
             _executionContextManager = executionContextManager;
-            _callback = executionContextSetupConfigurationCallback ?? ExecutionContextSetupConfiguration.DefaultDelegate;
-            _configuration = _callback(ExecutionContextSetupConfiguration.Default);
+            _configuration = ExecutionContextSetupConfiguration.Default;
         }
 
         /// <summary>
@@ -44,17 +42,21 @@ namespace Dolittle.AspNetCore.Bootstrap
         /// <returns></returns>
         public async Task InvokeAsync(HttpContext context)
         {
+            var authResult = await context.AuthenticateAsync("Dolittle.Headers");
             var tenantId = TenantId.Unknown;
-            var tenantIdHeaderValue = context.Request.Headers[_configuration.TenantIdHeaderKey].FirstOrDefault();
-            if (!string.IsNullOrEmpty(tenantIdHeaderValue)) 
+            
+            var tenantIdHeaders = context.Request.Headers[_configuration.TenantIdHeaderKey];
+
+            if (tenantIdHeaders.Count == 1) 
             {
-                try 
-                {
-                    tenantId = new TenantId{Value = Guid.Parse(tenantIdHeaderValue)};
-                } 
-                catch {}
+                var tenantIdValue = tenantIdHeaders.FirstOrDefault();
+                if (Guid.TryParse(tenantIdValue, out var tenantIdGuid))
+                    tenantId = new TenantId{Value = tenantIdGuid};
             }
-            _executionContextManager.CurrentFor(tenantId, CorrelationId.New(), context.User.ToClaims());
+            if (authResult.Succeeded)
+                _executionContextManager.CurrentFor(tenantId, CorrelationId.New(), authResult.Principal.ToClaims());
+            else 
+                _executionContextManager.CurrentFor(tenantId, CorrelationId.New());
             await _next.Invoke(context);
         }
     }

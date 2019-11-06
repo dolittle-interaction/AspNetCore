@@ -42,7 +42,7 @@ namespace Microsoft.AspNetCore.Builder
             bootProcedures.Perform();
             app.UseAuthentication();
             app.UseMiddleware<HealthCheckMiddleware>();
-            app.UseMiddleware<ExecutionContextSetup>(container.Get<IExecutionContextManager>(), executionContextSetupConfigurationCallback);
+            app.UseMiddleware<ExecutionContextSetup>();
         }
 
         /// <summary>

@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Authentication;
 namespace Dolittle.AspNetCore.Authentication
 {
     /// <summary>
-    /// Represents the Scheme
+    /// Represents the <see cref="AuthenticationSchemeOptions"/> for <see cref="HttpHeaderHandler"/> 
     /// </summary>
-    public class SchemeOptions : AuthenticationSchemeOptions
+    public class HttpHeaderSchemeOptions : AuthenticationSchemeOptions
     {
         
     }
