@@ -9,10 +9,9 @@ using Dolittle.Execution;
 using Dolittle.Tenancy;
 using Dolittle.Security;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authentication;
 
-namespace Dolittle.AspNetCore.Bootstrap
+namespace Dolittle.AspNetCore.Execution
 {
     /// <summary>
     /// Provides an endpoint for that sets the <see cref="Dolittle.Tenancy.TenantId"/> of the <see cref="Dolittle.Execution.ExecutionContext" />
@@ -47,7 +46,8 @@ namespace Dolittle.AspNetCore.Bootstrap
             
             var tenantIdHeaders = context.Request.Headers[_configuration.TenantIdHeaderKey];
 
-            if (tenantIdHeaders.Count == 1) 
+            if (tenantIdHeaders.Count > 1) throw new TenantIdHeaderHasMultipleValues(_configuration.TenantIdHeaderKey);
+            else if (tenantIdHeaders.Count == 1) 
             {
                 var tenantIdValue = tenantIdHeaders.FirstOrDefault();
                 if (Guid.TryParse(tenantIdValue, out var tenantIdGuid))

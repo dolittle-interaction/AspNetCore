@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.FileProviders.Physical;
 using System;
 using Dolittle.Execution;
+using Dolittle.AspNetCore.Execution;
 
 namespace Microsoft.AspNetCore.Builder
 {
