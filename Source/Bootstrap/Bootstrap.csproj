@@ -11,11 +11,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dolittle.Booting" Version="3.*" />
-    <PackageReference Include="Dolittle.DependencyInversion.Booting" Version="3.*" />
-    <PackageReference Include="Dolittle.Logging" Version="3.*" />
-    <PackageReference Include="Dolittle.ResourceTypes.Configuration" Version="3.*" />
-    <PackageReference Include="Dolittle.Runtime.Events" Version="3.*" />
+    <PackageReference Include="Dolittle.Booting" Version="4.*" />
+    <PackageReference Include="Dolittle.DependencyInversion.Booting" Version="4.*" />
+    <PackageReference Include="Dolittle.Logging" Version="4.*" />
+    <PackageReference Include="Dolittle.ResourceTypes.Configuration" Version="4.*" />
+    <PackageReference Include="Dolittle.Runtime.Events" Version="4.*" />
     
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" AllowExplicitVersion="true" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />

@@ -12,9 +12,9 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
-    <PackageReference Include="Dolittle.Dynamic" Version="3.*" />
-    <PackageReference Include="Dolittle.Strings" Version="3.*" />
-    <PackageReference Include="Dolittle.Serialization.Json" Version="3.*" />
-    <PackageReference Include="Dolittle.Runtime.Queries.Coordination" Version="3.*" />    
+    <PackageReference Include="Dolittle.Dynamic" Version="4.*" />
+    <PackageReference Include="Dolittle.Strings" Version="4.*" />
+    <PackageReference Include="Dolittle.Serialization.Json" Version="4.*" />
+    <PackageReference Include="Dolittle.Runtime.Queries.Coordination" Version="4.*" />    
   </ItemGroup>  
 </Project>
