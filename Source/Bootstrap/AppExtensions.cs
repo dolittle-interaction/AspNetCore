@@ -4,17 +4,14 @@
  *--------------------------------------------------------------------------------------------*/
 using System.IO;
 using System.Threading.Tasks;
-using Dolittle.Applications;
 using Dolittle.AspNetCore.Bootstrap;
 using Dolittle.Booting;
 using Dolittle.DependencyInversion;
-using Dolittle.DependencyInversion.Booting;
 using Dolittle.Logging;
-using Dolittle.Execution;
-using Dolittle.Runtime.Events.Coordination;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.FileProviders.Physical;
+using System;
 
 namespace Microsoft.AspNetCore.Builder
 {
@@ -24,12 +21,15 @@ namespace Microsoft.AspNetCore.Builder
     public static class ApplicationBuilderExtensions
     {
 
+        static ExecutionContextSetupConfigurationDelegate DefaultExecutionContextSetupConfigurationDelegate = _ => ExecutionContextSetupConfiguration.Default;
         /// <summary>
         /// Use Dolittle for the given application
         /// </summary>
         /// <param name="app"><see cref="IApplicationBuilder"/> to use Dolittle for</param>
-        public static void UseDolittle(this IApplicationBuilder app)
+        /// <param name="executionContextSetupConfigurationCallback">Callback for configuring the <see cref="ExecutionContextSetup"/></param>
+        public static void UseDolittle(this IApplicationBuilder app, ExecutionContextSetupConfigurationDelegate executionContextSetupConfigurationCallback = null)
         {
+            app.UseDolittle(_ => ExecutionContextSetupConfiguration.Default);
             var container = app.ApplicationServices.GetService(typeof(IContainer)) as IContainer;
 
             var logger = app.ApplicationServices.GetService(typeof(ILogger)) as ILogger;
@@ -41,6 +41,7 @@ namespace Microsoft.AspNetCore.Builder
             var bootProcedures = container.Get<IBootProcedures>();
             bootProcedures.Perform();
             app.UseMiddleware<HealthCheckMiddleware>();
+            app.UseMiddleware<ExecutionContextSetup>(executionContextSetupConfigurationCallback);
         }
 
         /// <summary>
