@@ -1,11 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <Import Project="../../Build/MSBuild/default.props"/>
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
     <AssemblyName>Dolittle.AspNetCore.Bootstrap</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Authentication\Authentication.csproj" />
     <ProjectReference Include="..\Execution\Execution.csproj" />
   </ItemGroup>
 
@@ -15,9 +16,8 @@
     <PackageReference Include="Dolittle.Logging" Version="3.*" />
     <PackageReference Include="Dolittle.ResourceTypes.Configuration" Version="3.*" />
     <PackageReference Include="Dolittle.Runtime.Events" Version="3.*" />
-    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" AllowExplicitVersion="true" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Physical" Version="2.0.1" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />

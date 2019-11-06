@@ -8,7 +8,7 @@ namespace Dolittle.AspNetCore.Authentication
     /// <summary>
     /// Represents the Scheme
     /// </summary>
-    public class Scheme : AuthenticationSchemeOptions
+    public class SchemeOptions : AuthenticationSchemeOptions
     {
         
     }

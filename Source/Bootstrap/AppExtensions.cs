@@ -40,6 +40,7 @@ namespace Microsoft.AspNetCore.Builder
 
             var bootProcedures = container.Get<IBootProcedures>();
             bootProcedures.Perform();
+            app.UseAuthentication();
             app.UseMiddleware<HealthCheckMiddleware>();
             app.UseMiddleware<ExecutionContextSetup>(container.Get<IExecutionContextManager>(), executionContextSetupConfigurationCallback);
         }

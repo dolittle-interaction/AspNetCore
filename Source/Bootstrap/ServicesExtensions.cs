@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Linq;
+using Dolittle.AspNetCore.Authentication;
 using Dolittle.AspNetCore.Bootstrap;
 using Dolittle.AspNetCore.Execution;
 using Dolittle.Booting;
@@ -37,7 +38,9 @@ namespace Microsoft.Extensions.DependencyInjection
             var bootloaderResult = bootloader.Start();
 
             AddMvcOptions(services, bootloaderResult.TypeFinder);
-
+            
+            AddAuthentication(services);
+            
             return bootloaderResult;
         }
 
@@ -59,6 +62,8 @@ namespace Microsoft.Extensions.DependencyInjection
 
             AddMvcOptions(services, bootloaderResult.TypeFinder);
 
+            AddAuthentication(services);
+
             return bootloaderResult;
         }  
 
@@ -79,8 +84,17 @@ namespace Microsoft.Extensions.DependencyInjection
 
             AddMvcOptions(services, bootloaderResult.TypeFinder);
 
+            AddAuthentication(services);
+
             return bootloaderResult;
-        }        
+        }
+
+        static void AddAuthentication(IServiceCollection services)
+        {
+
+            services.AddAuthentication("Dolittle.Headers")
+                .AddScheme<SchemeOptions, Handler>("Dolittle.Headers", _ => {});
+        }
         
         static void SetupUnhandledExceptionHandler(Dolittle.Logging.ILogger logger)
         {
