@@ -20,7 +20,5 @@ namespace Dolittle.AspNetCore.Execution
         public TenantIdHeaderHasMultipleValues(string header)
             : base($"There are multiple values for Tenant ID header '{header}'")
         {}
-
-
     }
 }
