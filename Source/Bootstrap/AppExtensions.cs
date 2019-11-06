@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.FileProviders.Physical;
 using System;
+using Dolittle.Execution;
 
 namespace Microsoft.AspNetCore.Builder
 {
@@ -41,7 +42,7 @@ namespace Microsoft.AspNetCore.Builder
             var bootProcedures = container.Get<IBootProcedures>();
             bootProcedures.Perform();
             app.UseMiddleware<HealthCheckMiddleware>();
-            app.UseMiddleware<ExecutionContextSetup>(executionContextSetupConfigurationCallback);
+            app.UseMiddleware<ExecutionContextSetup>(container.Get<IExecutionContextManager>(), executionContextSetupConfigurationCallback);
         }
 
         /// <summary>

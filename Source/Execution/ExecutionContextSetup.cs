@@ -3,7 +3,10 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
+using System.Linq;
 using System.Threading.Tasks;
+using Dolittle.Execution;
+using Dolittle.Tenancy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 
@@ -15,18 +18,22 @@ namespace Dolittle.AspNetCore.Bootstrap
     public class ExecutionContextSetup
     {
         readonly RequestDelegate _next;
-        readonly ExecutionContextSetupConfiguration _executionContextSetupConfiguration;
+        readonly IExecutionContextManager _executionContextManager;
         readonly ExecutionContextSetupConfigurationDelegate _callback;
+        readonly ExecutionContextSetupConfiguration _configuration;
+        
         /// <summary>
-        /// 
+        /// Instantiates an instance of <see cref="ExecutionContextSetup"/>
         /// </summary>
         /// <param name="next"></param>
+        /// <param name="executionContextManager"></param>
         /// <param name="executionContextSetupConfigurationCallback"></param>
-        public ExecutionContextSetup(RequestDelegate next, ExecutionContextSetupConfigurationDelegate executionContextSetupConfigurationCallback)
+        public ExecutionContextSetup(RequestDelegate next, IExecutionContextManager executionContextManager, ExecutionContextSetupConfigurationDelegate executionContextSetupConfigurationCallback)
         {
             _next = next;
+            _executionContextManager = executionContextManager;
             _callback = executionContextSetupConfigurationCallback ?? ExecutionContextSetupConfiguration.DefaultDelegate;
-            _executionContextSetupConfiguration = _callback(ExecutionContextSetupConfiguration.Default);
+            _configuration = _callback(ExecutionContextSetupConfiguration.Default);
         }
 
         /// <summary>
@@ -36,7 +43,15 @@ namespace Dolittle.AspNetCore.Bootstrap
         /// <returns></returns>
         public async Task InvokeAsync(HttpContext context)
         { 
-            
+            var tenantIdHeaderValue = context.Request.Headers[_configuration.TenantIdHeaderKey].FirstOrDefault();
+            if (string.IsNullOrEmpty(tenantIdHeaderValue)) 
+            {
+                // Do something
+            } 
+            else 
+            {
+                _executionContextManager.CurrentFor(new TenantId{Value = Guid.Parse(tenantIdHeaderValue)});
+            }
             await _next.Invoke(context);
         
         }
