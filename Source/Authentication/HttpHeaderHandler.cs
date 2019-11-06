@@ -42,9 +42,10 @@ namespace Dolittle.AspNetCore.Authentication
             {
                 foreach (var header in claimHeaders)
                 {
-                    if (!header.Value.Any()) throw new ClaimHasNoValues(header.Key);
-                    else if (header.Value.Count > 1) throw new ClaimHasMultipleValues(header.Key);
-                    else claims.Add(new Claim(header.Key, header.Value.FirstOrDefault()));
+                    var claimKey = header.Key.Split('-', 2)[1];
+                    if (!header.Value.Any()) throw new ClaimHasNoValues(claimKey);
+                    else if (header.Value.Count > 1) throw new ClaimHasMultipleValues(claimKey);
+                    else claims.Add(new Claim(claimKey, header.Value.FirstOrDefault()));
                 }
                 var identities = new []{new ClaimsIdentity(claims, "Dolittle.Headers")};
                 var principal = new ClaimsPrincipal(identities);

@@ -40,7 +40,7 @@ namespace Microsoft.Extensions.DependencyInjection
             AddMvcOptions(services, bootloaderResult.TypeFinder);
             
             AddAuthentication(services);
-            
+
             return bootloaderResult;
         }
 
@@ -93,7 +93,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
 
             services.AddAuthentication("Dolittle.Headers")
-                .AddScheme<SchemeOptions, Handler>("Dolittle.Headers", _ => {});
+                .AddScheme<HttpHeaderSchemeOptions, HttpHeaderHandler>("Dolittle.Headers", _ => {});
         }
         
         static void SetupUnhandledExceptionHandler(Dolittle.Logging.ILogger logger)
