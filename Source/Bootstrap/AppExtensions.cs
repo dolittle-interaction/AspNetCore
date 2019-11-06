@@ -30,7 +30,6 @@ namespace Microsoft.AspNetCore.Builder
         /// <param name="executionContextSetupConfigurationCallback">Callback for configuring the <see cref="ExecutionContextSetup"/></param>
         public static void UseDolittle(this IApplicationBuilder app, ExecutionContextSetupConfigurationDelegate executionContextSetupConfigurationCallback = null)
         {
-            app.UseDolittle(_ => ExecutionContextSetupConfiguration.Default);
             var container = app.ApplicationServices.GetService(typeof(IContainer)) as IContainer;
 
             var logger = app.ApplicationServices.GetService(typeof(ILogger)) as ILogger;

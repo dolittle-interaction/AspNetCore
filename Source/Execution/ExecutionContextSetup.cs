@@ -44,16 +44,17 @@ namespace Dolittle.AspNetCore.Bootstrap
         public async Task InvokeAsync(HttpContext context)
         { 
             var tenantIdHeaderValue = context.Request.Headers[_configuration.TenantIdHeaderKey].FirstOrDefault();
-            if (string.IsNullOrEmpty(tenantIdHeaderValue)) 
+            var tenantId = TenantId.Unknown;
+            if (!string.IsNullOrEmpty(tenantIdHeaderValue)) 
             {
-                // Do something
-            } 
-            else 
-            {
-                _executionContextManager.CurrentFor(new TenantId{Value = Guid.Parse(tenantIdHeaderValue)});
+                try 
+                {
+                    tenantId = new TenantId{Value = Guid.Parse(tenantIdHeaderValue)};
+                } 
+                catch {}
             }
+            _executionContextManager.CurrentFor(tenantId, CorrelationId.New());
             await _next.Invoke(context);
-        
         }
     }
 }
