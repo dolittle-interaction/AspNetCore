@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dolittle.Execution;
 using Dolittle.Tenancy;
+using Dolittle.Security;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 
@@ -42,9 +43,9 @@ namespace Dolittle.AspNetCore.Bootstrap
         /// <param name="context"></param>
         /// <returns></returns>
         public async Task InvokeAsync(HttpContext context)
-        { 
-            var tenantIdHeaderValue = context.Request.Headers[_configuration.TenantIdHeaderKey].FirstOrDefault();
+        {
             var tenantId = TenantId.Unknown;
+            var tenantIdHeaderValue = context.Request.Headers[_configuration.TenantIdHeaderKey].FirstOrDefault();
             if (!string.IsNullOrEmpty(tenantIdHeaderValue)) 
             {
                 try 
@@ -53,7 +54,7 @@ namespace Dolittle.AspNetCore.Bootstrap
                 } 
                 catch {}
             }
-            _executionContextManager.CurrentFor(tenantId, CorrelationId.New());
+            _executionContextManager.CurrentFor(tenantId, CorrelationId.New(), context.User.ToClaims());
             await _next.Invoke(context);
         }
     }

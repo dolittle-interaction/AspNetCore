@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dolittle.Security" Version="3.*" />
     <PackageReference Include="Dolittle.Execution" Version="3.*" />
     <PackageReference Include="Dolittle.Tenancy.Configuration" Version="3.*" />
 
