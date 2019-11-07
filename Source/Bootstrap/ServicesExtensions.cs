@@ -44,28 +44,6 @@ namespace Microsoft.Extensions.DependencyInjection
             return bootloaderResult;
         }
 
-        /// <summary>
-        /// Adds Dolittle services
-        /// </summary>
-        /// <returns></returns>
-        public static BootloaderResult AddDolittle(this IServiceCollection services, Action<IBootBuilder> builderDelegate, ILoggerFactory loggerFactory = null)
-        {
-            var bootloader = Bootloader.Configure(_ => {
-                if( loggerFactory != null ) _ = _.UseLoggerFactory(loggerFactory);
-                if( EnvironmentUtilities.GetExecutionEnvironment() == Dolittle.Execution.Environment.Development ) _ = _.Development();
-                _.SkipBootprocedures()
-                .UseContainer<Container>();
-                builderDelegate(_);
-            });
-
-            var bootloaderResult = bootloader.Start();
-
-            AddMvcOptions(services, bootloaderResult.TypeFinder);
-
-            AddAuthentication(services);
-
-            return bootloaderResult;
-        }  
 
         /// <summary>
         /// Adds Dolittle services
@@ -88,6 +66,29 @@ namespace Microsoft.Extensions.DependencyInjection
 
             return bootloaderResult;
         }
+
+        /// <summary>
+        /// Adds Dolittle services
+        /// </summary>
+        /// <returns></returns>
+        public static BootloaderResult AddDolittle(this IServiceCollection services, Action<IBootBuilder> builderDelegate, ILoggerFactory loggerFactory)
+        {
+            var bootloader = Bootloader.Configure(_ => {
+                if( loggerFactory != null ) _ = _.UseLoggerFactory(loggerFactory);
+                if( EnvironmentUtilities.GetExecutionEnvironment() == Dolittle.Execution.Environment.Development ) _ = _.Development();
+                _.SkipBootprocedures()
+                .UseContainer<Container>();
+                if ( builderDelegate != null) builderDelegate(_);
+            });
+
+            var bootloaderResult = bootloader.Start();
+
+            AddMvcOptions(services, bootloaderResult.TypeFinder);
+
+            AddAuthentication(services);
+
+            return bootloaderResult;
+        }  
 
         static void AddAuthentication(IServiceCollection services)
         {

@@ -7,10 +7,10 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using Dolittle.Collections;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using ILogger = Dolittle.Logging.ILogger;
 
 namespace Dolittle.AspNetCore.Authentication
 {
@@ -20,15 +20,21 @@ namespace Dolittle.AspNetCore.Authentication
     /// </summary>
     public class HttpHeaderHandler : AuthenticationHandler<HttpHeaderSchemeOptions>
     {
+        readonly ILogger _logger;
+
         /// <summary>
         /// Instantiates an instance of <see cref="HttpHeaderHandler"/>
         /// </summary>
         /// <param name="options"></param>
-        /// <param name="logger"></param>
+        /// <param name="loggerFactory"></param>
         /// <param name="encoder"></param>
         /// <param name="clock"></param>
+        /// <param name="logger"></param>
         /// <returns></returns>
-        public HttpHeaderHandler(IOptionsMonitor<HttpHeaderSchemeOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock) : base(options, logger, encoder, clock) {}
+        public HttpHeaderHandler(IOptionsMonitor<HttpHeaderSchemeOptions> options, ILoggerFactory loggerFactory, UrlEncoder encoder, ISystemClock clock, ILogger logger) : base(options, loggerFactory, encoder, clock)
+        {
+            _logger = logger;
+        }
 
         /// <summary>
         /// 
@@ -36,26 +42,44 @@ namespace Dolittle.AspNetCore.Authentication
         /// <returns></returns>
         protected override Task<AuthenticateResult> HandleAuthenticateAsync()
         {
-            var claims = new List<Claim>();
-            var claimHeaders = Request.Headers.Where(_ => _.Key.StartsWith("Claim-"));
-            if (claimHeaders.Any()) 
+            var claimHeaders = Request.Headers["Claim"];
+            if (claimHeaders.Any())
             {
-                foreach (var header in claimHeaders)
+                var identity = ParseClaimHeaders(claimHeaders);
+                if (ValidateClaimsIdentity(identity))
                 {
-                    var claimKey = header.Key.Split('-', 2)[1];
-                    if (!header.Value.Any()) throw new ClaimHasNoValues(claimKey);
-                    else if (header.Value.Count > 1) throw new ClaimHasMultipleValues(claimKey);
-                    else claims.Add(new Claim(claimKey, header.Value.FirstOrDefault()));
+                    return Task.FromResult(AuthenticateResult.Success(new AuthenticationTicket(
+                        new ClaimsPrincipal(identity),
+                        new AuthenticationProperties(),
+                        Scheme.Name
+                    )));
                 }
-                var identities = new []{new ClaimsIdentity(claims, "Dolittle.Headers")};
-                var principal = new ClaimsPrincipal(identities);
-                return Task.FromResult(AuthenticateResult.Success(new AuthenticationTicket(
-                    principal,
-                    new AuthenticationProperties(),
-                    Scheme.Name
-                )));
             }
             return Task.FromResult(AuthenticateResult.NoResult());
+        }
+
+        ClaimsIdentity ParseClaimHeaders(IEnumerable<string> claimHeaders)
+        {
+            var identity = new ClaimsIdentity("Dolittle.Headers");
+            foreach (var claimHeader in claimHeaders)
+            {
+                if (!string.IsNullOrWhiteSpace(claimHeader) && claimHeader.Contains('-'))
+                {
+                    var claimTypeValue = claimHeader.Split('-',2);
+                    identity.AddClaim(new Claim(claimTypeValue[0], claimTypeValue[1]));
+                }
+            }
+            return identity;
+        }
+
+        bool ValidateClaimsIdentity(ClaimsIdentity claims)
+        {
+            if (!claims.HasClaim(_ => _.Type == "sub"))
+            {
+                _logger.Error("Provided Claim headers does not contain the required 'sub' claim");
+                return false;
+            }
+            return true;
         }
     }
 }

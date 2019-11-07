@@ -10,6 +10,7 @@ using Dolittle.Tenancy;
 using Dolittle.Security;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.Extensions.Options;
 
 namespace Dolittle.AspNetCore.Execution
 {
@@ -19,19 +20,20 @@ namespace Dolittle.AspNetCore.Execution
     public class ExecutionContextSetup
     {
         readonly RequestDelegate _next;
+        readonly IOptionsMonitor<ExecutionContextSetupConfiguration> _configuration;
         readonly IExecutionContextManager _executionContextManager;
-        readonly ExecutionContextSetupConfiguration _configuration;
         
         /// <summary>
         /// Instantiates an instance of <see cref="ExecutionContextSetup"/>
         /// </summary>
         /// <param name="next"></param>
+        /// <param name="configuration"></param>
         /// <param name="executionContextManager"></param>
-        public ExecutionContextSetup(RequestDelegate next, IExecutionContextManager executionContextManager)
+        public ExecutionContextSetup(RequestDelegate next, IOptionsMonitor<ExecutionContextSetupConfiguration> configuration, IExecutionContextManager executionContextManager)
         {
             _next = next;
+            _configuration = configuration;
             _executionContextManager = executionContextManager;
-            _configuration = ExecutionContextSetupConfiguration.Default;
         }
 
         /// <summary>
@@ -41,17 +43,24 @@ namespace Dolittle.AspNetCore.Execution
         /// <returns></returns>
         public async Task InvokeAsync(HttpContext context)
         {
-            var authResult = await context.AuthenticateAsync("Dolittle.Headers");
             var tenantId = TenantId.Unknown;
+            var authResult = await context.AuthenticateAsync();
             
-            var tenantIdHeaders = context.Request.Headers[_configuration.TenantIdHeaderKey];
+            var headerName = _configuration.CurrentValue.TenantIdHeaderName;
+            var tenantIdHeaders = context.Request.Headers[headerName];
 
-            if (tenantIdHeaders.Count > 1) throw new TenantIdHeaderHasMultipleValues(_configuration.TenantIdHeaderKey);
-            else if (tenantIdHeaders.Count == 1) 
+            if (tenantIdHeaders.Count > 1) throw new TenantIdHeaderHasMultipleValues(headerName);
+            else
             {
-                var tenantIdValue = tenantIdHeaders.FirstOrDefault();
-                if (Guid.TryParse(tenantIdValue, out var tenantIdGuid))
-                    tenantId = new TenantId{Value = tenantIdGuid};
+                var tenantIdString = tenantIdHeaders.FirstOrDefault();
+                if (Guid.TryParse(tenantIdString, out var tenantIdGuid))
+                {
+                    tenantId = new TenantId{ Value = tenantIdGuid };
+                }
+                else
+                {
+                    throw new TenantIdHeaderHasInvalidTenantId(headerName);
+                }
             }
             if (authResult.Succeeded)
                 _executionContextManager.CurrentFor(tenantId, CorrelationId.New(), authResult.Principal.ToClaims());

@@ -6,19 +6,17 @@ using System;
 
 namespace Dolittle.AspNetCore.Execution
 {
-
     /// <summary>
-    /// The exception that gets thrown when there is a Tenant ID header on the HTTP request with multiple values
+    /// The exception that gets thrown when there is an invalid Tenant ID in the Tenant ID header on the HTTP request
     /// </summary>
-    [Serializable]
-    public class TenantIdHeaderHasMultipleValues : Exception
+    public class TenantIdHeaderHasInvalidTenantId : Exception
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="TenantIdHeaderHasMultipleValues"/>
+        /// Instanciates a <see cref="TenantIdHeaderHasInvalidTenantId"/>
         /// </summary>
         /// <param name="header">The name of the HTTP header</param>
-        public TenantIdHeaderHasMultipleValues(string header)
-            : base($"There are multiple values for Tenant ID header '{header}'")
+        public TenantIdHeaderHasInvalidTenantId(string header)
+            : base($"The Tenant ID header '{header}' contains an invalid Tenant ID")
         {}
     }
 }

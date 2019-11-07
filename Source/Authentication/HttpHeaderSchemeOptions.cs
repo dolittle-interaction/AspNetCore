@@ -10,6 +10,5 @@ namespace Dolittle.AspNetCore.Authentication
     /// </summary>
     public class HttpHeaderSchemeOptions : AuthenticationSchemeOptions
     {
-        
     }
 }

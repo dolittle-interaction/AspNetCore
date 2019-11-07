@@ -22,8 +22,6 @@ namespace Microsoft.AspNetCore.Builder
     /// </summary>
     public static class ApplicationBuilderExtensions
     {
-
-        static ExecutionContextSetupConfigurationDelegate DefaultExecutionContextSetupConfigurationDelegate = _ => ExecutionContextSetupConfiguration.Default;
         /// <summary>
         /// Use Dolittle for the given application
         /// </summary>
