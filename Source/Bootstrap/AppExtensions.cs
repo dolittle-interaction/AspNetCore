@@ -26,8 +26,7 @@ namespace Microsoft.AspNetCore.Builder
         /// Use Dolittle for the given application
         /// </summary>
         /// <param name="app"><see cref="IApplicationBuilder"/> to use Dolittle for</param>
-        /// <param name="executionContextSetupConfigurationCallback">Callback for configuring the <see cref="ExecutionContextSetup"/></param>
-        public static void UseDolittle(this IApplicationBuilder app, ExecutionContextSetupConfigurationDelegate executionContextSetupConfigurationCallback = null)
+        public static void UseDolittle(this IApplicationBuilder app)
         {
             var container = app.ApplicationServices.GetService(typeof(IContainer)) as IContainer;
 
@@ -40,8 +39,8 @@ namespace Microsoft.AspNetCore.Builder
             var bootProcedures = container.Get<IBootProcedures>();
             bootProcedures.Perform();
             app.UseAuthentication();
-            app.UseMiddleware<HealthCheckMiddleware>();
             app.UseMiddleware<ExecutionContextSetup>();
+            app.UseMiddleware<HealthCheckMiddleware>();
         }
 
         /// <summary>

@@ -28,50 +28,23 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns></returns>
         public static BootloaderResult AddDolittle(this IServiceCollection services, ILoggerFactory loggerFactory = null)
         {
-            var bootloader = Bootloader.Configure(_ => {
-                if( loggerFactory != null ) _ = _.UseLoggerFactory(loggerFactory);
-                if( EnvironmentUtilities.GetExecutionEnvironment() == Dolittle.Execution.Environment.Development ) _ = _.Development();
-                _.SkipBootprocedures()
-                .UseContainer<Container>();
-            });
-
-            var bootloaderResult = bootloader.Start();
-
-            AddMvcOptions(services, bootloaderResult.TypeFinder);
-            
-            AddAuthentication(services);
-
-            return bootloaderResult;
+            return AddDolittle(services, null, loggerFactory);
         }
-
 
         /// <summary>
         /// Adds Dolittle services
         /// </summary>
         /// <returns></returns>
-        public static BootloaderResult AddDolittle(this IServiceCollection services, Action<IBootBuilder> builderDelegate)
+        public static BootloaderResult AddDolittle(this IServiceCollection services, Action<ExecutionContextSetupConfiguration> configureExecutionContextSetup, ILoggerFactory loggerFactory = null)
         {
-            var bootloader = Bootloader.Configure(_ => {
-                if( EnvironmentUtilities.GetExecutionEnvironment() == Dolittle.Execution.Environment.Development ) _ = _.Development();
-                _.SkipBootprocedures()
-                .UseContainer<Container>();
-                builderDelegate(_);
-            });
-
-            var bootloaderResult = bootloader.Start();
-
-            AddMvcOptions(services, bootloaderResult.TypeFinder);
-
-            AddAuthentication(services);
-
-            return bootloaderResult;
+            return AddDolittle(services, null, loggerFactory, configureExecutionContextSetup);
         }
 
         /// <summary>
         /// Adds Dolittle services
         /// </summary>
         /// <returns></returns>
-        public static BootloaderResult AddDolittle(this IServiceCollection services, Action<IBootBuilder> builderDelegate, ILoggerFactory loggerFactory)
+        public static BootloaderResult AddDolittle(this IServiceCollection services, Action<IBootBuilder> builderDelegate, ILoggerFactory loggerFactory = null, Action<ExecutionContextSetupConfiguration> configureExecutionContextSetup = null)
         {
             var bootloader = Bootloader.Configure(_ => {
                 if( loggerFactory != null ) _ = _.UseLoggerFactory(loggerFactory);
@@ -87,6 +60,8 @@ namespace Microsoft.Extensions.DependencyInjection
 
             AddAuthentication(services);
 
+            ConfigureExecutionContextSetup(services, configureExecutionContextSetup);
+
             return bootloaderResult;
         }  
 
@@ -95,6 +70,14 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.AddAuthentication("Dolittle.Headers")
                 .AddScheme<HttpHeaderSchemeOptions, HttpHeaderHandler>("Dolittle.Headers", _ => {});
+        }
+
+        static void ConfigureExecutionContextSetup(IServiceCollection services, Action<ExecutionContextSetupConfiguration> configureExecutionContextSetup)
+        {
+             if (configureExecutionContextSetup != null) services.Configure<ExecutionContextSetupConfiguration>(configureExecutionContextSetup);
+            services.PostConfigure<ExecutionContextSetupConfiguration>(_ => {
+                if (string.IsNullOrWhiteSpace(_.TenantIdHeaderName)) _.TenantIdHeaderName = "Tenant-ID";
+            });
         }
         
         static void SetupUnhandledExceptionHandler(Dolittle.Logging.ILogger logger)
