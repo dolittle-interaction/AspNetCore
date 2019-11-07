@@ -50,7 +50,7 @@ namespace Dolittle.AspNetCore.Execution
             var tenantIdHeaders = context.Request.Headers[headerName];
 
             if (tenantIdHeaders.Count > 1) throw new TenantIdHeaderHasMultipleValues(headerName);
-            else
+            else if (tenantIdHeaders.Count == 1)
             {
                 var tenantIdString = tenantIdHeaders.FirstOrDefault();
                 if (Guid.TryParse(tenantIdString, out var tenantIdGuid))

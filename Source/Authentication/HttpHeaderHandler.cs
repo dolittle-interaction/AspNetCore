@@ -63,9 +63,9 @@ namespace Dolittle.AspNetCore.Authentication
             var identity = new ClaimsIdentity("Dolittle.Headers");
             foreach (var claimHeader in claimHeaders)
             {
-                if (!string.IsNullOrWhiteSpace(claimHeader) && claimHeader.Contains('-'))
+                if (!string.IsNullOrWhiteSpace(claimHeader) && claimHeader.Contains('='))
                 {
-                    var claimTypeValue = claimHeader.Split('-',2);
+                    var claimTypeValue = claimHeader.Split('=',2);
                     identity.AddClaim(new Claim(claimTypeValue[0], claimTypeValue[1]));
                 }
             }
