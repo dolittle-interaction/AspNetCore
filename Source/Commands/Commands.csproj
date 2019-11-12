@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
-    <PackageReference Include="Dolittle.SDK.Commands.Coordination" Version="3.*" />    
-    <PackageReference Include="Dolittle.Serialization.Json" Version="3.*" />    
+    <PackageReference Include="Dolittle.SDK.Commands.Coordination" Version="4.*" />    
+    <PackageReference Include="Dolittle.Serialization.Json" Version="4.*" />    
   </ItemGroup>  
 </Project>
