@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authentication;
 
 namespace Dolittle.AspNetCore.Authentication.for_HttpHeaderHandler
 {
-    public class when_handling_with_automatically_discovered_command_handlers : 
+    public class when_handling_with_automatically_discovered_command_handlers
     {
         static given.a_handler handler; 
         static AuthenticateResult result;
@@ -15,7 +15,6 @@ namespace Dolittle.AspNetCore.Authentication.for_HttpHeaderHandler
         Establish context = () =>
         {
             handler = new given.a_handler();
-            handler.
         };
 
         Because of = async () => result = await handler.AuthenticateAsync();
