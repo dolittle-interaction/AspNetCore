@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using Dolittle.AspNetCore.Authentication;
 using Dolittle.AspNetCore.Bootstrap;
+using DolittleOptions = Dolittle.AspNetCore.Configuration.Options;
 using Dolittle.AspNetCore.Execution;
 using Dolittle.Booting;
 using Dolittle.Collections;
@@ -14,6 +15,7 @@ using Dolittle.Reflection;
 using Dolittle.Types;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Dolittle.Serialization.Json;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -35,16 +37,16 @@ namespace Microsoft.Extensions.DependencyInjection
         /// Adds Dolittle services
         /// </summary>
         /// <returns></returns>
-        public static BootloaderResult AddDolittle(this IServiceCollection services, Action<ExecutionContextSetupConfiguration> configureExecutionContextSetup, ILoggerFactory loggerFactory = null)
+        public static BootloaderResult AddDolittle(this IServiceCollection services, Action<DolittleOptions> configure, ILoggerFactory loggerFactory = null)
         {
-            return AddDolittle(services, null, loggerFactory, configureExecutionContextSetup);
+            return AddDolittle(services, null, loggerFactory, configure);
         }
 
         /// <summary>
         /// Adds Dolittle services
         /// </summary>
         /// <returns></returns>
-        public static BootloaderResult AddDolittle(this IServiceCollection services, Action<IBootBuilder> builderDelegate, ILoggerFactory loggerFactory = null, Action<ExecutionContextSetupConfiguration> configureExecutionContextSetup = null)
+        public static BootloaderResult AddDolittle(this IServiceCollection services, Action<IBootBuilder> builderDelegate, ILoggerFactory loggerFactory = null, Action<DolittleOptions> configure = null)
         {
             var bootloader = Bootloader.Configure(_ => {
                 if( loggerFactory != null ) _ = _.UseLoggerFactory(loggerFactory);
@@ -56,28 +58,18 @@ namespace Microsoft.Extensions.DependencyInjection
 
             var bootloaderResult = bootloader.Start();
 
-            AddMvcOptions(services, bootloaderResult.TypeFinder);
+            if (configure != null) services.Configure<DolittleOptions>(configure);
 
             AddAuthentication(services);
-
-            ConfigureExecutionContextSetup(services, configureExecutionContextSetup);
+            AddMvcOptions(services, bootloaderResult.TypeFinder, bootloaderResult.Container);
 
             return bootloaderResult;
         }  
 
         static void AddAuthentication(IServiceCollection services)
         {
-
             services.AddAuthentication("Dolittle.Headers")
                 .AddScheme<HttpHeaderSchemeOptions, HttpHeaderHandler>("Dolittle.Headers", _ => {});
-        }
-
-        static void ConfigureExecutionContextSetup(IServiceCollection services, Action<ExecutionContextSetupConfiguration> configureExecutionContextSetup)
-        {
-             if (configureExecutionContextSetup != null) services.Configure<ExecutionContextSetupConfiguration>(configureExecutionContextSetup);
-            services.PostConfigure<ExecutionContextSetupConfiguration>(_ => {
-                if (string.IsNullOrWhiteSpace(_.TenantIdHeaderName)) _.TenantIdHeaderName = "Tenant-ID";
-            });
         }
         
         static void SetupUnhandledExceptionHandler(Dolittle.Logging.ILogger logger)
@@ -88,14 +80,20 @@ namespace Microsoft.Extensions.DependencyInjection
                 logger.Error(exception, "Unhandled Exception");
             };
         }
-        static void AddMvcOptions(IServiceCollection services, ITypeFinder typeFinder)
+        static void AddMvcOptions(IServiceCollection services, ITypeFinder typeFinder, IContainer container)
         {
             var mvcOptionsAugmenters = typeFinder.FindMultiple<ICanAddMvcOptions>();
             mvcOptionsAugmenters.ForEach(augmenterType =>
             {
-                if (!augmenterType.HasDefaultConstructor())throw new ArgumentException($"Type '{augmenterType.AssemblyQualifiedName}' is missing a default constructor");
-                var augmenter = Activator.CreateInstance(augmenterType)as ICanAddMvcOptions;
+                if (!augmenterType.HasDefaultConstructor()) throw new ArgumentException($"Type '{augmenterType.AssemblyQualifiedName}' is missing a default constructor");
+                var augmenter = Activator.CreateInstance(augmenterType) as ICanAddMvcOptions;
                 services.Configure<MvcOptions>(augmenter.Add);
+            });
+
+            var providers = container.Get<IInstancesOf<ICanProvideConverters>>();
+            var converters = providers.SelectMany(_ => _.Provide());
+            services.Configure<MvcJsonOptions>(_ => {
+                converters.ForEach(_.SerializerSettings.Converters.Add);
             });
         }
 

@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="../Configuration/Configuration.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Dolittle.Common" Version="1.*" />
     <PackageReference Include="Dolittle.Security" Version="4.*" />
     <PackageReference Include="Dolittle.Execution" Version="4.*" />

@@ -5,6 +5,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using DolittleOptions = Dolittle.AspNetCore.Configuration.Options;
 using Dolittle.Execution;
 using Dolittle.Tenancy;
 using Dolittle.Security;
@@ -20,7 +21,7 @@ namespace Dolittle.AspNetCore.Execution
     public class ExecutionContextSetup
     {
         readonly RequestDelegate _next;
-        readonly IOptionsMonitor<ExecutionContextSetupConfiguration> _configuration;
+        readonly IOptionsMonitor<DolittleOptions> _options;
         readonly IExecutionContextManager _executionContextManager;
         
         /// <summary>
@@ -29,10 +30,10 @@ namespace Dolittle.AspNetCore.Execution
         /// <param name="next"></param>
         /// <param name="configuration"></param>
         /// <param name="executionContextManager"></param>
-        public ExecutionContextSetup(RequestDelegate next, IOptionsMonitor<ExecutionContextSetupConfiguration> configuration, IExecutionContextManager executionContextManager)
+        public ExecutionContextSetup(RequestDelegate next, IOptionsMonitor<DolittleOptions> options, IExecutionContextManager executionContextManager)
         {
             _next = next;
-            _configuration = configuration;
+            _options = options;
             _executionContextManager = executionContextManager;
         }
 
@@ -46,8 +47,11 @@ namespace Dolittle.AspNetCore.Execution
             var tenantId = TenantId.Unknown;
             var authResult = await context.AuthenticateAsync();
             
-            var headerName = _configuration.CurrentValue.TenantIdHeaderName;
+            var headerName = _options.CurrentValue.ExecutionContextSetup.TenantIdHeaderName;
             var tenantIdHeaders = context.Request.Headers[headerName];
+
+            // Tenant-ID
+            // Portal-Owner-ID
 
             if (tenantIdHeaders.Count > 1) throw new TenantIdHeaderHasMultipleValues(headerName);
             else if (tenantIdHeaders.Count == 1)
