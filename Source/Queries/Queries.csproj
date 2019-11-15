@@ -1,17 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="../../Build/MSBuild/default.props"></Import>
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
     <AssemblyName>Dolittle.AspNetCore.Queries</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Bootstrap\Bootstrap.csproj" />
-    <ProjectReference Include="..\Execution\Execution.csproj" />
-    <ProjectReference Include="..\Tenancy\Tenancy.csproj" />
+    <ProjectReference Include="../Bootstrap/Bootstrap.csproj" />
+    <ProjectReference Include="../Execution/Execution.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dolittle.Common" Version="1.*" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Dolittle.Dynamic" Version="4.*" />
     <PackageReference Include="Dolittle.Strings" Version="4.*" />

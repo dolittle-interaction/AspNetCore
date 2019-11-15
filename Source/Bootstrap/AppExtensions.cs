@@ -4,17 +4,16 @@
  *--------------------------------------------------------------------------------------------*/
 using System.IO;
 using System.Threading.Tasks;
-using Dolittle.Applications;
 using Dolittle.AspNetCore.Bootstrap;
 using Dolittle.Booting;
 using Dolittle.DependencyInversion;
-using Dolittle.DependencyInversion.Booting;
 using Dolittle.Logging;
-using Dolittle.Execution;
-using Dolittle.Runtime.Events.Coordination;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.FileProviders.Physical;
+using System;
+using Dolittle.Execution;
+using Dolittle.AspNetCore.Execution;
 
 namespace Microsoft.AspNetCore.Builder
 {
@@ -23,7 +22,6 @@ namespace Microsoft.AspNetCore.Builder
     /// </summary>
     public static class ApplicationBuilderExtensions
     {
-
         /// <summary>
         /// Use Dolittle for the given application
         /// </summary>
@@ -40,6 +38,8 @@ namespace Microsoft.AspNetCore.Builder
 
             var bootProcedures = container.Get<IBootProcedures>();
             bootProcedures.Perform();
+            app.UseAuthentication();
+            app.UseMiddleware<ExecutionContextSetup>();
             app.UseMiddleware<HealthCheckMiddleware>();
         }
 

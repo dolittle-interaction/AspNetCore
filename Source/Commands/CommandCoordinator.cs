@@ -29,7 +29,6 @@ namespace Dolittle.AspNetCore.Commands
         readonly IInstancesOf<ICommand> _commands;
         readonly ISerializer _serializer;
         readonly IExecutionContextConfigurator _executionContextConfigurator;
-        readonly ITenantResolver _tenantResolver;
         readonly ILogger _logger;
 
         /// <summary>
@@ -37,14 +36,12 @@ namespace Dolittle.AspNetCore.Commands
         /// </summary>
         /// <param name="commandCoordinator">The underlying <see cref="ICommandCoordinator"/> </param>
         /// <param name="executionContextConfigurator"><see cref="IExecutionContextConfigurator"/> for configuring the <see cref="Dolittle.Execution.ExecutionContext"/></param>
-        /// <param name="tenantResolver"></param>
         /// <param name="serializer"><see cref="ISerializer"/> for serialization purposes</param>
         /// <param name="commands">Instances of <see cref="ICommand"/></param>
         /// <param name="logger"></param>
         public CommandCoordinator(
             ICommandCoordinator commandCoordinator,
             IExecutionContextConfigurator executionContextConfigurator,
-            ITenantResolver tenantResolver,
             ISerializer serializer,
             IInstancesOf<ICommand> commands,
             ILogger logger
@@ -54,7 +51,6 @@ namespace Dolittle.AspNetCore.Commands
             _commands = commands;
             _serializer = serializer;
             _executionContextConfigurator = executionContextConfigurator;
-            _tenantResolver = tenantResolver;
             _logger = logger;
         }
 
@@ -70,7 +66,7 @@ namespace Dolittle.AspNetCore.Commands
             CommandResult result = null;
             try 
             {
-                _executionContextConfigurator.ConfigureFor(_tenantResolver.Resolve(HttpContext.Request), command.CorrelationId, ClaimsPrincipal.Current.ToClaims());
+                // _executionContextConfigurator.ConfigureFor(_tenantResolver.Resolve(HttpContext.Request), command.CorrelationId, ClaimsPrincipal.Current.ToClaims());
                 result = _commandCoordinator.Handle(command);
             }
             catch (Exception ex)
@@ -98,7 +94,7 @@ namespace Dolittle.AspNetCore.Commands
         {
             try
             {
-                _executionContextConfigurator.ConfigureFor(_tenantResolver.Resolve(HttpContext.Request), Dolittle.Execution.CorrelationId.New(), ClaimsPrincipal.Current.ToClaims());
+                // _executionContextConfigurator.ConfigureFor(_tenantResolver.Resolve(HttpContext.Request), Dolittle.Execution.CorrelationId.New(), ClaimsPrincipal.Current.ToClaims());
                 return _commands.ToList();
             }
             catch(Exception ex)

@@ -1,13 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
-    <Import Project="../../Build/MSBuild/default.props" />
-
     <PropertyGroup>
-        <TargetFramework>netcoreapp2.1</TargetFramework>
+        <TargetFramework>netcoreapp2.2</TargetFramework>
         <AssemblyName>Dolittle.AspNetCore</AssemblyName>
     </PropertyGroup>
 
     <ItemGroup>
         <ProjectReference Include="../**/*.csproj" Exclude="../AggregatedPackage/AspNetCore.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Dolittle.Common" Version="1.*" />
     </ItemGroup>
 </Project>
 

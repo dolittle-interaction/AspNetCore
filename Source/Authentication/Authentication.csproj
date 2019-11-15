@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AssemblyName>Dolittle.AspNetCore.Authentication</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dolittle.Common" Version="1.*" />
+    <PackageReference Include="Dolittle.Runtime.Queries.Coordination" Version="4.*" />
+    <PackageReference Include="Dolittle.DependencyInversion" Version="4.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
+  </ItemGroup>  
+</Project>

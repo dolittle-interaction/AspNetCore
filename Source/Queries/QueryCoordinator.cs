@@ -18,7 +18,6 @@ using Dolittle.Queries;
 using Dolittle.Queries.Coordination;
 using Dolittle.Security;
 using Dolittle.Serialization.Json;
-using Dolittle.Tenancy;
 using Dolittle.Types;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
@@ -35,7 +34,6 @@ namespace Dolittle.AspNetCore.Queries
         readonly IContainer _container;
         readonly IQueryCoordinator _queryCoordinator;
         readonly IExecutionContextConfigurator _executionContextConfigurator;
-        readonly ITenantResolver _tenantResolver;
         readonly IInstancesOf<IQuery> _queries;
         readonly ILogger _logger;
         readonly ISerializer _serializer;
@@ -47,7 +45,6 @@ namespace Dolittle.AspNetCore.Queries
         /// <param name="container"></param>
         /// <param name="queryCoordinator">The underlying <see cref="IQueryCoordinator"/> </param>
         /// <param name="executionContextConfigurator"></param>
-        /// <param name="tenantResolver"></param>
         /// <param name="queries"></param>
         /// <param name="serializer"></param>
         /// <param name="logger"></param>
@@ -56,7 +53,6 @@ namespace Dolittle.AspNetCore.Queries
             IContainer container,
             IQueryCoordinator queryCoordinator,
             IExecutionContextConfigurator executionContextConfigurator,
-            ITenantResolver tenantResolver,
             IInstancesOf<IQuery> queries,
             ISerializer serializer,
             ILogger logger)
@@ -65,7 +61,6 @@ namespace Dolittle.AspNetCore.Queries
             _container = container;
             _queryCoordinator = queryCoordinator;
             _executionContextConfigurator = executionContextConfigurator;
-            _tenantResolver = tenantResolver;
             _queries = queries;
             _serializer = serializer;
             _logger = logger;
@@ -83,7 +78,7 @@ namespace Dolittle.AspNetCore.Queries
             QueryResult queryResult = null;
             try
             {
-                _executionContextConfigurator.ConfigureFor(_tenantResolver.Resolve(HttpContext.Request), Dolittle.Execution.CorrelationId.New(), ClaimsPrincipal.Current.ToClaims());
+                // _executionContextConfigurator.ConfigureFor(_tenantResolver.Resolve(HttpContext.Request), Dolittle.Execution.CorrelationId.New(), ClaimsPrincipal.Current.ToClaims());
                 _logger.Information($"Executing query : {queryRequest.NameOfQuery}");
                 var queryType = _typeFinder.GetQueryTypeByName(queryRequest.GeneratedFrom);
                 var query = _container.Get(queryType) as IQuery;
@@ -130,7 +125,7 @@ namespace Dolittle.AspNetCore.Queries
         {
             try
             {
-                _executionContextConfigurator.ConfigureFor(_tenantResolver.Resolve(HttpContext.Request), Dolittle.Execution.CorrelationId.New(), ClaimsPrincipal.Current.ToClaims());
+                // _executionContextConfigurator.ConfigureFor(_tenantResolver.Resolve(HttpContext.Request), Dolittle.Execution.CorrelationId.New(), ClaimsPrincipal.Current.ToClaims());
                 return _queries.ToList();
             }
             catch(Exception ex)
