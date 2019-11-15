@@ -6,12 +6,12 @@
 namespace Dolittle.AspNetCore.Configuration
 {
     /// <summary>
-    /// Represents the configuration for the <see cref="ExecutionContextSetup"/> middleware
+    /// Represents the configuration for the ExecutionContextSetup middleware
     /// </summary>
     public class ExecutionContextSetupOptions
     {
         /// <summary>
-        /// Gets or sets the name of the HTTP Header that contains the <see cref="Dolittle.Tenancy.TenantId"/> 
+        /// Gets or sets the name of the HTTP Header that contains the TenantId 
         /// </summary>
         public string TenantIdHeaderName {get; set;} = "Tenant-ID";
     }

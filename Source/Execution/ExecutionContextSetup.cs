@@ -28,7 +28,7 @@ namespace Dolittle.AspNetCore.Execution
         /// Instantiates an instance of <see cref="ExecutionContextSetup"/>
         /// </summary>
         /// <param name="next"></param>
-        /// <param name="configuration"></param>
+        /// <param name="options"></param>
         /// <param name="executionContextManager"></param>
         public ExecutionContextSetup(RequestDelegate next, IOptionsMonitor<DolittleOptions> options, IExecutionContextManager executionContextManager)
         {
