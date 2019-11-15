@@ -1,16 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="../../Build/MSBuild/default.props"/>
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AssemblyName>Dolittle.AspNetCore.Bootstrap</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Authentication\Authentication.csproj" />
-    <ProjectReference Include="..\Execution\Execution.csproj" />
+    <ProjectReference Include="../Authentication/Authentication.csproj" />
+    <ProjectReference Include="../Execution/Execution.csproj" />
+    <ProjectReference Include="../Configuration/Configuration.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dolittle.Common" Version="1.*" />
     <PackageReference Include="Dolittle.Booting" Version="4.*" />
     <PackageReference Include="Dolittle.DependencyInversion.Booting" Version="4.*" />
     <PackageReference Include="Dolittle.Logging" Version="4.*" />
