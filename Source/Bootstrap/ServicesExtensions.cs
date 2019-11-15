@@ -61,6 +61,7 @@ namespace Microsoft.Extensions.DependencyInjection
             if (configure != null) services.Configure<DolittleOptions>(configure);
 
             AddAuthentication(services);
+            services.AddMvc();
             AddMvcOptions(services, bootloaderResult.TypeFinder, bootloaderResult.Container);
 
             return bootloaderResult;
@@ -88,12 +89,6 @@ namespace Microsoft.Extensions.DependencyInjection
                 if (!augmenterType.HasDefaultConstructor()) throw new ArgumentException($"Type '{augmenterType.AssemblyQualifiedName}' is missing a default constructor");
                 var augmenter = Activator.CreateInstance(augmenterType) as ICanAddMvcOptions;
                 services.Configure<MvcOptions>(augmenter.Add);
-            });
-
-            var providers = container.Get<IInstancesOf<ICanProvideConverters>>();
-            var converters = providers.SelectMany(_ => _.Provide());
-            services.Configure<MvcJsonOptions>(_ => {
-                converters.ForEach(_.SerializerSettings.Converters.Add);
             });
         }
 
