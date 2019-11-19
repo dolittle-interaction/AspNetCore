@@ -13,6 +13,10 @@ namespace Dolittle.AspNetCore.Configuration
         /// <summary>
         /// Gets or sets the name of the HTTP Header that contains the TenantId 
         /// </summary>
-        public string TenantIdHeaderName {get; set;} = "Tenant-ID";
+        public string TenantIdHeaderName { get; set; } = "Tenant-ID";
+        /// <summary>
+        /// Gets or sets whether the ExecutionContextSetup middleware should skip authentication
+        /// </summary>
+        public bool SkipAuthentication { get; set; } = false;
     }
 }

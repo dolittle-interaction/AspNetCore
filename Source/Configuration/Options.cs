@@ -13,6 +13,6 @@ namespace Dolittle.AspNetCore.Configuration
         /// <summary>
         /// Gets or sets the configuration of the ExecutionContextSetup middleware <see cref="Dolittle.AspNetCore.Configuration.ExecutionContextSetupOptions"/> 
         /// </summary>
-        public ExecutionContextSetupOptions ExecutionContextSetup { get; set; } = new ExecutionContextSetupOptions();
+        public ExecutionContextSetupOptions ExecutionContextSetup { get; } = new ExecutionContextSetupOptions();
     }
 }
