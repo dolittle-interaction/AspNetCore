@@ -30,7 +30,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns></returns>
         public static BootloaderResult AddDolittle(this IServiceCollection services, ILoggerFactory loggerFactory = null)
         {
-            return AddDolittle(services, null, loggerFactory);
+            return AddDolittle(services, null, loggerFactory, null, null);
         }
 
         /// <summary>
@@ -39,14 +39,23 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns></returns>
         public static BootloaderResult AddDolittle(this IServiceCollection services, Action<DolittleOptions> configure, ILoggerFactory loggerFactory = null)
         {
-            return AddDolittle(services, null, loggerFactory, configure);
+            return AddDolittle(services, null, loggerFactory, configure, null);
         }
 
         /// <summary>
         /// Adds Dolittle services
         /// </summary>
         /// <returns></returns>
-        public static BootloaderResult AddDolittle(this IServiceCollection services, Action<IBootBuilder> builderDelegate, ILoggerFactory loggerFactory = null, Action<DolittleOptions> configure = null)
+        public static BootloaderResult AddDolittle(this IServiceCollection services, Action<HttpHeaderSchemeOptions> configureAuthentication, ILoggerFactory loggerFactory = null)
+        {
+            return AddDolittle(services, null, loggerFactory, null, configureAuthentication);
+        }
+
+        /// <summary>
+        /// Adds Dolittle services
+        /// </summary>
+        /// <returns></returns>
+        public static BootloaderResult AddDolittle(this IServiceCollection services, Action<IBootBuilder> builderDelegate, ILoggerFactory loggerFactory = null, Action<DolittleOptions> configure = null, Action<HttpHeaderSchemeOptions> configureAuthentication = null)
         {
             var bootloader = Bootloader.Configure(_ => {
                 if( loggerFactory != null ) _ = _.UseLoggerFactory(loggerFactory);
@@ -60,17 +69,17 @@ namespace Microsoft.Extensions.DependencyInjection
 
             if (configure != null) services.Configure<DolittleOptions>(configure);
 
-            AddAuthentication(services);
+            AddAuthentication(services, configureAuthentication);
             services.AddMvc();
             AddMvcOptions(services, bootloaderResult.TypeFinder, bootloaderResult.Container);
 
             return bootloaderResult;
         }  
 
-        static void AddAuthentication(IServiceCollection services)
+        static void AddAuthentication(IServiceCollection services, Action<HttpHeaderSchemeOptions> configure = null)
         {
-            services.AddAuthentication("Dolittle.Headers")
-                .AddScheme<HttpHeaderSchemeOptions, HttpHeaderHandler>("Dolittle.Headers", _ => {});
+            if (configure == null) configure = delegate {};
+            services.AddAuthentication("Dolittle.Headers").AddScheme<HttpHeaderSchemeOptions, HttpHeaderHandler>("Dolittle.Headers", configure);
         }
         
         static void SetupUnhandledExceptionHandler(Dolittle.Logging.ILogger logger)

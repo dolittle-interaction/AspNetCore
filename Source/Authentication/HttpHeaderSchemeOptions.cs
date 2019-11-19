@@ -10,5 +10,9 @@ namespace Dolittle.AspNetCore.Authentication
     /// </summary>
     public class HttpHeaderSchemeOptions : AuthenticationSchemeOptions
     {
+        /// <summary>
+        /// Gets or sets the name of the HTTP Header that contains the Claims
+        /// </summary>
+        public string ClaimsHeaderName { get; set; } = "Claims";
     }
 }

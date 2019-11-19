@@ -20,6 +20,7 @@ namespace Dolittle.AspNetCore.Authentication
     /// </summary>
     public class HttpHeaderHandler : AuthenticationHandler<HttpHeaderSchemeOptions>
     {
+        readonly IOptionsMonitor<HttpHeaderSchemeOptions> _options;
         readonly ILogger _logger;
 
         /// <summary>
@@ -33,6 +34,7 @@ namespace Dolittle.AspNetCore.Authentication
         /// <returns></returns>
         public HttpHeaderHandler(IOptionsMonitor<HttpHeaderSchemeOptions> options, ILoggerFactory loggerFactory, UrlEncoder encoder, ISystemClock clock, ILogger logger) : base(options, loggerFactory, encoder, clock)
         {
+            _options = options;
             _logger = logger;
         }
 
@@ -42,7 +44,8 @@ namespace Dolittle.AspNetCore.Authentication
         /// <returns></returns>
         protected override Task<AuthenticateResult> HandleAuthenticateAsync()
         {
-            var claimHeaders = Request.Headers["Claims"];
+            var claimHeaderName = _options.CurrentValue.ClaimsHeaderName;
+            var claimHeaders = Request.Headers[claimHeaderName];
             if (claimHeaders.Any())
             {
                 var mergedClaimHeaders = string.Join(',', claimHeaders);
@@ -57,7 +60,7 @@ namespace Dolittle.AspNetCore.Authentication
                 }
                 else
                 {
-                    _logger.Warning($"There were 'Claims' headers present on the request. But the resulting identity was not valid. No authenticated user will be set.");
+                    _logger.Warning($"There were '{claimHeaderName}' headers present on the request. But the resulting identity was not valid. No authenticated user will be set.");
                 }
             }
             return Task.FromResult(AuthenticateResult.NoResult());
