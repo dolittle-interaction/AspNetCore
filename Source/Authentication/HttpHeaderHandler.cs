@@ -42,10 +42,11 @@ namespace Dolittle.AspNetCore.Authentication
         /// <returns></returns>
         protected override Task<AuthenticateResult> HandleAuthenticateAsync()
         {
-            var claimHeaders = Request.Headers["Claim"];
+            var claimHeaders = Request.Headers["Claims"];
             if (claimHeaders.Any())
             {
-                var identity = ParseClaimHeaders(claimHeaders);
+                var mergedClaimHeaders = string.Join(',', claimHeaders);
+                var identity = ParseClaimHeaders(mergedClaimHeaders);
                 if (ValidateClaimsIdentity(identity))
                 {
                     return Task.FromResult(AuthenticateResult.Success(new AuthenticationTicket(
@@ -54,19 +55,23 @@ namespace Dolittle.AspNetCore.Authentication
                         Scheme.Name
                     )));
                 }
+                else
+                {
+                    _logger.Warning($"There were 'Claims' headers present on the request. But the resulting identity was not valid. No authenticated user will be set.");
+                }
             }
             return Task.FromResult(AuthenticateResult.NoResult());
         }
 
-        ClaimsIdentity ParseClaimHeaders(IEnumerable<string> claimHeaders)
+        ClaimsIdentity ParseClaimHeaders(string claimsHeaderValue)
         {
             var identity = new ClaimsIdentity("Dolittle.Headers");
-            foreach (var claimHeader in claimHeaders)
+            foreach (var claimTypeValue in claimsHeaderValue.Split(','))
             {
-                if (!string.IsNullOrWhiteSpace(claimHeader) && claimHeader.Contains('='))
+                if (!string.IsNullOrWhiteSpace(claimTypeValue) && claimTypeValue.Contains('='))
                 {
-                    var claimTypeValue = claimHeader.Split('=',2);
-                    identity.AddClaim(new Claim(claimTypeValue[0], claimTypeValue[1]));
+                    var splitClaimTypeValue = claimTypeValue.Split('=',2);
+                    identity.AddClaim(new Claim(splitClaimTypeValue[0], splitClaimTypeValue[1]));
                 }
             }
             return identity;
@@ -77,6 +82,11 @@ namespace Dolittle.AspNetCore.Authentication
             if (!claims.HasClaim(_ => _.Type == "sub"))
             {
                 _logger.Error("Provided Claim headers does not contain the required 'sub' claim");
+                return false;
+            }
+            if (!claims.HasClaim(_ => _.Type == "iss"))
+            {
+                _logger.Error("Provided Claim headers does not contain the required 'iss' claim");
                 return false;
             }
             return true;
