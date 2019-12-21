@@ -1,40 +1,33 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System.IO;
 using System.Threading.Tasks;
 using Dolittle.AspNetCore.Bootstrap;
+using Dolittle.AspNetCore.Execution;
 using Dolittle.Booting;
 using Dolittle.DependencyInversion;
-using Dolittle.Logging;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.FileProviders.Physical;
-using System;
-using Dolittle.Execution;
-using Dolittle.AspNetCore.Execution;
 
 namespace Microsoft.AspNetCore.Builder
 {
     /// <summary>
-    /// Extensions for <see cref="IApplicationBuilder"/>
+    /// Extensions for <see cref="IApplicationBuilder"/>.
     /// </summary>
     public static class ApplicationBuilderExtensions
     {
         /// <summary>
-        /// Use Dolittle for the given application
+        /// Use Dolittle for the given application.
         /// </summary>
-        /// <param name="app"><see cref="IApplicationBuilder"/> to use Dolittle for</param>
+        /// <param name="app"><see cref="IApplicationBuilder"/> to use Dolittle for.</param>
         public static void UseDolittle(this IApplicationBuilder app)
         {
             var container = app.ApplicationServices.GetService(typeof(IContainer)) as IContainer;
-
-            var logger = app.ApplicationServices.GetService(typeof(ILogger)) as ILogger;
-
             Dolittle.DependencyInversion.Booting.Boot.ContainerReady(container);
-            
-            Dolittle.Booting.BootStages.ContainerReady(container);
+
+            BootStages.ContainerReady(container);
 
             var bootProcedures = container.Get<IBootProcedures>();
             bootProcedures.Perform();
@@ -44,12 +37,12 @@ namespace Microsoft.AspNetCore.Builder
         }
 
         /// <summary>
-        /// Run as a single page application - typically end off your application configuration in Startup.cs with this
+        /// Run as a single page application - typically end off your application configuration in Startup.cs with this.
         /// </summary>
-        /// <param name="app"><see cref="IApplicationBuilder"/> you're building</param>
-        /// <param name="pathToFile">Optional path to file that will be sent as the single page</param>
+        /// <param name="app"><see cref="IApplicationBuilder"/> you're building.</param>
+        /// <param name="pathToFile">Optional path to file that will be sent as the single page.</param>
         /// <remarks>
-        /// If there is no path to a file given, it will default to index.html inside your wwwwroot
+        /// If there is no path to a file given, it will default to index.html inside your wwwwroot.
         /// </remarks>
         public static void RunAsSinglePageApplication(this IApplicationBuilder app, string pathToFile = null)
         {
@@ -57,11 +50,11 @@ namespace Microsoft.AspNetCore.Builder
 
             app.Run(async context =>
             {
-                if (Path.HasExtension(context.Request.Path)) await Task.CompletedTask;
+                if (Path.HasExtension(context.Request.Path)) await Task.CompletedTask.ConfigureAwait(false);
                 context.Request.Path = new PathString("/");
 
                 var path = pathToFile ?? $"{environment.ContentRootPath}/wwwroot/index.html";
-                await context.Response.SendFileAsync(new PhysicalFileInfo(new FileInfo(path)));
+                await context.Response.SendFileAsync(new PhysicalFileInfo(new FileInfo(path))).ConfigureAwait(false);
             });
         }
     }

@@ -1,7 +1,5 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System.Linq;
 using Dolittle.Collections;
@@ -14,20 +12,20 @@ using Newtonsoft.Json;
 namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
-    /// An options configurer for <see cref="MvcJsonOptions"/> that adds custom instances of <see cref="JsonConverter"/> for use in MVC
+    /// An options configurer for <see cref="MvcJsonOptions"/> that adds custom instances of <see cref="JsonConverter"/> for use in MVC.
     /// </summary>
     public class MvcJsonConverters : IConfigureOptions<MvcJsonOptions>
     {
         readonly IInstancesOf<ICanProvideConverters> _providers;
 
         /// <summary>
-        /// Instanciates an <see cref="MvcJsonConverters"/>
+        /// Initializes a new instance of the <see cref="MvcJsonConverters"/> class.
         /// </summary>
+        /// <param name="providers">All <see cref="IInstancesOf{T}"/> <see cref="ICanProvideConverters"/>.</param>
         public MvcJsonConverters(IInstancesOf<ICanProvideConverters> providers)
         {
             _providers = providers;
         }
-
 
         /// <inheritdoc/>
         public void Configure(MvcJsonOptions options)

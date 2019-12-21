@@ -1,96 +1,113 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
-using System.Linq;
 using Dolittle.AspNetCore.Authentication;
 using Dolittle.AspNetCore.Bootstrap;
-using DolittleOptions = Dolittle.AspNetCore.Configuration.Options;
 using Dolittle.AspNetCore.Execution;
 using Dolittle.Booting;
 using Dolittle.Collections;
-using Dolittle.DependencyInversion;
 using Dolittle.Reflection;
 using Dolittle.Types;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Dolittle.Serialization.Json;
+using DolittleOptions = Dolittle.AspNetCore.Configuration.Options;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
-    /// Extensions for services
+    /// Extensions for services.
     /// </summary>
     public static class ServicesExtensions
     {
         /// <summary>
-        /// Adds Dolittle services
+        /// Adds Dolittle services.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="services">The <see cref="IServiceCollection"/> to add Dolittle to.</param>
+        /// <param name="loggerFactory">The <see cref="ILoggerFactory"/> to use, default is null - which means it will use the default factory.</param>
+        /// <returns>The <see cref="BootloaderResult"/>.</returns>
         public static BootloaderResult AddDolittle(this IServiceCollection services, ILoggerFactory loggerFactory = null)
         {
             return AddDolittle(services, null, loggerFactory, null, null);
         }
 
         /// <summary>
-        /// Adds Dolittle services
+        /// Adds Dolittle services.
         /// </summary>
-        /// <returns></returns>
-        public static BootloaderResult AddDolittle(this IServiceCollection services, Action<DolittleOptions> configure, ILoggerFactory loggerFactory = null)
+        /// <param name="services">The <see cref="IServiceCollection"/> to add Dolittle to.</param>
+        /// <param name="configure">Callback for configuring <see cref="DolittleOptions"/>.</param>
+        /// <param name="loggerFactory">The <see cref="ILoggerFactory"/> to use, default is null - which means it will use the default factory.</param>
+        /// <returns>The <see cref="BootloaderResult"/>.</returns>
+        public static BootloaderResult AddDolittle(
+            this IServiceCollection services,
+            Action<DolittleOptions> configure,
+            ILoggerFactory loggerFactory = null)
         {
             return AddDolittle(services, null, loggerFactory, configure, null);
         }
 
         /// <summary>
-        /// Adds Dolittle services
+        /// Adds Dolittle services.
         /// </summary>
-        /// <returns></returns>
-        public static BootloaderResult AddDolittle(this IServiceCollection services, Action<HttpHeaderSchemeOptions> configureAuthentication, ILoggerFactory loggerFactory = null)
+        /// <param name="services">The <see cref="IServiceCollection"/> to add Dolittle to.</param>
+        /// <param name="configureAuthentication">Callback for configuring <see cref="HttpHeaderSchemeOptions"/>.</param>
+        /// <param name="loggerFactory">The <see cref="ILoggerFactory"/> to use, default is null - which means it will use the default factory.</param>
+        /// <returns>The <see cref="BootloaderResult"/>.</returns>
+        public static BootloaderResult AddDolittle(
+            this IServiceCollection services,
+            Action<HttpHeaderSchemeOptions> configureAuthentication,
+            ILoggerFactory loggerFactory = null)
         {
             return AddDolittle(services, null, loggerFactory, null, configureAuthentication);
         }
 
         /// <summary>
-        /// Adds Dolittle services
+        /// Adds Dolittle services.
         /// </summary>
-        /// <returns></returns>
-        public static BootloaderResult AddDolittle(this IServiceCollection services, Action<IBootBuilder> builderDelegate, ILoggerFactory loggerFactory = null, Action<DolittleOptions> configure = null, Action<HttpHeaderSchemeOptions> configureAuthentication = null)
+        /// <param name="services">The <see cref="IServiceCollection"/> to add Dolittle to.</param>
+        /// <param name="builderDelegate">Callback for building on the <see cref="IBootBuilder"/>.</param>
+        /// <param name="loggerFactory">The <see cref="ILoggerFactory"/> to use, default is null - which means it will use the default factory.</param>
+        /// <param name="configure">Callback for configuring <see cref="DolittleOptions"/>.</param>
+        /// <param name="configureAuthentication">Callback for configuring <see cref="HttpHeaderSchemeOptions"/>.</param>
+        /// <returns>The <see cref="BootloaderResult"/>.</returns>
+        public static BootloaderResult AddDolittle(
+            this IServiceCollection services,
+            Action<IBootBuilder> builderDelegate,
+            ILoggerFactory loggerFactory = null,
+            Action<DolittleOptions> configure = null,
+            Action<HttpHeaderSchemeOptions> configureAuthentication = null)
         {
-            var bootloader = Bootloader.Configure(_ => {
-                if( loggerFactory != null ) _ = _.UseLoggerFactory(loggerFactory);
-                if( EnvironmentUtilities.GetExecutionEnvironment() == Dolittle.Execution.Environment.Development ) _ = _.Development();
+            var bootloader = Bootloader.Configure(_ =>
+            {
+                if (loggerFactory != null) _ = _.UseLoggerFactory(loggerFactory);
+                if (EnvironmentUtilities.GetExecutionEnvironment() == Dolittle.Execution.Environment.Development) _ = _.Development();
                 _.SkipBootprocedures()
                 .UseContainer<Container>();
-                if ( builderDelegate != null) builderDelegate(_);
+                builderDelegate?.Invoke(_);
             });
 
             var bootloaderResult = bootloader.Start();
 
-            if (configure != null) services.Configure<DolittleOptions>(configure);
+            if (configure != null) services.Configure(configure);
 
             AddAuthentication(services, configureAuthentication);
             services.AddMvc();
-            AddMvcOptions(services, bootloaderResult.TypeFinder, bootloaderResult.Container);
+            AddMvcOptions(services, bootloaderResult.TypeFinder);
 
             return bootloaderResult;
-        }  
+        }
 
         static void AddAuthentication(IServiceCollection services, Action<HttpHeaderSchemeOptions> configure = null)
         {
-            if (configure == null) configure = delegate {};
+            if (configure == null)
+            {
+                configure = _ => { };
+            }
+
             services.AddAuthentication("Dolittle.Headers").AddScheme<HttpHeaderSchemeOptions, HttpHeaderHandler>("Dolittle.Headers", configure);
         }
-        
-        static void SetupUnhandledExceptionHandler(Dolittle.Logging.ILogger logger)
-        {
-            AppDomain.CurrentDomain.UnhandledException += (object sender, UnhandledExceptionEventArgs args) => 
-            {
-                var exception = (Exception) args.ExceptionObject;
-                logger.Error(exception, "Unhandled Exception");
-            };
-        }
-        static void AddMvcOptions(IServiceCollection services, ITypeFinder typeFinder, IContainer container)
+
+        static void AddMvcOptions(IServiceCollection services, ITypeFinder typeFinder)
         {
             var mvcOptionsAugmenters = typeFinder.FindMultiple<ICanAddMvcOptions>();
             mvcOptionsAugmenters.ForEach(augmenterType =>
@@ -99,26 +116,6 @@ namespace Microsoft.Extensions.DependencyInjection
                 var augmenter = Activator.CreateInstance(augmenterType) as ICanAddMvcOptions;
                 services.Configure<MvcOptions>(augmenter.Add);
             });
-        }
-
-        static ServiceDescriptor GetServiceDescriptor(Binding binding)
-        {
-            if (binding.Strategy is Dolittle.DependencyInversion.Strategies.Constant)
-                return new ServiceDescriptor(binding.Service, ((Dolittle.DependencyInversion.Strategies.Constant)binding.Strategy).Target);
-
-            if (binding.Strategy is Dolittle.DependencyInversion.Strategies.Type)
-                return new ServiceDescriptor(binding.Service, ((Dolittle.DependencyInversion.Strategies.Type)binding.Strategy).Target, GetServiceLifetimeFor(binding));
-
-            if (binding.Strategy is Dolittle.DependencyInversion.Strategies.Callback)
-                return new ServiceDescriptor(binding.Service, (IServiceProvider provider)=>((Dolittle.DependencyInversion.Strategies.Callback)binding.Strategy).Target(), GetServiceLifetimeFor(binding));
-
-            throw new ArgumentException("Couldn't translate to a valid service descriptor");
-        }
-
-        static ServiceLifetime GetServiceLifetimeFor(Binding binding)
-        {
-            if (binding.Scope is Dolittle.DependencyInversion.Scopes.Singleton)return ServiceLifetime.Singleton;
-            return ServiceLifetime.Transient;
         }
     }
 }
