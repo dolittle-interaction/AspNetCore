@@ -1,25 +1,23 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
-using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
-using DolittleOptions = Dolittle.AspNetCore.Configuration.Options;
 using Dolittle.Execution;
-using Dolittle.Tenancy;
+using Dolittle.Logging;
 using Dolittle.Security;
-using Microsoft.AspNetCore.Http;
+using Dolittle.Tenancy;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
-using Dolittle.Logging;
-using System.Security.Claims;
+using DolittleOptions = Dolittle.AspNetCore.Configuration.Options;
 
 namespace Dolittle.AspNetCore.Execution
 {
     /// <summary>
-    /// Provides an endpoint for that sets the <see cref="Dolittle.Tenancy.TenantId"/> of the <see cref="Dolittle.Execution.ExecutionContext" />
+    /// Provides an endpoint for that sets the <see cref="TenantId"/> of the <see cref="ExecutionContext" />.
     /// </summary>
     public class ExecutionContextSetup
     {
@@ -29,18 +27,17 @@ namespace Dolittle.AspNetCore.Execution
         readonly ILogger _logger;
 
         /// <summary>
-        /// Instantiates an instance of <see cref="ExecutionContextSetup"/>
+        /// Initializes a new instance of the <see cref="ExecutionContextSetup"/> class.
         /// </summary>
-        /// <param name="next"></param>
-        /// <param name="options"></param>
-        /// <param name="executionContextManager"></param>
-        /// <param name="logger"></param>
+        /// <param name="next">Next middleware.</param>
+        /// <param name="options">Configuration in form of <see cref="DolittleOptions"/>.</param>
+        /// <param name="executionContextManager"><see cref="IExecutionContextManager"/> for working with <see cref="ExecutionContext"/>.</param>
+        /// <param name="logger"><see cref="ILogger"/> for logging.</param>
         public ExecutionContextSetup(
             RequestDelegate next,
             IOptionsMonitor<DolittleOptions> options,
             IExecutionContextManager executionContextManager,
-            ILogger logger
-        )
+            ILogger logger)
         {
             _next = next;
             _options = options;
@@ -49,17 +46,17 @@ namespace Dolittle.AspNetCore.Execution
         }
 
         /// <summary>
-        /// 
+        /// Middleware invocation method.
         /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
+        /// <param name="context">Current <see cref="HttpContext"/>.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task InvokeAsync(HttpContext context)
         {
             var tenantIdHeader = _options.CurrentValue.ExecutionContextSetup.TenantIdHeaderName;
             var tenantId = GetTenantIdFromHeaders(context, tenantIdHeader);
 
             var shouldSkipAuthentication = _options.CurrentValue.ExecutionContextSetup.SkipAuthentication;
-            if (!shouldSkipAuthentication && TryGetAuthenticatedUser(await context.AuthenticateAsync(), out var principal))
+            if (!shouldSkipAuthentication && TryGetAuthenticatedUser(await context.AuthenticateAsync().ConfigureAwait(false), out var principal))
             {
                 _executionContextManager.CurrentFor(tenantId, CorrelationId.New(), principal.ToClaims());
             }
@@ -67,7 +64,8 @@ namespace Dolittle.AspNetCore.Execution
             {
                 _executionContextManager.CurrentFor(tenantId, CorrelationId.New());
             }
-            await _next.Invoke(context);
+
+            await _next.Invoke(context).ConfigureAwait(false);
         }
 
         TenantId GetTenantIdFromHeaders(HttpContext context, string header)
@@ -76,18 +74,19 @@ namespace Dolittle.AspNetCore.Execution
             ThrowIfTenantIdHeaderHasMultipleValues(header, values);
             if (values.Count == 1)
             {
-                if (Guid.TryParse(values.First(), out var tenantId))
+                if (Guid.TryParse(values[0], out var tenantId))
                 {
                     return tenantId;
                 }
                 else
                 {
-                    _logger.Error($"The configured TenantId header '{header}' must be a valud Guid. The value was '{values.First()}' - no tenant will be configurd");
+                    _logger.Error($"The configured TenantId header '{header}' must be a valud Guid. The value was '{values[0]}' - no tenant will be configurd");
                 }
             }
+
             return TenantId.Unknown;
         }
-        
+
         void ThrowIfTenantIdHeaderHasMultipleValues(string header, StringValues values)
         {
             if (values.Count > 1)

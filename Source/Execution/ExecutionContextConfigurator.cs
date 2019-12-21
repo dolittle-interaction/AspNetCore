@@ -1,7 +1,5 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using Dolittle.Applications;
 using Dolittle.Execution;
@@ -11,9 +9,8 @@ using Dolittle.Tenancy;
 
 namespace Dolittle.AspNetCore.Execution
 {
-
     /// <summary>
-    /// Represents an implementation of <see cref="IExecutionContextConfigurator"/>
+    /// Represents an implementation of <see cref="IExecutionContextConfigurator"/>.
     /// </summary>
     [Singleton]
     public class ExecutionContextConfigurator : IExecutionContextConfigurator
@@ -21,18 +18,20 @@ namespace Dolittle.AspNetCore.Execution
         readonly IExecutionContextManager _executionContextManager;
 
         /// <summary>
-        /// Instantiates an instance of <see cref="ExecutionContextConfigurator"/>
+        /// Initializes a new instance of the <see cref="ExecutionContextConfigurator"/> class.
         /// </summary>
-        /// <param name="executionContextManager"></param>
+        /// <param name="executionContextManager"><see cref="IExecutionContextManager"/> for working with <see cref="ExecutionContext"/>.</param>
         public ExecutionContextConfigurator(IExecutionContextManager executionContextManager)
         {
             _executionContextManager = executionContextManager;
         }
+
         /// <inheritdoc/>
         public ExecutionContext CurrentExecutionContext()
         {
             return _executionContextManager.Current;
         }
+
         /// <inheritdoc/>
         public ExecutionContext ConfigureFor(TenantId tenantId, CorrelationId correlationId, Claims claims)
         {
@@ -42,13 +41,14 @@ namespace Dolittle.AspNetCore.Execution
 
             _executionContextManager.SetConstants(executionApplication, executionBoundedContext, executionEnvironment);
 
-            return _executionContextManager.CurrentFor(tenantId, correlationId, claims ?? Dolittle.Security.Claims.Empty);
+            return _executionContextManager.CurrentFor(tenantId, correlationId, claims ?? Claims.Empty);
         }
 
         Application DeduceApplication()
         {
             return _executionContextManager.Current.Application;
         }
+
         BoundedContext DeduceBoundedContext()
         {
             return _executionContextManager.Current.BoundedContext;
