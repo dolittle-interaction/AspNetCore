@@ -3,8 +3,6 @@
 
 using System.Collections.Generic;
 
-#pragma warning disable CA2227
-
 namespace Dolittle.AspNetCore.Queries
 {
     /// <summary>
