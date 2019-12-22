@@ -1,14 +1,13 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Dolittle.AspNetCore.Bootstrap;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dolittle.AspNetCore.Queries
 {
     /// <summary>
-    /// Augment <see cref="MvcOptions"/>
+    /// Augment <see cref="MvcOptions"/>.
     /// </summary>
     public class MvcOptionsAugmenter : ICanAddMvcOptions
     {
