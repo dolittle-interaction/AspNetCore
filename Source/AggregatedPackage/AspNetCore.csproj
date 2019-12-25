@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
+    <Import Project="../../default.props" />
     <PropertyGroup>
-        <TargetFramework>netcoreapp2.2</TargetFramework>
         <AssemblyName>Dolittle.AspNetCore</AssemblyName>
     </PropertyGroup>
 
