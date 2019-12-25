@@ -1,26 +1,22 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using Dolittle.AspNetCore.Execution;
 using Dolittle.Commands;
 using Dolittle.Logging;
 using Dolittle.Runtime.Commands;
 using Dolittle.Runtime.Commands.Coordination;
-using Dolittle.Security;
 using Dolittle.Serialization.Json;
-using Dolittle.Tenancy;
 using Dolittle.Types;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dolittle.AspNetCore.Commands
 {
     /// <summary>
-    /// Represents an API endpoint for working with <see cref="ICommand">commands</see>
+    /// Represents an API endpoint for working with <see cref="ICommand">commands</see>.
     /// </summary>
     [Route("api/Dolittle/Commands")]
     public class CommandCoordinator : ControllerBase
@@ -32,20 +28,19 @@ namespace Dolittle.AspNetCore.Commands
         readonly ILogger _logger;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="CommandCoordinator"/>
+        /// Initializes a new instance of the <see cref="CommandCoordinator"/> class.
         /// </summary>
-        /// <param name="commandCoordinator">The underlying <see cref="ICommandCoordinator"/> </param>
-        /// <param name="executionContextConfigurator"><see cref="IExecutionContextConfigurator"/> for configuring the <see cref="Dolittle.Execution.ExecutionContext"/></param>
-        /// <param name="serializer"><see cref="ISerializer"/> for serialization purposes</param>
-        /// <param name="commands">Instances of <see cref="ICommand"/></param>
-        /// <param name="logger"></param>
+        /// <param name="commandCoordinator">The underlying <see cref="ICommandCoordinator"/>.</param>
+        /// <param name="executionContextConfigurator"><see cref="IExecutionContextConfigurator"/> for configuring the <see cref="Dolittle.Execution.ExecutionContext"/>.</param>
+        /// <param name="serializer"><see cref="ISerializer"/> for serialization purposes.</param>
+        /// <param name="commands">Instances of <see cref="ICommand"/>.</param>
+        /// <param name="logger"><see cref="ILogger"/> for logging.</param>
         public CommandCoordinator(
             ICommandCoordinator commandCoordinator,
             IExecutionContextConfigurator executionContextConfigurator,
             ISerializer serializer,
             IInstancesOf<ICommand> commands,
-            ILogger logger
-            )
+            ILogger logger)
         {
             _commandCoordinator = commandCoordinator;
             _commands = commands;
@@ -55,18 +50,17 @@ namespace Dolittle.AspNetCore.Commands
         }
 
         /// <summary>
-        /// 
+        /// [POST] Action for handling a <see cref="CommandRequest"/>.
         /// </summary>
-        /// <param name="command"></param>
-        /// <returns></returns>
+        /// <param name="command"><see cref="CommandRequest"/> to handle.</param>
+        /// <returns>The <see cref="ActionResult"/>.</returns>
         [HttpPost]
         public ActionResult Handle([FromBody] CommandRequest command)
         {
             var content = new ContentResult();
-            CommandResult result = null;
-            try 
+            CommandResult result;
+            try
             {
-                // _executionContextConfigurator.ConfigureFor(_tenantResolver.Resolve(HttpContext.Request), command.CorrelationId, ClaimsPrincipal.Current.ToClaims());
                 result = _commandCoordinator.Handle(command);
             }
             catch (Exception ex)
@@ -86,24 +80,21 @@ namespace Dolittle.AspNetCore.Commands
         }
 
         /// <summary>
-        /// 
+        /// [GET] Action for getting all available commands.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A collection of all implementations of <see cref="ICommand"/>.</returns>
         [HttpGet]
         public IEnumerable<ICommand> Commands()
         {
             try
             {
-                // _executionContextConfigurator.ConfigureFor(_tenantResolver.Resolve(HttpContext.Request), Dolittle.Execution.CorrelationId.New(), ClaimsPrincipal.Current.ToClaims());
                 return _commands.ToList();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-
                 _logger.Error(ex, $"Error listing commands.");
                 throw;
             }
         }
-
     }
 }

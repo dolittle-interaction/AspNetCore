@@ -1,9 +1,7 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,7 +17,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 namespace Dolittle.AspNetCore.Commands
 {
     /// <summary>
-    /// Represents a <see cref="IModelBinder"/> for binding <see cref="CommandRequest"/>
+    /// Represents a <see cref="IModelBinder"/> for binding <see cref="CommandRequest"/>.
     /// </summary>
     public class CommandRequestBinder : IModelBinder
     {
@@ -27,10 +25,10 @@ namespace Dolittle.AspNetCore.Commands
         readonly IExecutionContextManager _executionContextManager;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="CommandRequestBinder"/>
+        /// Initializes a new instance of the <see cref="CommandRequestBinder"/> class.
         /// </summary>
-        /// <param name="serializer"><see cref="ISerializer"/> to use</param>
-        /// <param name="executionContextManager"><see cref="IExecutionContextManager"/> to use for working with the <see cref="ExecutionContext"/></param>
+        /// <param name="serializer"><see cref="ISerializer"/> to use.</param>
+        /// <param name="executionContextManager"><see cref="IExecutionContextManager"/> to use for working with the <see cref="ExecutionContext"/>.</param>
         public CommandRequestBinder(ISerializer serializer, IExecutionContextManager executionContextManager)
         {
             _serializer = serializer;
@@ -41,42 +39,32 @@ namespace Dolittle.AspNetCore.Commands
         public async Task BindModelAsync(ModelBindingContext bindingContext)
         {
             var stream = bindingContext.HttpContext.Request.Body;
-            try
+            using (var buffer = new MemoryStream())
             {
-                using(var buffer = new MemoryStream())
+                await stream.CopyToAsync(buffer).ConfigureAwait(false);
+
+                buffer.Position = 0L;
+
+                using (var reader = new StreamReader(buffer))
                 {
-                    await stream.CopyToAsync(buffer);
+                    var json = await reader.ReadToEndAsync().ConfigureAwait(false);
 
-                    buffer.Position = 0L;
+                    var commandRequestKeyValues = _serializer.GetKeyValuesFromJson(json);
+                    var correlationId = Guid.Parse(commandRequestKeyValues["correlationId"].ToString());
+                    _executionContextManager.CurrentFor(TenantId.Unknown, correlationId);
 
-                    using(var reader = new StreamReader(buffer))
-                    {
-                        var json = await reader.ReadToEndAsync();
+                    var content = _serializer.GetKeyValuesFromJson(commandRequestKeyValues["content"].ToString());
 
-                        var commandRequestKeyValues = _serializer.GetKeyValuesFromJson(json);
-                        var correlationId = Guid.Parse(commandRequestKeyValues["correlationId"].ToString());
-                        _executionContextManager.CurrentFor(TenantId.Unknown, correlationId);
-                        
+                    var commandRequest = new CommandRequest(
+                        Guid.Parse(commandRequestKeyValues["correlationId"].ToString()),
+                        Guid.Parse(commandRequestKeyValues["type"].ToString()),
+                        ArtifactGeneration.First,
+                        content.ToDictionary(keyValue => keyValue.Key.ToPascalCase(), keyValue => keyValue.Value));
 
-                        var content = _serializer.GetKeyValuesFromJson(commandRequestKeyValues["content"].ToString());
-
-                        var commandRequest = new CommandRequest(
-                            Guid.Parse(commandRequestKeyValues["correlationId"].ToString()),
-                            Guid.Parse(commandRequestKeyValues["type"].ToString()),
-                            ArtifactGeneration.First,
-                            content.ToDictionary(keyValue => keyValue.Key.ToPascalCase(), keyValue => keyValue.Value)
-
-                        );
-
-                        bindingContext.Result = ModelBindingResult.Success(commandRequest);
-                    }
-
-                    bindingContext.HttpContext.Request.Body = buffer;
+                    bindingContext.Result = ModelBindingResult.Success(commandRequest);
                 }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
+
+                bindingContext.HttpContext.Request.Body = buffer;
             }
         }
     }

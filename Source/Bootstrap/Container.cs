@@ -1,23 +1,22 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using Dolittle.DependencyInversion;
 
 namespace Dolittle.AspNetCore.Bootstrap
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IContainer"/> for <see cref="IServiceProvider"/>
+    /// Represents an implementation of <see cref="IContainer"/> for <see cref="IServiceProvider"/>.
     /// </summary>
     public class Container : IContainer
     {
         readonly IServiceProvider _serviceProvider;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="Container"/>
+        /// Initializes a new instance of the <see cref="Container"/> class.
         /// </summary>
-        /// <param name="serviceProvider"></param>
+        /// <param name="serviceProvider">The <see cref="IServiceProvider"/>.</param>
         public Container(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;

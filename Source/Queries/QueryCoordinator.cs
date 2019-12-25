@@ -1,31 +1,32 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Dolittle.AspNetCore.Execution;
 using Dolittle.Collections;
 using Dolittle.Concepts;
 using Dolittle.DependencyInversion;
 using Dolittle.Dynamic;
+using Dolittle.Execution;
 using Dolittle.Logging;
 using Dolittle.Queries;
 using Dolittle.Queries.Coordination;
-using Dolittle.Security;
 using Dolittle.Serialization.Json;
 using Dolittle.Types;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 
+#pragma warning disable CA1308
+
 namespace Dolittle.AspNetCore.Queries
 {
     /// <summary>
-    /// Represents an API endpoint for working with <see cref="IQuery">queries</see>
+    /// Represents an API endpoint for working with <see cref="IQuery">queries</see>.
     /// </summary>
     [Route("api/Dolittle/Queries")]
     public class QueryCoordinator : ControllerBase
@@ -39,15 +40,15 @@ namespace Dolittle.AspNetCore.Queries
         readonly ISerializer _serializer;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="QueryCoordinator"/>
+        /// Initializes a new instance of the <see cref="QueryCoordinator"/> class.
         /// </summary>
-        /// <param name="typeFinder"></param>
-        /// <param name="container"></param>
-        /// <param name="queryCoordinator">The underlying <see cref="IQueryCoordinator"/> </param>
-        /// <param name="executionContextConfigurator"></param>
-        /// <param name="queries"></param>
-        /// <param name="serializer"></param>
-        /// <param name="logger"></param>
+        /// <param name="typeFinder"><see cref="ITypeFinder"/> for finding types.</param>
+        /// <param name="container"><see cref="IContainer"/> for getting instances of types.</param>
+        /// <param name="queryCoordinator">The underlying <see cref="IQueryCoordinator"/>.</param>
+        /// <param name="executionContextConfigurator"><see cref="IExecutionContextConfigurator"/> for working with <see cref="ExecutionContext"/>.</param>
+        /// <param name="queries"><see cref="IInstancesOf{T}"/> of <see cref="IQuery"/>.</param>
+        /// <param name="serializer">JSON <see cref="ISerializer"/>.</param>
+        /// <param name="logger"><see cref="ILogger"/> for logging.</param>
         public QueryCoordinator(
             ITypeFinder typeFinder,
             IContainer container,
@@ -67,10 +68,10 @@ namespace Dolittle.AspNetCore.Queries
         }
 
         /// <summary>
-        /// 
+        /// [POST] Action for performing a query.
         /// </summary>
-        /// <param name="queryRequest"></param>
-        /// <returns></returns>
+        /// <param name="queryRequest">The <see cref="QueryRequest"/>.</param>
+        /// <returns><see cref="IActionResult"/> with the query result.</returns>
         [HttpPost]
         public async Task<IActionResult> Handle([FromBody] QueryRequest queryRequest)
         {
@@ -78,7 +79,6 @@ namespace Dolittle.AspNetCore.Queries
             QueryResult queryResult = null;
             try
             {
-                // _executionContextConfigurator.ConfigureFor(_tenantResolver.Resolve(HttpContext.Request), Dolittle.Execution.CorrelationId.New(), ClaimsPrincipal.Current.ToClaims());
                 _logger.Information($"Executing query : {queryRequest.NameOfQuery}");
                 var queryType = _typeFinder.GetQueryTypeByName(queryRequest.GeneratedFrom);
                 var query = _container.Get(queryType) as IQuery;
@@ -86,14 +86,14 @@ namespace Dolittle.AspNetCore.Queries
                 var properties = queryType.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty).ToDictionary(p => p.Name.ToLowerInvariant(), p => p);
                 CopyPropertiesFromRequestToQuery(queryRequest, query, properties);
 
-                queryResult = await _queryCoordinator.Execute(query, new PagingInfo());
+                queryResult = await _queryCoordinator.Execute(query, new PagingInfo()).ConfigureAwait(false);
                 if (queryResult.Success) AddClientTypeInformation(queryResult);
             }
             catch (Exception ex)
             {
                 _logger.Error(ex, $"Error executing query : '{queryRequest.NameOfQuery}'");
-                queryResult = new QueryResult 
-                { 
+                queryResult = new QueryResult
+                {
                     Exception = ex,
                     QueryName = queryRequest.NameOfQuery
                 };
@@ -104,36 +104,34 @@ namespace Dolittle.AspNetCore.Queries
             return content;
         }
 
+        /// <summary>
+        /// [GET] Action for getting available queries.
+        /// </summary>
+        /// <returns>All implementations of <see cref="IQuery"/>.</returns>
+        [HttpGet]
+        public IEnumerable<IQuery> Queries()
+        {
+            try
+            {
+                return _queries.ToList();
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, $"Error listing queries.");
+                throw;
+            }
+        }
+
         void AddClientTypeInformation(QueryResult result)
         {
             var items = new List<object>();
             foreach (var item in result.Items)
             {
                 var dynamicItem = item.AsExpandoObject();
-                var type = item.GetType();
                 items.Add(dynamicItem);
             }
+
             result.Items = items;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        public IEnumerable<IQuery> Queries()
-        {
-            try
-            {
-                // _executionContextConfigurator.ConfigureFor(_tenantResolver.Resolve(HttpContext.Request), Dolittle.Execution.CorrelationId.New(), ClaimsPrincipal.Current.ToClaims());
-                return _queries.ToList();
-            }
-            catch(Exception ex)
-            {
-
-                _logger.Error(ex, $"Error listing queries.");
-                throw;
-            }
         }
 
         void CopyPropertiesFromRequestToQuery(QueryRequest request, object instance, Dictionary<string, PropertyInfo> properties)
@@ -154,7 +152,7 @@ namespace Dolittle.AspNetCore.Queries
 
         object HandleValue(Type targetType, object value)
         {
-            if (value is JArray ||  value is JObject)
+            if (value is JArray || value is JObject)
             {
                 value = _serializer.FromJson(targetType, value.ToString());
             }
@@ -164,7 +162,7 @@ namespace Dolittle.AspNetCore.Queries
             }
             else if (targetType == typeof(DateTimeOffset))
             {
-                if(value is DateTime time)
+                if (value is DateTime time)
                     value = new DateTimeOffset(time);
             }
             else if (targetType.IsEnum)
@@ -178,7 +176,7 @@ namespace Dolittle.AspNetCore.Queries
             else
             {
                 if (!targetType.IsAssignableFrom(value.GetType()))
-                    value = System.Convert.ChangeType(value, targetType);
+                    value = System.Convert.ChangeType(value, targetType, CultureInfo.InvariantCulture);
             }
 
             return value;

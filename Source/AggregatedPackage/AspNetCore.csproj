@@ -7,9 +7,5 @@
     <ItemGroup>
         <ProjectReference Include="../**/*.csproj" Exclude="../AggregatedPackage/AspNetCore.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-        <PackageReference Include="Dolittle.Common" Version="1.*" />
-    </ItemGroup>
 </Project>
 

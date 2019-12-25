@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../../default.props" />
+
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
     <AssemblyName>Dolittle.AspNetCore.Queries</AssemblyName>
   </PropertyGroup>
 
@@ -10,11 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dolittle.Common" Version="1.*" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Dolittle.Dynamic" Version="4.*" />
     <PackageReference Include="Dolittle.Strings" Version="4.*" />
     <PackageReference Include="Dolittle.Serialization.Json" Version="4.*" />
-    <PackageReference Include="Dolittle.Runtime.Queries.Coordination" Version="4.*" />    
-  </ItemGroup>  
+    <PackageReference Include="Dolittle.Runtime.Queries.Coordination" Version="4.*" />
+  </ItemGroup>
 </Project>
