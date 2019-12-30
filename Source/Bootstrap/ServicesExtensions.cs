@@ -112,7 +112,7 @@ namespace Microsoft.Extensions.DependencyInjection
             var mvcOptionsAugmenters = typeFinder.FindMultiple<ICanAddMvcOptions>();
             mvcOptionsAugmenters.ForEach(augmenterType =>
             {
-                if (!augmenterType.HasDefaultConstructor()) throw new ArgumentException($"Type '{augmenterType.AssemblyQualifiedName}' is missing a default constructor");
+                if (!augmenterType.HasDefaultConstructor()) throw new MissingDefaultConstructorForAugmenter(augmenterType);
                 var augmenter = Activator.CreateInstance(augmenterType) as ICanAddMvcOptions;
                 services.Configure<MvcOptions>(augmenter.Add);
             });

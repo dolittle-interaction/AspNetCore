@@ -6,7 +6,7 @@ using System;
 namespace Dolittle.AspNetCore.Execution
 {
     /// <summary>
-    /// The exception that gets thrown when there is an invalid Tenant ID in the Tenant ID header on the HTTP request.
+    /// Exception that gets thrown when there is an invalid Tenant ID in the Tenant ID header on the HTTP request.
     /// </summary>
     public class TenantIdHeaderHasInvalidTenantId : Exception
     {

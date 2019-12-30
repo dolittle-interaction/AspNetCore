@@ -1,7 +1,6 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using System;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 
@@ -15,8 +14,6 @@ namespace Dolittle.AspNetCore.Queries
         /// <inheritdoc/>
         public IModelBinder GetBinder(ModelBinderProviderContext context)
         {
-            if (context == null) throw new ArgumentNullException(nameof(context));
-
             if (context.Metadata.ModelType == typeof(QueryRequest)) return new BinderTypeModelBinder(typeof(QueryRequestBinder));
 
             return null;

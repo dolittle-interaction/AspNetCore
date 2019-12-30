@@ -6,7 +6,7 @@ using System;
 namespace Dolittle.AspNetCore.Execution
 {
     /// <summary>
-    /// The exception that gets thrown when there is a Tenant ID header on the HTTP request with multiple values.
+    /// Exception that gets thrown when there is a Tenant ID header on the HTTP request with multiple values.
     /// </summary>
     public class TenantIdHeaderHasMultipleValues : Exception
     {
