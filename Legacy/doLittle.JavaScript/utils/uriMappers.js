@@ -1,4 +1,0 @@
-﻿Dolittle.namespace("Dolittle",{
-    uriMappers: {
-    }
-});
