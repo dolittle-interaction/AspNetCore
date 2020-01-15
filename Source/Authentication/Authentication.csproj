@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dolittle.Runtime.Queries.Coordination" Version="4.*" />
-    <PackageReference Include="Dolittle.DependencyInversion" Version="4.*" />
+    <PackageReference Include="Dolittle.Runtime.Queries.Coordination" Version="$(RuntimeVersion)" />
+    <PackageReference Include="Dolittle.DependencyInversion" Version="$(FundamentalsVersion)" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
   </ItemGroup>
 </Project>

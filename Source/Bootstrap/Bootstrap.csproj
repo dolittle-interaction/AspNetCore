@@ -12,11 +12,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dolittle.Booting" Version="4.*" />
-    <PackageReference Include="Dolittle.DependencyInversion.Booting" Version="4.*" />
-    <PackageReference Include="Dolittle.Logging" Version="4.*" />
-    <PackageReference Include="Dolittle.ResourceTypes.Configuration" Version="4.*" />
-    <PackageReference Include="Dolittle.Runtime.Events" Version="4.*" />
+    <PackageReference Include="Dolittle.Booting" Version="$(FundamentalsVersion)" />
+    <PackageReference Include="Dolittle.DependencyInversion.Booting" Version="$(FundamentalsVersion)" />
+    <PackageReference Include="Dolittle.Logging" Version="$(FundamentalsVersion)" />
+    <PackageReference Include="Dolittle.ResourceTypes.Configuration" Version="$(FundamentalsVersion)" />
+    <PackageReference Include="Dolittle.Runtime.Events" Version="$(RuntimeVersion)" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
