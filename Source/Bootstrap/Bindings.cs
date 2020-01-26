@@ -15,7 +15,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <inheritdoc/>
         public void Provide(IBindingProviderBuilder builder)
         {
-            builder.Bind<IConfigureOptions<MvcJsonOptions>>().To<MvcJsonConverters>();
+            builder.Bind<IConfigureOptions<MvcNewtonsoftJsonOptions>>().To<MvcNewtonsoftJsonConverters>();
         }
     }
 }
