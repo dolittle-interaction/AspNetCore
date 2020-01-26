@@ -46,7 +46,7 @@ namespace Microsoft.AspNetCore.Builder
         /// </remarks>
         public static void RunAsSinglePageApplication(this IApplicationBuilder app, string pathToFile = null)
         {
-            var environment = app.ApplicationServices.GetService(typeof(IHostingEnvironment)) as IHostingEnvironment;
+            var environment = app.ApplicationServices.GetService(typeof(IWebHostEnvironment)) as IWebHostEnvironment;
 
             app.Run(async context =>
             {
