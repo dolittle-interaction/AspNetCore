@@ -15,9 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dolittle.Dynamic" Version="4.*" />
-    <PackageReference Include="Dolittle.Strings" Version="4.*" />
-    <PackageReference Include="Dolittle.Serialization.Json" Version="4.*" />
-    <PackageReference Include="Dolittle.Runtime.Queries.Coordination" Version="4.*" />
+    <PackageReference Include="Dolittle.Dynamic" Version="$(FundamentalsVersion)" />
+    <PackageReference Include="Dolittle.Strings" Version="$(FundamentalsVersion)" />
+    <PackageReference Include="Dolittle.Serialization.Json" Version="$(FundamentalsVersion)" />
+    <PackageReference Include="Dolittle.Runtime.Queries.Coordination" Version="$(RuntimeVersion)" />
   </ItemGroup>
 </Project>

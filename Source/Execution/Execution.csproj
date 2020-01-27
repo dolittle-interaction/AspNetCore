@@ -14,8 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dolittle.Security" Version="4.*" />
-    <PackageReference Include="Dolittle.Execution" Version="4.*" />
-    <PackageReference Include="Dolittle.Tenancy.Configuration" Version="4.*" />
+    <PackageReference Include="Dolittle.Security" Version="$(FundamentalsVersion)" />
+    <PackageReference Include="Dolittle.Execution" Version="$(FundamentalsVersion)" />
+    <PackageReference Include="Dolittle.Tenancy.Configuration" Version="$(FundamentalsVersion)" />
   </ItemGroup>
 </Project>
