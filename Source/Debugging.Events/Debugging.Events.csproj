@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../../default.props" />
+  <PropertyGroup>
+    <AssemblyName>Dolittle.AspNetCore.Debugging.Events</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../Bootstrap/Bootstrap.csproj"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dolittle.SDK.Artifacts" Version="$(SDKVersion)" />
+    <PackageReference Include="Dolittle.Runtime.Events" Version="$(RuntimeVersion)" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+  </ItemGroup>
+</Project>
