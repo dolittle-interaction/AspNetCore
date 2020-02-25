@@ -5,7 +5,6 @@ using Dolittle.Artifacts;
 using Dolittle.Events;
 using Dolittle.Execution;
 using Dolittle.Logging;
-using Dolittle.Runtime.Events;
 using Dolittle.Tenancy;
 
 namespace Dolittle.AspNetCore.Debugging.Events

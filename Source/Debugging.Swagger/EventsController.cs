@@ -6,7 +6,6 @@ using Dolittle.AspNetCore.Debugging.Swagger.Artifacts;
 using Dolittle.Concepts;
 using Dolittle.Events;
 using Dolittle.Logging;
-using Dolittle.Runtime.Events;
 using Dolittle.Serialization.Json;
 using Microsoft.AspNetCore.Mvc;
 
