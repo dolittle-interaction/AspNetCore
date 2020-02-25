@@ -5,7 +5,6 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using Dolittle.Artifacts;
-using Dolittle.PropertyBags;
 using Dolittle.Serialization.Json;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
@@ -53,8 +52,7 @@ namespace Dolittle.AspNetCore.Debugging.Events
                     };
 
                     var eventType = _artifactTypeMap.GetTypeFor(request.Artifact);
-                    var eventData = _serializer.FromJson(eventType, requestKeyValues["event"].ToString());
-                    request.Event = eventData.ToPropertyBag();
+                    request.Event = requestKeyValues["event"].ToString();
 
                     bindingContext.Result = ModelBindingResult.Success(request);
                 }

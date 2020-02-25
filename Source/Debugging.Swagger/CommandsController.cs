@@ -6,7 +6,6 @@ using Dolittle.AspNetCore.Debugging.Commands;
 using Dolittle.AspNetCore.Debugging.Swagger.Artifacts;
 using Dolittle.Commands;
 using Dolittle.Logging;
-using Dolittle.PropertyBags;
 using Dolittle.Serialization.Json;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,19 +25,17 @@ namespace Dolittle.AspNetCore.Debugging.Swagger
         /// Initializes a new instance of the <see cref="CommandsController"/> class.
         /// </summary>
         /// <param name="artifactTypes"><see cref="IArtifactMapper{T}"/> for mapping commands.</param>
-        /// <param name="objectFactory"><see cref="IObjectFactory"/> for creating instances of commands.</param>
         /// <param name="artifactTypeMap"><see cref="IArtifactTypeMap"/> for mapping artifacts to types.</param>
         /// <param name="commandCoordinator"><see cref="ICommandCoordinator"/> for coordinating commands.</param>
         /// <param name="serializer">JSON <see cref="ISerializer"/>.</param>
         /// <param name="logger">The <see cref="ILogger"/> to use.</param>
         public CommandsController(
             IArtifactMapper<ICommand> artifactTypes,
-            IObjectFactory objectFactory,
             IArtifactTypeMap artifactTypeMap,
             ICommandCoordinator commandCoordinator,
             ISerializer serializer,
             ILogger logger)
-            : base(artifactTypes, objectFactory, logger)
+            : base(artifactTypes, serializer, logger)
         {
             _artifactTypeMap = artifactTypeMap;
             _commandCoordinator = commandCoordinator;

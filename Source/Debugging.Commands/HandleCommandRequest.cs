@@ -2,7 +2,6 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using Dolittle.Artifacts;
-using Dolittle.PropertyBags;
 using Dolittle.Tenancy;
 
 namespace Dolittle.AspNetCore.Debugging.Commands
@@ -25,6 +24,6 @@ namespace Dolittle.AspNetCore.Debugging.Commands
         /// <summary>
         /// Gets or sets the actual command data.
         /// </summary>
-        public PropertyBag Command { get; set; }
+        public string Command { get; set; }
     }
 }

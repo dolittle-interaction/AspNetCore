@@ -2,7 +2,6 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using Dolittle.Artifacts;
-using Dolittle.PropertyBags;
 using Dolittle.Tenancy;
 
 namespace Dolittle.AspNetCore.Debugging.Queries
@@ -25,6 +24,6 @@ namespace Dolittle.AspNetCore.Debugging.Queries
         /// <summary>
         /// Gets or sets the actual query data.
         /// </summary>
-        public PropertyBag Query { get; set; }
+        public string Query { get; set; }
     }
 }
