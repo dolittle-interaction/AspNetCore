@@ -14,7 +14,6 @@
 
   <ItemGroup>
     <PackageReference Include="Dolittle.Types" Version="$(FundamentalsVersion)" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="4.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUi" Version="4.0.1" />
   </ItemGroup>
