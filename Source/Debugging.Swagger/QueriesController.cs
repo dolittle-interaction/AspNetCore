@@ -5,7 +5,6 @@ using Dolittle.Artifacts;
 using Dolittle.AspNetCore.Debugging.Queries;
 using Dolittle.AspNetCore.Debugging.Swagger.Artifacts;
 using Dolittle.Logging;
-using Dolittle.PropertyBags;
 using Dolittle.Queries;
 using Dolittle.Serialization.Json;
 using Microsoft.AspNetCore.Mvc;
@@ -26,19 +25,17 @@ namespace Dolittle.AspNetCore.Debugging.Swagger
         /// Initializes a new instance of the <see cref="QueriesController"/> class.
         /// </summary>
         /// <param name="artifactTypes"><see cref="IArtifactMapper{T}"/> for mapping queries.</param>
-        /// <param name="objectFactory"><see cref="IObjectFactory"/> for creating instances of queries.</param>
         /// <param name="artifactTypeMap"><see cref="IArtifactTypeMap"/> for mapping artifacts to types.</param>
         /// <param name="queryCoordinator"><see cref="IQueryCoordinator"/> for coordinating execution of queries.</param>
         /// <param name="serializer">JSON <see cref="ISerializer"/>.</param>
         /// <param name="logger">The <see cref="ILogger"/> to use.</param>
         public QueriesController(
             IArtifactMapper<IQuery> artifactTypes,
-            IObjectFactory objectFactory,
             IArtifactTypeMap artifactTypeMap,
             IQueryCoordinator queryCoordinator,
             ISerializer serializer,
             ILogger logger)
-            : base(artifactTypes, objectFactory, logger)
+            : base(artifactTypes, serializer, logger)
         {
             _artifactTypeMap = artifactTypeMap;
             _queryCoordinator = queryCoordinator;

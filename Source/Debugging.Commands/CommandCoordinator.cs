@@ -3,7 +3,6 @@
 
 using Dolittle.Commands;
 using Dolittle.Execution;
-using Dolittle.Runtime.Commands;
 using Dolittle.Tenancy;
 using IRuntimeCommandCoordinator = Dolittle.Commands.Coordination.ICommandCoordinator;
 

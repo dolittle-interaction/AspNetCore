@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dolittle.Runtime.Queries.Coordination" Version="$(RuntimeVersion)" />
+    <PackageReference Include="Dolittle.SDK.Queries.Coordination" Version="$(SDKVersion)" />
     <PackageReference Include="Dolittle.DependencyInversion" Version="$(FundamentalsVersion)" />
   </ItemGroup>
 </Project>

@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using Dolittle.Commands;
 using Dolittle.Events;
 using Dolittle.Queries;
-using Dolittle.Runtime.Events;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;

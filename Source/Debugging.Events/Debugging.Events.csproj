@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <PackageReference Include="Dolittle.SDK.Artifacts" Version="$(SDKVersion)" />
-    <PackageReference Include="Dolittle.Runtime.Events" Version="$(RuntimeVersion)" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageReference Include="Dolittle.SDK.Events" Version="$(SDKVersion)" />
   </ItemGroup>
 </Project>

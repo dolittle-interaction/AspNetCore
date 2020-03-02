@@ -2,8 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using Dolittle.Artifacts;
-using Dolittle.PropertyBags;
-using Dolittle.Runtime.Events;
+using Dolittle.Events;
 using Dolittle.Tenancy;
 
 namespace Dolittle.AspNetCore.Debugging.Events
@@ -31,6 +30,6 @@ namespace Dolittle.AspNetCore.Debugging.Events
         /// <summary>
         /// Gets or sets the actual event data.
         /// </summary>
-        public PropertyBag Event { get; set; }
+        public string Event { get; set; }
     }
 }

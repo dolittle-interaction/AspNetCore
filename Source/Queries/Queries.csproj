@@ -18,6 +18,6 @@
     <PackageReference Include="Dolittle.Dynamic" Version="$(FundamentalsVersion)" />
     <PackageReference Include="Dolittle.Strings" Version="$(FundamentalsVersion)" />
     <PackageReference Include="Dolittle.Serialization.Json" Version="$(FundamentalsVersion)" />
-    <PackageReference Include="Dolittle.Runtime.Queries.Coordination" Version="$(RuntimeVersion)" />
+    <PackageReference Include="Dolittle.SDK.Queries.Coordination" Version="$(SDKVersion)" />
   </ItemGroup>
 </Project>

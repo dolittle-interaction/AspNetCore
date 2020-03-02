@@ -6,8 +6,7 @@ using Dolittle.AspNetCore.Debugging.Swagger.Artifacts;
 using Dolittle.Concepts;
 using Dolittle.Events;
 using Dolittle.Logging;
-using Dolittle.PropertyBags;
-using Dolittle.Runtime.Events;
+using Dolittle.Serialization.Json;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dolittle.AspNetCore.Debugging.Swagger
@@ -24,15 +23,15 @@ namespace Dolittle.AspNetCore.Debugging.Swagger
         /// Initializes a new instance of the <see cref="EventsController"/> class.
         /// </summary>
         /// <param name="artifactTypes"><see cref="IArtifactMapper{T}"/> for mapping events.</param>
-        /// <param name="objectFactory"><see cref="IObjectFactory"/> for creating instances of events.</param>
         /// <param name="eventInjector"><see cref="IEventInjector"/> for injecting events.</param>
+        /// <param name="serializer">The JSON <see cref="ISerializer"/> for deserializing artifacts.</param>
         /// <param name="logger">The <see cref="ILogger"/> to use.</param>
         public EventsController(
             IArtifactMapper<IEvent> artifactTypes,
-            IObjectFactory objectFactory,
             IEventInjector eventInjector,
+            ISerializer serializer,
             ILogger logger)
-            : base(artifactTypes, objectFactory, logger)
+            : base(artifactTypes, serializer, logger)
         {
             _eventInjector = eventInjector;
         }

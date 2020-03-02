@@ -2,8 +2,8 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using Dolittle.Artifacts;
-using Dolittle.PropertyBags;
 using Dolittle.Queries;
+using Dolittle.Serialization.Json;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dolittle.AspNetCore.Debugging.Queries
@@ -15,22 +15,22 @@ namespace Dolittle.AspNetCore.Debugging.Queries
     public class QueriesController : ControllerBase
     {
         readonly IArtifactTypeMap _artifactTypeMap;
-        readonly IObjectFactory _objectFactory;
+        readonly ISerializer _serializer;
         readonly IQueryCoordinator _coordinator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="QueriesController"/> class.
         /// </summary>
         /// <param name="artifactTypeMap"><see cref="IArtifactTypeMap"/> for mapping artifacts and types.</param>
-        /// <param name="objectFactory"><see cref="IObjectFactory"/> for creating instances of types.</param>
+        /// <param name="serializer">The JSON <see cref="ISerializer"/> for deserializing artifacts.</param>
         /// <param name="coordinator"><see cref="IQueryCoordinator"/> for executing queries.</param>
         public QueriesController(
             IArtifactTypeMap artifactTypeMap,
-            IObjectFactory objectFactory,
+            ISerializer serializer,
             IQueryCoordinator coordinator)
         {
             _artifactTypeMap = artifactTypeMap;
-            _objectFactory = objectFactory;
+            _serializer = serializer;
             _coordinator = coordinator;
         }
 
@@ -43,7 +43,7 @@ namespace Dolittle.AspNetCore.Debugging.Queries
         public IActionResult Execute([FromBody] ExecuteQueryRequest request)
         {
             var type = _artifactTypeMap.GetTypeFor(request.Artifact);
-            var command = _objectFactory.Build(type, request.Query) as IQuery;
+            var command = _serializer.FromJson(type, request.Query) as IQuery;
             var result = _coordinator.Execute(request.Tenant, command);
             return Ok(result);
         }

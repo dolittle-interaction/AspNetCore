@@ -11,8 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="Dolittle.SDK.Artifacts" Version="$(SDKVersion)" />
-    <PackageReference Include="Dolittle.Runtime.Queries" Version="$(RuntimeVersion)" />
-    <PackageReference Include="Dolittle.Runtime.Queries.Coordination" Version="$(RuntimeVersion)" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageReference Include="Dolittle.SDK.Queries" Version="$(SDKVersion)" />
+    <PackageReference Include="Dolittle.SDK.Queries.Coordination" Version="$(SDKVersion)" />
   </ItemGroup>
 </Project>
