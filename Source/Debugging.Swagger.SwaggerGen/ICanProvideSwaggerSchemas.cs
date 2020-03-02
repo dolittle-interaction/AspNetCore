@@ -1,6 +1,7 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+#if false
 using System;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -29,3 +30,4 @@ namespace Dolittle.AspNetCore.Debugging.Swagger.SwaggerGen
         Schema ProvideFor(Type type, ISchemaRegistry registry, SchemaIdManager idManager);
     }
 }
+#endif

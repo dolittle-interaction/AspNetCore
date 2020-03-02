@@ -1,6 +1,7 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+#if false
 using System;
 using System.Collections.Generic;
 using Dolittle.Commands;
@@ -148,3 +149,4 @@ namespace Dolittle.AspNetCore.Debugging.Swagger.SwaggerGen
         }
     }
 }
+#endif
