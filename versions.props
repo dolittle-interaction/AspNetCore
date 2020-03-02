@@ -2,6 +2,7 @@
     <PropertyGroup>
         <FundamentalsVersion>5.0.0-alpha*</FundamentalsVersion>
         <SDKVersion>5.0.0-alpha*</SDKVersion>
+        <ReadModelsMongoDBVersion>5.0.0-alpha*</ReadModelsMongoDBVersion>
         <SwaggerVersion>5.0.0</SwaggerVersion>
     </PropertyGroup>
 </Project>
