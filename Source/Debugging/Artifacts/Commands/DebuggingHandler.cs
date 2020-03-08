@@ -15,6 +15,22 @@ namespace Dolittle.AspNetCore.Debugging.Artifacts.Commands
     /// </summary>
     public class DebuggingHandler : IDebuggingHandler, ICanHandlePostRequests<ICommand>
     {
+        readonly IArtifactMapper<ICommand> _commands;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DebuggingHandler"/> class.
+        /// </summary>
+        /// <param name="commands">The <see cref="IArtifactMapper{ICommand}"/> that discovers and maps all <see cref="ICommand"/>.</param>
+        public DebuggingHandler(IArtifactMapper<ICommand> commands)
+        {
+            _commands = commands;
+
+            foreach (var command in _commands.Artifacts)
+            {
+                Aritfacts.Add(_commands.GetPathFor(command), command);
+            }
+        }
+
         /// <inheritdoc/>
         public string Name => "Commands";
 
@@ -22,7 +38,7 @@ namespace Dolittle.AspNetCore.Debugging.Artifacts.Commands
         public string Title => "Execute Commands";
 
         /// <inheritdoc/>
-        public IDictionary<PathString, Type> Aritfacts => new Dictionary<PathString, Type>();
+        public IDictionary<PathString, Type> Aritfacts { get; } = new Dictionary<PathString, Type>();
 
         /// <inheritdoc/>
         public IDictionary<int, string> Responses => new Dictionary<int, string>
