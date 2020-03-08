@@ -22,6 +22,7 @@ namespace Dolittle.AspNetCore.Generators.Documents
         readonly SwaggerGenerator _swaggerGenerator;
         readonly IDebuggingHandlerDocumentGenerator _documentGenerator;
         readonly IInstancesOf<IDebuggingHandler> _handlers;
+        readonly IInstancesOf<ICanModifyDebugginHandlerDocument> _modifiers;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DebuggingHandlerDocumentProvider"/> class.
@@ -30,16 +31,19 @@ namespace Dolittle.AspNetCore.Generators.Documents
         /// <param name="swaggerGenerator">The original <see cref="ISwaggerProvider"/> that provides documents for normal APIs.</param>
         /// <param name="documentGenerator">The generator that can generate the document for a debugging handler.</param>
         /// <param name="handlers">All implemented debugging handlers.</param>
+        /// <param name="modifiers">Modifiers that will be allowed to modify the generated document before serving.</param>
         public DebuggingHandlerDocumentProvider(
             IOptions<DebuggingOptions> options,
             SwaggerGenerator swaggerGenerator,
             IDebuggingHandlerDocumentGenerator documentGenerator,
-            IInstancesOf<IDebuggingHandler> handlers)
+            IInstancesOf<IDebuggingHandler> handlers,
+            IInstancesOf<ICanModifyDebugginHandlerDocument> modifiers)
         {
             _options = options;
             _swaggerGenerator = swaggerGenerator;
             _documentGenerator = documentGenerator;
             _handlers = handlers;
+            _modifiers = modifiers;
         }
 
         /// <inheritdoc/>
@@ -61,6 +65,11 @@ namespace Dolittle.AspNetCore.Generators.Documents
                             Url = $"{host}{serverPath}"
                         }
                     };
+
+                    foreach (var modifier in _modifiers)
+                    {
+                        modifier.ModifyDocument(handler, document);
+                    }
 
                     return document;
                 }
