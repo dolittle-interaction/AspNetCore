@@ -3,8 +3,10 @@
 using System;
 using Dolittle.AspNetCore.Generators.Documents;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace Dolittle.AspNetCore.Debugging
 {
@@ -28,6 +30,7 @@ namespace Dolittle.AspNetCore.Debugging
             if (setupAction != null) services.Configure(setupAction);
             services.AddSwaggerGen(setupSwaggerAction);
             services.AddTransient<ISwaggerProvider, DebuggingHandlerDocumentProvider>();
+            services.AddTransient<IPostConfigureOptions<SwaggerUIOptions>, PostConfigureDebuggingHandlerDocumentsUI>();
             return services;
         }
     }
