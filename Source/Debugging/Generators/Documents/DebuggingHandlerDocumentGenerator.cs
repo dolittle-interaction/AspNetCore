@@ -52,8 +52,16 @@ namespace Dolittle.AspNetCore.Generators.Documents
             foreach ((var path, var artifact) in handler.Aritfacts)
             {
                 var item = new OpenApiPathItem();
+
                 AddGetOperation(handler, artifact, item, repository);
                 AddPostOperation(handler, artifact, item, repository);
+
+                var tag = new OpenApiTag { Name = path.ToString().Split('/')[1], };
+                foreach ((_, var operation) in item.Operations)
+                {
+                    operation.Tags = new[] { tag };
+                }
+
                 paths.Add(path, item);
             }
         }
