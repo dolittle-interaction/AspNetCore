@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 using System;
 using Dolittle.AspNetCore.Generators.Documents;
+using Dolittle.AspNetCore.Generators.Schemas;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;
@@ -30,6 +31,7 @@ namespace Dolittle.AspNetCore.Debugging
             if (setupAction != null) services.Configure(setupAction);
             services.AddSwaggerGen(setupSwaggerAction);
             services.AddTransient<ISwaggerProvider, DebuggingHandlerDocumentProvider>();
+            services.AddTransient<ISchemaGenerator, SchemaGenerator>();
             services.AddTransient<IPostConfigureOptions<SwaggerUIOptions>, PostConfigureDebuggingHandlerDocumentsUI>();
             return services;
         }
