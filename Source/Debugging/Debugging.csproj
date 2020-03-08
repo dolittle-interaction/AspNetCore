@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../../default.props" />
+
+  <PropertyGroup>
+    <AssemblyName>Dolittle.AspNetCore.Debugging</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+  
+  <ItemGroup>
+  </ItemGroup>
+</Project>
