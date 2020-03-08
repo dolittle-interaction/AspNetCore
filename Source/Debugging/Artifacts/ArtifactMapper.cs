@@ -8,8 +8,9 @@ using Dolittle.Applications;
 using Dolittle.Applications.Configuration;
 using Dolittle.Artifacts;
 using Dolittle.Artifacts.Configuration;
+using Microsoft.AspNetCore.Http;
 
-namespace Dolittle.AspNetCore.Debugging.Swagger.Artifacts
+namespace Dolittle.AspNetCore.Debugging.Artifacts
 {
     /// <summary>
     /// Implementation of an <see cref="IArtifactMapper{T}"/>.
@@ -21,7 +22,7 @@ namespace Dolittle.AspNetCore.Debugging.Swagger.Artifacts
         readonly Topology _topology;
         readonly IArtifactTypeMap _artifactTypeMap;
         readonly ArtifactsConfiguration _artifacts;
-        readonly IDictionary<string, Type> _artifactsByPath;
+        readonly IDictionary<Type, PathString> _artifactPaths;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ArtifactMapper{T}"/> class.
@@ -38,20 +39,25 @@ namespace Dolittle.AspNetCore.Debugging.Swagger.Artifacts
             _artifacts = artifacts;
             _artifactTypeMap = artifactTypeMap;
 
-            _artifactsByPath = new Dictionary<string, Type>();
-            BuildMapOfAllCorrespondingArtifacts();
+            _artifactPaths = new Dictionary<Type, PathString>();
+            BuildMapOfArtifacts();
         }
 
         /// <inheritdoc/>
-        public IEnumerable<string> ApiPaths => _artifactsByPath.Keys;
+        public IEnumerable<Type> Artifacts => _artifactPaths.Keys;
 
         /// <inheritdoc/>
-        public Artifact GetArtifactFor(string path) => _artifactTypeMap.GetArtifactFor(GetTypeFor(path));
+        public PathString GetPathFor(Type artifact)
+        {
+            if (_artifactPaths.TryGetValue(artifact, out var path))
+            {
+                return path;
+            }
 
-        /// <inheritdoc/>
-        public Type GetTypeFor(string path) => _artifactsByPath[path];
+            throw new UnknownArtifact(artifact, typeof(T));
+        }
 
-        void BuildMapOfAllCorrespondingArtifacts()
+        void BuildMapOfArtifacts()
         {
             if (_topology.Modules.Count > 0)
             {
@@ -62,18 +68,18 @@ namespace Dolittle.AspNetCore.Debugging.Swagger.Artifacts
             }
             else
             {
-                AddFeaturesRecursively(_topology.Features, string.Empty);
+                AddFeaturesRecursively(_topology.Features, PathString.Empty);
             }
         }
 
-        void AddFeaturesRecursively(IReadOnlyDictionary<Feature, FeatureDefinition> features, string prefix)
+        void AddFeaturesRecursively(IReadOnlyDictionary<Feature, FeatureDefinition> features, PathString prefix)
         {
             foreach (var feature in features)
             {
                 if (_artifacts.TryGetValue(feature.Key, out var artifacts))
                 {
                     AddArtifacts(
-                        $"{prefix}/{feature.Value.Name}",
+                        prefix.Add($"/{feature.Value.Name}"),
                         artifacts.Commands,
                         artifacts.EventSources,
                         artifacts.Events,
@@ -81,11 +87,11 @@ namespace Dolittle.AspNetCore.Debugging.Swagger.Artifacts
                         artifacts.ReadModels);
                 }
 
-                AddFeaturesRecursively(feature.Value.SubFeatures, $"{prefix}/{feature.Value.Name}");
+                AddFeaturesRecursively(feature.Value.SubFeatures, prefix.Add($"/{feature.Value.Name}"));
             }
         }
 
-        void AddArtifacts(string prefix, params IReadOnlyDictionary<ArtifactId, ArtifactDefinition>[] artifactsByTypes)
+        void AddArtifacts(PathString prefix, params IReadOnlyDictionary<ArtifactId, ArtifactDefinition>[] artifactsByTypes)
         {
             foreach (var artifactByType in artifactsByTypes)
             {
@@ -94,7 +100,7 @@ namespace Dolittle.AspNetCore.Debugging.Swagger.Artifacts
                     var artifactType = artifactDefinition.Value.Type.GetActualType();
                     if (typeof(T).IsAssignableFrom(artifactType))
                     {
-                        _artifactsByPath.Add($"{prefix}/{artifactType.Name}", artifactType);
+                        _artifactPaths.Add(artifactType, prefix.Add($"/{artifactType.Name}"));
                     }
                 }
             }
