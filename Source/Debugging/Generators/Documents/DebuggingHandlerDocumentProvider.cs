@@ -47,7 +47,7 @@ namespace Dolittle.AspNetCore.Generators.Documents
         {
             foreach (var handler in _handlers)
             {
-                if (handler.Name.Equals(documentName, StringComparison.InvariantCultureIgnoreCase))
+                if ($"Dolittle.{handler.Name}".Equals(documentName, StringComparison.InvariantCultureIgnoreCase))
                 {
                     var document = _documentGenerator.GenerateFor(handler);
 

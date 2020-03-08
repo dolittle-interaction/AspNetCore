@@ -30,7 +30,7 @@ namespace Dolittle.AspNetCore.Generators.Documents
         {
             foreach (var handler in _handlers)
             {
-                options.SwaggerEndpoint($"{handler.Name}/swagger.json", handler.Title);
+                options.SwaggerEndpoint($"Dolittle.{handler.Name}/swagger.json", handler.Title);
             }
         }
     }
