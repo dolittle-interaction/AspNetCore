@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
+using Dolittle.AspNetCore.Debugging.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerUI;
@@ -27,6 +28,7 @@ namespace Dolittle.AspNetCore.Debugging
         {
             app.UseSwagger(swaggerSetupAction);
             app.UseSwaggerUI(swaggerUISetupAction);
+            app.UseMiddleware<DebuggingHandlersMiddleware>();
             return app;
         }
     }

@@ -29,9 +29,9 @@ namespace Dolittle.AspNetCore.Generators.Documents
         /// </summary>
         /// <param name="options">The <see cref="DebuggingOptions"/> used for configuration.</param>
         /// <param name="swaggerGenerator">The original <see cref="ISwaggerProvider"/> that provides documents for normal APIs.</param>
-        /// <param name="documentGenerator">The generator that can generate the document for a debugging handler.</param>
-        /// <param name="handlers">All implemented debugging handlers.</param>
-        /// <param name="modifiers">Modifiers that will be allowed to modify the generated document before serving.</param>
+        /// <param name="documentGenerator">The <see cref="IDebuggingHandlerDocumentGenerator"/> used to generate documents for debugging handlers.</param>
+        /// <param name="handlers">All implementations of <see cref="IDebuggingHandler"/>.</param>
+        /// <param name="modifiers">All implementations of <see cref="ICanModifyDebugginHandlerDocument"/> that will be called to modify the document.</param>
         public DebuggingHandlerDocumentProvider(
             IOptions<DebuggingOptions> options,
             SwaggerGenerator swaggerGenerator,
