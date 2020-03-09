@@ -53,32 +53,32 @@ namespace Dolittle.AspNetCore.Generators.Documents
             {
                 var item = new OpenApiPathItem();
 
-                AddGetOperation(handler, artifact, item, repository);
-                AddPostOperation(handler, artifact, item, repository);
+                AddGetOperation(handler, item, GenerateOperation(handler, artifact, repository));
+                AddPostOperation(handler, item, GenerateOperation(handler, artifact, repository));
 
-                var tag = new OpenApiTag { Name = path.ToString().Split('/')[1], };
+                var tag = path.ToString().Contains('/', StringComparison.InvariantCultureIgnoreCase) ? path.ToString().Split('/')[1] : path.ToString();
                 foreach ((_, var operation) in item.Operations)
                 {
-                    operation.Tags = new[] { tag };
+                    operation.Tags = new[] { new OpenApiTag { Name = tag } };
                 }
 
                 paths.Add(path, item);
             }
         }
 
-        void AddGetOperation(IDebuggingHandler handler, Type artifact, OpenApiPathItem item, SchemaRepository repository)
+        void AddGetOperation(IDebuggingHandler handler, OpenApiPathItem item, OpenApiOperation operation)
         {
             if (handler.GetType().ImplementsOpenGeneric(typeof(ICanHandleGetRequests<>)))
             {
-                item.AddOperation(OperationType.Get, GenerateOperation(handler, artifact, repository));
+                item.AddOperation(OperationType.Get, operation);
             }
         }
 
-        void AddPostOperation(IDebuggingHandler handler, Type artifact, OpenApiPathItem item, SchemaRepository repository)
+        void AddPostOperation(IDebuggingHandler handler, OpenApiPathItem item, OpenApiOperation operation)
         {
             if (handler.GetType().ImplementsOpenGeneric(typeof(ICanHandlePostRequests<>)))
             {
-                item.AddOperation(OperationType.Post, GenerateOperation(handler, artifact, repository));
+                item.AddOperation(OperationType.Post, operation);
             }
         }
 
@@ -89,16 +89,7 @@ namespace Dolittle.AspNetCore.Generators.Documents
                 RequestBody = new OpenApiRequestBody
                 {
                     Required = true,
-                    Content = new Dictionary<string, OpenApiMediaType>
-                    {
-                        {
-                            "application/json",
-                            new OpenApiMediaType
-                            {
-                                Schema = _schemaGenerator.GenerateSchema(artifact, repository),
-                            }
-                        }
-                    }
+                    Content = GenerateContentType("text/plain", artifact, repository),
                 },
                 Responses = GenerateResponses(handler, repository),
             };
@@ -112,20 +103,25 @@ namespace Dolittle.AspNetCore.Generators.Documents
                 responses.Add($"{statusCode}", new OpenApiResponse
                 {
                     Description = description,
-                    Content = new Dictionary<string, OpenApiMediaType>
-                    {
-                        {
-                            "text/plain",
-                            new OpenApiMediaType
-                            {
-                                Schema = _schemaGenerator.GenerateSchema(typeof(string), repository),
-                            }
-                        }
-                    }
+                    Content = GenerateContentType("text/plain", typeof(string), repository),
                 });
             }
 
             return responses;
+        }
+
+        IDictionary<string, OpenApiMediaType> GenerateContentType(string mimeType, Type type, SchemaRepository repository)
+        {
+            return new Dictionary<string, OpenApiMediaType>
+            {
+                {
+                    mimeType,
+                    new OpenApiMediaType
+                    {
+                        Schema = _schemaGenerator.GenerateSchema(type, repository),
+                    }
+                }
+            };
         }
     }
 }
