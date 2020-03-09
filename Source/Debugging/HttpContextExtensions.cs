@@ -64,8 +64,13 @@ namespace Dolittle.AspNetCore.Debugging
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         public static async Task RespondWithException(this HttpContext context, Exception exception)
         {
-            while (exception.InnerException != null) exception = exception.InnerException;
-            await RespondWithError(context, exception.Message).ConfigureAwait(false);
+            var innermostException = exception;
+            while (innermostException.InnerException != null) innermostException = innermostException.InnerException;
+
+            var message = exception.Message;
+            if (innermostException != exception) message = $"{message}\nInner exception: {innermostException.Message}";
+
+            await RespondWithError(context, message).ConfigureAwait(false);
         }
 
         static async Task RespondWithStatusCodeAndText(HttpContext context, int statusCode, string text)
