@@ -3,10 +3,11 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
+        <NoWarn>$(NoWarn);CA1801</NoWarn>
     </PropertyGroup>
 
     <PropertyGroup>
-        <DolittleBoundedContextConfigPath>../bounded-context.json</DolittleBoundedContextConfigPath>
+        <DolittleBoundedContextConfigPath>./bounded-context.json</DolittleBoundedContextConfigPath>
         <DolittleUseModules>False</DolittleUseModules>
         <DolittleNamespaceSegmentsToStrip />
         <DolittleGenerateProxies>False</DolittleGenerateProxies>
@@ -21,6 +22,8 @@
     <ItemGroup>
         <PackageReference Include="Dolittle.DependencyInversion.Autofac" Version="$(FundamentalsVersion)" />
         <PackageReference Include="Dolittle.ReadModels.MongoDB" Version="$(ReadModelsMongoDBVersion)" />
+        <PackageReference Include="Dolittle.Build.MSBuild" Version="$(FundamentalsVersion)" />
+        <PackageReference Include="Dolittle.SDK.Build" Version="$(SDKVersion)" />
         <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
     </ItemGroup>
 </Project>
