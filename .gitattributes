@@ -7,4 +7,5 @@
 *.exe   binary
 
 *.cs eol=lf diff=csharp 
+*.csproj eol=lf diff=csharp 
 *.sln text eol=crlf
