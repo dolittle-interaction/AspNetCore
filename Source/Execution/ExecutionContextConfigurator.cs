@@ -37,7 +37,7 @@ namespace Dolittle.AspNetCore.Execution
         {
             var executionEnvironment = EnvironmentUtilities.GetExecutionEnvironment();
             var executionApplication = DeduceApplication();
-            var executionBoundedContext = DeduceBoundedContext();
+            var executionBoundedContext = DeduceMicroservice();
 
             _executionContextManager.SetConstants(executionApplication, executionBoundedContext, executionEnvironment);
 
@@ -49,9 +49,9 @@ namespace Dolittle.AspNetCore.Execution
             return _executionContextManager.Current.Application;
         }
 
-        BoundedContext DeduceBoundedContext()
+        Microservice DeduceMicroservice()
         {
-            return _executionContextManager.Current.BoundedContext;
+            return _executionContextManager.Current.Microservice;
         }
     }
 }
