@@ -1,0 +1,38 @@
+{
+  "e3203ca8-81f5-481f-8ca6-ac6531c0672c": {
+    "commands": {
+      "f9b36139-1631-4a79-8e85-8a88c96fb749": {
+        "generation": 1,
+        "type": "Debugging.MyFeature.MyCommand, Debugging"
+      },
+      "5ce3de81-12d7-4a81-9c9a-eb0a42b1ce0e": {
+        "generation": 1,
+        "type": "Debugging.MyFeature.MySecondCommand, Debugging"
+      }
+    },
+    "events": {
+      "64c9eccf-f670-4049-bed0-83f414851999": {
+        "generation": 1,
+        "type": "Debugging.MyFeature.MyEvent, Debugging"
+      }
+    },
+    "eventSources": {
+      "13cae60e-f9c0-4a66-b745-aee95f4d0670": {
+        "generation": 1,
+        "type": "Debugging.MyFeature.MyAggregateRoot, Debugging"
+      }
+    },
+    "readModels": {
+      "6d145c50-f3e5-41c4-bd5a-c17ff529d489": {
+        "generation": 1,
+        "type": "Debugging.MyFeature.MyReadModel, Debugging"
+      }
+    },
+    "queries": {
+      "4ab39f9c-ed25-4506-89bb-7a5b1d1a5cf3": {
+        "generation": 1,
+        "type": "Debugging.MyFeature.MyQuery, Debugging"
+      }
+    }
+  }
+}

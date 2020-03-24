@@ -3,6 +3,7 @@
 
 using System;
 using Autofac;
+using Dolittle.AspNetCore.Debugging;
 using Dolittle.Booting;
 using Dolittle.DependencyInversion.Autofac;
 using Microsoft.AspNetCore.Builder;
@@ -35,6 +36,7 @@ namespace Debugging
                 builder.AddEventSourceLogger();
             });
 
+            services.AddDolittleSwagger();
             _bootResult = services.AddDolittle(_loggerFactory);
         }
 
@@ -54,9 +56,12 @@ namespace Debugging
         /// <param name="env"><see cref="IWebHostEnvironment"/>.</param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseDolittle();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseDolittleSwagger();
             }
 
             app.UseRouting();

@@ -1,0 +1,9 @@
+{
+  "modules": {},
+  "features": {
+    "e3203ca8-81f5-481f-8ca6-ac6531c0672c": {
+      "name": "MyFeature",
+      "subFeatures": {}
+    }
+  }
+}
