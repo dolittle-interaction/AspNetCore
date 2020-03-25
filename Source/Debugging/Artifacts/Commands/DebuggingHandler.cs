@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dolittle.AspNetCore.Debugging.Handlers;
 using Dolittle.Commands;
+using Dolittle.Commands.Coordination;
 using Microsoft.AspNetCore.Http;
 
 namespace Dolittle.AspNetCore.Debugging.Artifacts.Commands
@@ -16,18 +17,21 @@ namespace Dolittle.AspNetCore.Debugging.Artifacts.Commands
     public class DebuggingHandler : IDebuggingHandler, ICanHandlePostRequests<ICommand>
     {
         readonly IArtifactMapper<ICommand> _commands;
+        readonly ICommandCoordinator _commandCoordinator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DebuggingHandler"/> class.
         /// </summary>
         /// <param name="commands">The <see cref="IArtifactMapper{ICommand}"/> that discovers and maps all <see cref="ICommand"/>.</param>
-        public DebuggingHandler(IArtifactMapper<ICommand> commands)
+        /// <param name="commandCoordinator">write somethingehre.</param>
+        public DebuggingHandler(IArtifactMapper<ICommand> commands, ICommandCoordinator commandCoordinator)
         {
             _commands = commands;
+            _commandCoordinator = commandCoordinator;
 
             foreach (var command in _commands.Artifacts)
             {
-                Aritfacts.Add(_commands.GetPathFor(command), command);
+                Artifacts.Add(_commands.GetPathFor(command), command);
             }
         }
 
@@ -38,7 +42,7 @@ namespace Dolittle.AspNetCore.Debugging.Artifacts.Commands
         public string Title => "Execute Commands";
 
         /// <inheritdoc/>
-        public IDictionary<PathString, Type> Aritfacts { get; } = new Dictionary<PathString, Type>();
+        public IDictionary<PathString, Type> Artifacts { get; } = new Dictionary<PathString, Type>();
 
         /// <inheritdoc/>
         public IDictionary<int, string> Responses => new Dictionary<int, string>
@@ -49,7 +53,15 @@ namespace Dolittle.AspNetCore.Debugging.Artifacts.Commands
         /// <inheritdoc/>
         public async Task HandlePostRequest(HttpContext context, ICommand artifact)
         {
-            await context.RespondWithOk($"Command {artifact.GetType()} was handled successfully.").ConfigureAwait(false);
+            var commandResult = _commandCoordinator.Handle(artifact);
+            if (commandResult.Success)
+            {
+                await context.RespondWithOk($"Command {artifact.GetType()} was handled successfully. {commandResult}").ConfigureAwait(false);
+            }
+            else
+            {
+                await context.RespondWithError($"Command {artifact.GetType()} wasn't handled succesfully. {commandResult}").ConfigureAwait(false);
+            }
         }
     }
 }
