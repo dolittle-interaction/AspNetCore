@@ -25,7 +25,7 @@ namespace Dolittle.AspNetCore.Debugging.Handlers
         /// <summary>
         /// Gets the <see cref="IDictionary{PathString, Type}"/> which maps paths to artifacts the handler can handle.
         /// </summary>
-        IDictionary<PathString, Type> Aritfacts { get; }
+        IDictionary<PathString, Type> Artifacts { get; }
 
         /// <summary>
         /// Gets the <see cref="IDictionary{Int, String}"/> which describes possible responses from the handler.

@@ -49,7 +49,7 @@ namespace Dolittle.AspNetCore.Generators.Documents
 
         void GeneratePaths(OpenApiPaths paths, IDebuggingHandler handler, SchemaRepository repository)
         {
-            foreach ((var path, var artifact) in handler.Aritfacts)
+            foreach ((var path, var artifact) in handler.Artifacts)
             {
                 var item = new OpenApiPathItem();
 

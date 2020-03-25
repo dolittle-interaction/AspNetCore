@@ -56,7 +56,7 @@ namespace Dolittle.AspNetCore.Debugging.Middleware
                 {
                     if (debuggingPath.StartsWithSegments($"/{handler.Name}", StringComparison.InvariantCultureIgnoreCase, out var handlerPath))
                     {
-                        if (handler.Aritfacts.TryGetValue(handlerPath, out var artifactType))
+                        if (handler.Artifacts.TryGetValue(handlerPath, out var artifactType))
                         {
                             await InvokeDebuggingHandler(context, handler, artifactType).ConfigureAwait(false);
                             return;
