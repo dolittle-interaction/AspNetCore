@@ -80,7 +80,7 @@ namespace Dolittle.AspNetCore.Execution
                 }
                 else
                 {
-                    _logger.Error($"The configured TenantId header '{header}' must be a valud Guid. The value was '{values[0]}' - no tenant will be configurd");
+                    _logger.Error($"The configured TenantId header '{header}' must be a valid Guid. The value was '{values[0]}' - no tenant will be configured");
                 }
             }
 
