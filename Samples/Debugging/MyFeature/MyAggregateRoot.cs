@@ -1,6 +1,7 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System.Collections.Generic;
 using Dolittle.Domain;
 using Dolittle.Events;
 
@@ -23,10 +24,13 @@ namespace Debugging.MyFeature
         /// <summary>
         /// i do that thing.
         /// </summary>
-        /// <param name="myString">this string is da thing.</param>
-        public void DoThing(string myString)
+        /// <param name="myStrings">this string is da thing.</param>
+        public void DoThing(IEnumerable<CommandString> myStrings)
         {
-            Apply(new MyEvent(myString));
+            foreach (var myString in myStrings)
+            {
+                Apply(new MyEvent(myString));
+            }
         }
     }
 }

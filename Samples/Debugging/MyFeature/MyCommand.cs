@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
+using System.Collections.Generic;
 using Dolittle.Commands;
 
 namespace Debugging.MyFeature
@@ -14,11 +15,16 @@ namespace Debugging.MyFeature
         /// <summary>
         /// Gets or sets.
         /// </summary>
-        public Guid CommandId { get; set; } = Guid.NewGuid();
+        public CommandId CommandId { get; set; } = Guid.NewGuid();
 
         /// <summary>
         /// gets or sets the string.
         /// </summary>
-        public string CommandString { get; set; }
+        public IEnumerable<CommandString> CommandStrings { get; set; }
+
+        /// <summary>
+        /// Gets or sets the example integer.
+        /// </summary>
+        public int CommandInt { get; set; }
     }
 }

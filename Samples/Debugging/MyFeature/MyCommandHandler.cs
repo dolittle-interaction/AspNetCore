@@ -30,7 +30,7 @@ namespace Debugging.MyFeature
         {
              _myAggregateRoot
                 .Rehydrate(command.CommandId)
-                .Perform(_ => _.DoThing(command.CommandString));
+                .Perform(_ => _.DoThing(command.CommandStrings));
         }
 
         /// <summary>
