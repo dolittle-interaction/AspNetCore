@@ -23,6 +23,16 @@ namespace Debugging
         ILoggerFactory _loggerFactory;
 
         BootloaderResult _bootResult;
+        IWebHostEnvironment _env;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Startup"/> class.
+        /// </summary>
+        /// <param name="env">pko.</param>
+        public Startup(IWebHostEnvironment env)
+        {
+            _env = env;
+        }
 
         /// <summary>
         /// Configure all services.
@@ -37,7 +47,14 @@ namespace Debugging
             });
 
             services.AddDolittleSwagger();
-            _bootResult = services.AddDolittle(_loggerFactory);
+            _bootResult = services.AddDolittle(
+                builder =>
+                {
+                if (_env.IsDevelopment())
+                {
+                    builder.Development();
+                }
+            }, _loggerFactory);
         }
 
         /// <summary>
