@@ -56,11 +56,11 @@ namespace Dolittle.AspNetCore.Debugging.Artifacts.Commands
             var commandResult = _commandCoordinator.Handle(artifact);
             if (commandResult.Success)
             {
-                await context.RespondWithOk($"Command {artifact.GetType()} was handled successfully. {commandResult}").ConfigureAwait(false);
+                await context.RespondWithOk($"Command {artifact.GetType()} was handled successfully. \n{commandResult}").ConfigureAwait(false);
             }
             else
             {
-                await context.RespondWithError($"Command {artifact.GetType()} wasn't handled succesfully. {commandResult}").ConfigureAwait(false);
+                await context.RespondWithError($"Command {artifact.GetType()} wasn't handled succesfully. \n{commandResult}").ConfigureAwait(false);
             }
         }
     }

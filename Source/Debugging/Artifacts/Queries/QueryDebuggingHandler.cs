@@ -14,7 +14,7 @@ namespace Dolittle.AspNetCore.Debugging.Artifacts.Queries
     /// <summary>
     /// hi ther.
     /// </summary>
-    public class QueryDebuggingHandler : IDebuggingHandler, ICanHandleGetRequests<IQuery>
+    public class QueryDebuggingHandler : IDebuggingHandler, ICanHandlePostRequests<IQuery>
     {
         readonly IArtifactMapper<IQuery> _queries;
         readonly IQueryCoordinator _queryCoordinator;
@@ -52,16 +52,17 @@ namespace Dolittle.AspNetCore.Debugging.Artifacts.Queries
         };
 
         /// <inheritdoc/>
-        public async Task HandleGetRequest(HttpContext context, IQuery artifact)
+        public async Task HandlePostRequest(HttpContext context, IQuery artifact)
         {
-            var queryResult = await _queryCoordinator.Execute(artifact, new PagingInfo()).ConfigureAwait(false);
+            var paging = new PagingInfo();
+            var queryResult = await _queryCoordinator.Execute(artifact, paging).ConfigureAwait(false);
             if (queryResult.Success)
             {
-                await context.RespondWithOk($"Query {artifact.GetType()} was here {queryResult}").ConfigureAwait(false);
+                await context.RespondWithOk($"Query {artifact.GetType()} executed successfully. \n{queryResult}").ConfigureAwait(false);
             }
             else
             {
-                await context.RespondWithError($"Query {artifact.GetType()}").ConfigureAwait(false);
+                await context.RespondWithError($"Query {artifact.GetType()} wasn't executed correctly. \n{queryResult.Exception}").ConfigureAwait(false);
             }
         }
     }
