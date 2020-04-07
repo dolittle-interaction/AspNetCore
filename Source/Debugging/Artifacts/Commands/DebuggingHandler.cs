@@ -47,7 +47,8 @@ namespace Dolittle.AspNetCore.Debugging.Artifacts.Commands
         /// <inheritdoc/>
         public IDictionary<int, string> Responses => new Dictionary<int, string>
         {
-            { StatusCodes.Status200OK, "The command was handled successfully." },
+            { StatusCodes.Status200OK, "Command executed succesfully." },
+            { StatusCodes.Status500InternalServerError, "Command wasn't executed succefully." },
         };
 
         /// <inheritdoc/>

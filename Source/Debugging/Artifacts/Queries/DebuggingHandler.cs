@@ -47,8 +47,8 @@ namespace Dolittle.AspNetCore.Debugging.Artifacts.Queries
         /// <inheritdoc/>
         public IDictionary<int, string> Responses => new Dictionary<int, string>
         {
-            { StatusCodes.Status200OK, "The query uhhh ecxists i guess." },
-            { StatusCodes.Status500InternalServerError, "This query ymmm its no good." },
+            { StatusCodes.Status200OK, "Query handled succesfully." },
+            { StatusCodes.Status500InternalServerError, "Query wasn't handled succefully." },
         };
 
         /// <inheritdoc/>
