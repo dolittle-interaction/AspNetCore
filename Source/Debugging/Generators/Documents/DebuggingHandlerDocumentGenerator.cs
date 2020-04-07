@@ -3,9 +3,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Dolittle.AspNetCore.Debugging.Handlers;
-using Dolittle.Concepts;
 using Dolittle.Reflection;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -84,7 +82,7 @@ namespace Dolittle.AspNetCore.Generators.Documents
             }
         }
 
-        // Generates the responses and RequestBody (if applicable) for an operation.
+        // Generates the responses and the default JSON RequestBody (if applicable) for an operation.
         OpenApiOperation GenerateOperation(IDebuggingHandler handler, Type artifact, SchemaRepository repository)
         {
             return new OpenApiOperation
@@ -92,52 +90,11 @@ namespace Dolittle.AspNetCore.Generators.Documents
                 RequestBody = artifact.GetProperties().Length != 0 ? new OpenApiRequestBody
                 {
                     Required = true,
-                    Content = GenerateRequestBodyContent(artifact, repository)
+                    Content = GenerateContentType("application/json", artifact, repository)
                 }
                 : null,
                 Responses = GenerateResponses(handler, repository)
             };
-        }
-
-        /// <summary>
-        /// Always generates the "application/json" content as it can always be used to display all the parameters in Swagger.
-        /// Will also try to create multipart/form-data representation that allows us to use nice parameter fields in Swagger.
-        /// </summary>
-        /// <param name="artifact">Type of the current artifact.</param>
-        /// <param name="repository">SchemaRepository.</param>
-        /// <returns>Dictionary with the mimeType and the mediatype.</returns>
-        IDictionary<string, OpenApiMediaType> GenerateRequestBodyContent(Type artifact, SchemaRepository repository)
-        {
-            var jsonContent = GenerateContentType("application/json", artifact, repository);
-            if (artifact.GetProperties().All(prop => IsSerializableToMultipartFormData(prop.PropertyType)))
-            {
-                return GenerateContentType("multipart/form-data", artifact, repository).Concat(jsonContent)
-                                    .ToDictionary(x => x.Key, x => x.Value);
-            }
-
-            return jsonContent;
-        }
-
-        /// <summary>
-        /// We can't serialize complex objects to multipart/form-data, only primitives/value types, strings, Concepts and
-        /// IEnumerable. Will check the type that IEnumerable is holding and then recursively applies the same rules.
-        /// generic type inheritance check https://stackoverflow.com/a/37184726/5806412
-        /// and IEnumerable check https://stackoverflow.com/a/557349/5806412 .
-        /// </summary>
-        /// <param name="type">Type to be checked.</param>
-        /// <returns>bool if the type is serializale.</returns>
-        bool IsSerializableToMultipartFormData(Type type)
-        {
-            if (type.IsGenericType
-                && type.GetGenericTypeDefinition().IsAssignableFrom(typeof(IEnumerable<>)))
-            {
-                return IsSerializableToMultipartFormData(type.GenericTypeArguments[0]);
-            }
-
-            return type.IsPrimitive
-                || type.IsValueType
-                || (type == typeof(string))
-                || type.BaseType.GetGenericTypeDefinition().IsAssignableFrom(typeof(ConceptAs<>));
         }
 
         IDictionary<string, OpenApiMediaType> GenerateContentType(string mimeType, Type type, SchemaRepository repository)
