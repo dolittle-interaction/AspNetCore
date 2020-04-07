@@ -39,7 +39,7 @@ namespace Dolittle.AspNetCore.Debugging.Artifacts.Commands
         public string Name => "Commands";
 
         /// <inheritdoc/>
-        public string Title => "Execute Commands";
+        public string Title => "Handle Commands";
 
         /// <inheritdoc/>
         public IDictionary<PathString, Type> Artifacts { get; } = new Dictionary<PathString, Type>();
@@ -47,8 +47,8 @@ namespace Dolittle.AspNetCore.Debugging.Artifacts.Commands
         /// <inheritdoc/>
         public IDictionary<int, string> Responses => new Dictionary<int, string>
         {
-            { StatusCodes.Status200OK, "Command executed succesfully." },
-            { StatusCodes.Status500InternalServerError, "Command wasn't executed succefully." },
+            { StatusCodes.Status200OK, "Command handled succesfully." },
+            { StatusCodes.Status500InternalServerError, "Command wasn't handled succefully." },
         };
 
         /// <inheritdoc/>
@@ -57,11 +57,11 @@ namespace Dolittle.AspNetCore.Debugging.Artifacts.Commands
             var commandResult = _commandCoordinator.Handle(artifact);
             if (commandResult.Success)
             {
-                await context.RespondWithOk($"Command {artifact.GetType()} was handled successfully. \n{commandResult}").ConfigureAwait(false);
+                await context.RespondWithOk($"Command {artifact.GetType()} was handled successfully. \nCommandResult: {commandResult}").ConfigureAwait(false);
             }
             else
             {
-                await context.RespondWithError($"Command {artifact.GetType()} wasn't handled succesfully. \n{commandResult}").ConfigureAwait(false);
+                await context.RespondWithError($"Command {artifact.GetType()} wasn't handled succesfully. \nCommandResult: {commandResult}").ConfigureAwait(false);
             }
         }
     }

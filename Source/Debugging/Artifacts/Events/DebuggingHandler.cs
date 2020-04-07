@@ -37,7 +37,7 @@ namespace Dolittle.AspNetCore.Debugging.Artifacts.Events
         public string Name => "Events";
 
         /// <inheritdoc/>
-        public string Title => "Apply Events";
+        public string Title => "Commit Events";
 
         /// <inheritdoc/>
         public IDictionary<PathString, Type> Artifacts { get; } = new Dictionary<PathString, Type>();
@@ -45,8 +45,8 @@ namespace Dolittle.AspNetCore.Debugging.Artifacts.Events
         /// <inheritdoc/>
         public IDictionary<int, string> Responses => new Dictionary<int, string>
         {
-            { StatusCodes.Status200OK, "Event applied succesfully." },
-            { StatusCodes.Status500InternalServerError, "Event  wasn't applied succefully." },
+            { StatusCodes.Status200OK, "Event committed succesfully." },
+            { StatusCodes.Status500InternalServerError, "Event  wasn't committed succefully." },
         };
 
         /// <inheritdoc/>
@@ -56,7 +56,7 @@ namespace Dolittle.AspNetCore.Debugging.Artifacts.Events
             var uncommittedEvent = new UncommittedEvents();
             uncommittedEvent.Append(artifact);
             var committedEvents = _eventStore.Commit(uncommittedEvent);
-            await context.RespondWithOk($"Event {artifact.GetType()} committed {artifact} {committedEvents}").ConfigureAwait(false);
+            await context.RespondWithOk($"Event {artifact.GetType()} committed. \nCommittedEvents: {committedEvents}").ConfigureAwait(false);
         }
     }
 }

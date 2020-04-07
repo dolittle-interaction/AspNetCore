@@ -39,7 +39,7 @@ namespace Dolittle.AspNetCore.Debugging.Artifacts.Queries
         public string Name => "Queries";
 
         /// <inheritdoc/>
-        public string Title => "Query Queries";
+        public string Title => "Execute Queries";
 
         /// <inheritdoc/>
         public IDictionary<PathString, Type> Artifacts { get; } = new Dictionary<PathString, Type>();
@@ -47,8 +47,8 @@ namespace Dolittle.AspNetCore.Debugging.Artifacts.Queries
         /// <inheritdoc/>
         public IDictionary<int, string> Responses => new Dictionary<int, string>
         {
-            { StatusCodes.Status200OK, "Query handled succesfully." },
-            { StatusCodes.Status500InternalServerError, "Query wasn't handled succefully." },
+            { StatusCodes.Status200OK, "Query executed succesfully." },
+            { StatusCodes.Status500InternalServerError, "Query wasn't executed succefully." },
         };
 
         /// <inheritdoc/>
@@ -58,11 +58,11 @@ namespace Dolittle.AspNetCore.Debugging.Artifacts.Queries
             var queryResult = await _queryCoordinator.Execute(artifact, paging).ConfigureAwait(false);
             if (queryResult.Success)
             {
-                await context.RespondWithOk($"Query {artifact.GetType()} executed successfully. \n{queryResult}").ConfigureAwait(false);
+                await context.RespondWithOk($"Query {artifact.GetType()} executed successfully. \nQueryResult: {queryResult}").ConfigureAwait(false);
             }
             else
             {
-                await context.RespondWithError($"Query {artifact.GetType()} wasn't executed correctly. \n{queryResult.Exception}").ConfigureAwait(false);
+                await context.RespondWithError($"Query {artifact.GetType()} wasn't executed succesfully. \nQueryResult: {queryResult.Exception}").ConfigureAwait(false);
             }
         }
     }
