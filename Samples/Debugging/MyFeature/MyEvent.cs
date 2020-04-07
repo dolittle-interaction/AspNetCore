@@ -6,7 +6,7 @@ using Dolittle.Events;
 namespace Debugging.MyFeature
 {
     /// <summary>
-    /// myevemtl.
+    /// Example Event.
     /// </summary>
     public class MyEvent : IEvent
     {
@@ -21,7 +21,7 @@ namespace Debugging.MyFeature
         }
 
         /// <summary>
-        /// Gets yeah my sting.
+        /// Gets MyString.
         /// </summary>
         public string MyString { get; }
     }

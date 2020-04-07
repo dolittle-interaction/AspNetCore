@@ -23,7 +23,7 @@ namespace Debugging.MyFeature
         }
 
         /// <summary>
-        /// llmaio.
+        /// Example Handle method.
         /// </summary>
         /// <param name="command">le comanda.</param>
         public void Handle(MyCommand command)
@@ -34,7 +34,7 @@ namespace Debugging.MyFeature
         }
 
         /// <summary>
-        /// o.
+        /// Excample second Handle method.
         /// </summary>
         /// <param name="command">okk.</param>
         public void Handle(MySecondCommand command)

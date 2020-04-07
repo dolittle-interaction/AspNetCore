@@ -8,7 +8,7 @@ using Dolittle.Events;
 namespace Debugging.MyFeature
 {
     /// <summary>
-    /// k.
+    /// Example AggregateRoot.
     /// </summary>
     public class MyAggregateRoot : AggregateRoot
     {
@@ -22,9 +22,9 @@ namespace Debugging.MyFeature
         }
 
         /// <summary>
-        /// i do that thing.
+        /// Example method.
         /// </summary>
-        /// <param name="myStrings">this string is da thing.</param>
+        /// <param name="myStrings">String to be applied to the event.</param>
         public void DoThing(IEnumerable<CommandString> myStrings)
         {
             foreach (var myString in myStrings)

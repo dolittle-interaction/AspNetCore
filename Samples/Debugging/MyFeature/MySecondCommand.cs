@@ -6,7 +6,7 @@ using Dolittle.Commands;
 namespace Debugging.MyFeature
 {
     /// <summary>
-    /// lmao.
+    /// Example second Command.
     /// </summary>
     public class MySecondCommand : ICommand
     {

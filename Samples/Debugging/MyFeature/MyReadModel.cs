@@ -6,7 +6,7 @@ using Dolittle.ReadModels;
 namespace Debugging.MyFeature
 {
     /// <summary>
-    /// okl.
+    /// Example ReadModel.
     /// </summary>
     public class MyReadModel : IReadModel
     {

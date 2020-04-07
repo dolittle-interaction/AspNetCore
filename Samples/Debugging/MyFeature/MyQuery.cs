@@ -8,12 +8,12 @@ using Dolittle.Queries;
 namespace Debugging.MyFeature
 {
     /// <summary>
-    /// lkm.
+    /// Example Query.
     /// </summary>
     public class MyQuery : IQueryFor<MyReadModel>
     {
         /// <summary>
-        /// gets lmo.
+        /// Gets an empty Array.
         /// </summary>
         public IQueryable<MyReadModel> Query => Array.Empty<MyReadModel>().AsQueryable();
     }

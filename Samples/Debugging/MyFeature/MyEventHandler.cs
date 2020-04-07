@@ -8,16 +8,16 @@ using Dolittle.Events.Handling;
 namespace Debugging.MyFeature
 {
     /// <summary>
-    /// hahaha.
+    /// Example EventHandler.
     /// </summary>
     [EventHandler("1964b0ef-213e-4ac7-8498-c6b9ec37554a")]
     public class MyEventHandler : ICanHandleEvents
     {
         /// <summary>
-        /// hi ther.
+        /// Example Handle method.
         /// </summary>
-        /// <param name="event">asdadas.</param>
-        /// <param name="eventContext">asdadasasdasdadasasd.</param>
+        /// <param name="event">Event to be handled.</param>
+        /// <param name="eventContext">EventContext.</param>
         /// <returns>Task.</returns>
         public Task Handle(MyEvent @event, EventContext eventContext)
         {
