@@ -6,7 +6,6 @@ using System.Buffers;
 using System.IO.Pipelines;
 using System.Text;
 using System.Threading.Tasks;
-using Dolittle.Concepts;
 using Dolittle.Serialization.Json;
 using Microsoft.AspNetCore.Http;
 
@@ -33,35 +32,6 @@ namespace Dolittle.AspNetCore.Debugging.Middleware
         {
             try
             {
-                if (request.HasFormContentType)
-                {
-                    // check the contenttype and serialize it accordingly aka get the activator done
-                    // run the foreach on iformcollection and convert the strinvalues to the correct type.
-                    // aka guid parse, using concepts then serialize to conecpt, if object then just do nothign basically
-                    // for ienubmerable do foreach. strings guids floats concepts and ienumerables
-                    var newArtifact = Activator.CreateInstance(type);
-                    foreach (var artifactProperty in newArtifact.GetType().GetProperties())
-                    {
-                        var name = artifactProperty.Name;
-                        foreach (var form in request.Form)
-                        {
-                            if (form.Key.Equals(name, StringComparison.OrdinalIgnoreCase))
-                            {
-                                // cast the thing into correct type
-                                if (artifactProperty.PropertyType.BaseType.GetGenericTypeDefinition().IsAssignableFrom(typeof(ConceptAs<>)))
-                                {
-                                    // convert into concept
-                                    var targetType = artifactProperty.PropertyType.BaseType;
-                                    var converted = Convert.ChangeType((dynamic)form.Value, targetType);
-                                    artifactProperty.SetValue(newArtifact, form.Value);
-                                }
-                            }
-                        }
-                    }
-
-                    System.Console.WriteLine("oh shietetet");
-                }
-
                 var json = await ReadBodyAsString(request.BodyReader).ConfigureAwait(false);
                 return _serializer.FromJson(type, json);
             }
