@@ -10,5 +10,9 @@ namespace Debugging.MyFeature
     /// </summary>
     public class MyReadModel : IReadModel
     {
+        /// <summary>
+        /// Gets or sets MyString.
+        /// </summary>
+        public string MyString { get; set; }
     }
 }
