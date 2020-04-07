@@ -133,17 +133,11 @@ namespace Dolittle.AspNetCore.Generators.Documents
             {
                 return IsSerializableToMultipartFormData(type.GenericTypeArguments[0]);
             }
-            else if (type.IsPrimitive
+
+            return type.IsPrimitive
                 || type.IsValueType
                 || (type == typeof(string))
-                || type.BaseType.GetGenericTypeDefinition().IsAssignableFrom(typeof(ConceptAs<>)))
-            {
-                System.Console.WriteLine("woohoo");
-                return true;
-            }
-
-            System.Console.WriteLine("oh nooooo");
-            return false;
+                || type.BaseType.GetGenericTypeDefinition().IsAssignableFrom(typeof(ConceptAs<>));
         }
 
         IDictionary<string, OpenApiMediaType> GenerateContentType(string mimeType, Type type, SchemaRepository repository)
