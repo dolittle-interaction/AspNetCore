@@ -7,7 +7,7 @@ using Dolittle.Domain;
 namespace Debugging.MyFeature
 {
     /// <summary>
-    /// hi.
+    /// Example CommandHandler.
     /// </summary>
     public class MyCommandHandler : ICanHandleCommands
     {

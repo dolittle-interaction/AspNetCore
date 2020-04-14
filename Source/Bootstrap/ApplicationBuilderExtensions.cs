@@ -7,9 +7,13 @@ using Dolittle.AspNetCore.Bootstrap;
 using Dolittle.AspNetCore.Execution;
 using Dolittle.Booting;
 using Dolittle.DependencyInversion;
+using Dolittle.DependencyInversion.Booting;
+using Dolittle.Logging.Internal;
+using Dolittle.Logging.Microsoft;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.FileProviders.Physical;
+using Microsoft.Extensions.Logging;
 
 namespace Microsoft.AspNetCore.Builder
 {
@@ -25,9 +29,18 @@ namespace Microsoft.AspNetCore.Builder
         public static void UseDolittle(this IApplicationBuilder app)
         {
             var container = app.ApplicationServices.GetService(typeof(IContainer)) as IContainer;
-            Dolittle.DependencyInversion.Booting.Boot.ContainerReady(container);
-
+            BootContainer.ContainerReady(container);
             BootStages.ContainerReady(container);
+
+            var loggerFactory = container.Get<ILoggerFactory>();
+            if (loggerFactory == null)
+            {
+#pragma warning disable CA2000
+                loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
+#pragma warning restore CA2000
+            }
+
+            LoggerManager.Instance.AddLogMessageWriterCreators(new LogMessageWriterCreator(loggerFactory));
 
             var bootProcedures = container.Get<IBootProcedures>();
             bootProcedures.Perform();
