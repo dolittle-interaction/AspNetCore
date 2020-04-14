@@ -82,7 +82,6 @@ namespace Dolittle.AspNetCore.Generators.Documents
             }
         }
 
-        // Generates the responses and the default JSON RequestBody (if applicable) for an operation.
         OpenApiOperation GenerateOperation(IDebuggingHandler handler, Type artifact, SchemaRepository repository)
         {
             return new OpenApiOperation
