@@ -6,9 +6,23 @@ using Dolittle.Events;
 namespace Debugging.MyFeature
 {
     /// <summary>
-    /// Represents an event for testing.
+    /// Example Event.
     /// </summary>
     public class MyEvent : IEvent
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MyEvent"/> class.
+        ///  my construgs.
+        /// </summary>
+        /// <param name="myString">muh string.</param>
+        public MyEvent(string myString)
+        {
+            MyString = myString;
+        }
+
+        /// <summary>
+        /// Gets MyString.
+        /// </summary>
+        public string MyString { get; }
     }
 }

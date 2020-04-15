@@ -1,0 +1,13 @@
+@startuml MyCommand
+actor joel
+joel -> website: refresh page
+
+
+DebuggingHandlerDocumentProvider -> 
+
+DebuggingHandler -> CommandCoordinator: handle the command
+CommandCoordinator -> Dolittle: do things
+Dolittle -> CommandCoordinator: Results
+CommandCoordinator -> DebuggingHandler: return response code depending on result
+
+@enduml

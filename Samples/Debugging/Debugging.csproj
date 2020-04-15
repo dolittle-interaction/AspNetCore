@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <DolittleBoundedContextConfigPath>./bounded-context.json</DolittleBoundedContextConfigPath>
+        <DolittleBoundedContextConfigPath>bounded-context.json</DolittleBoundedContextConfigPath>
         <DolittleUseModules>False</DolittleUseModules>
         <DolittleNamespaceSegmentsToStrip />
         <DolittleGenerateProxies>False</DolittleGenerateProxies>
@@ -25,5 +25,8 @@
         <PackageReference Include="Dolittle.Build.MSBuild" Version="$(FundamentalsVersion)" />
         <PackageReference Include="Dolittle.SDK.Build" Version="$(SDKVersion)" />
         <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
+        <PackageReference Include="Dolittle.Build.MSBuild" Version="$(FundamentalsVersion)" />
+        <PackageReference Include="Dolittle.SDK.Build" Version="$(SDKVersion)" />
+        <PackageReference Include="Dolittle.SDK" Version="$(SDKVersion)" />
     </ItemGroup>
 </Project>

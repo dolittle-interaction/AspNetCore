@@ -289,3 +289,5 @@ __pycache__/
 
 
 .buildsettings
+
+!Source/Debugging/Artifacts
