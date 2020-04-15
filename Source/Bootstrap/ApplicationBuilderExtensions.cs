@@ -7,7 +7,6 @@ using Dolittle.AspNetCore.Bootstrap;
 using Dolittle.AspNetCore.Execution;
 using Dolittle.Booting;
 using Dolittle.DependencyInversion;
-using Dolittle.DependencyInversion.Booting;
 using Dolittle.Logging.Internal;
 using Dolittle.Logging.Microsoft;
 using Microsoft.AspNetCore.Hosting;
@@ -29,7 +28,6 @@ namespace Microsoft.AspNetCore.Builder
         public static void UseDolittle(this IApplicationBuilder app)
         {
             var container = app.ApplicationServices.GetService(typeof(IContainer)) as IContainer;
-            BootContainer.ContainerReady(container);
             BootStages.ContainerReady(container);
 
             var loggerFactory = container.Get<ILoggerFactory>();
