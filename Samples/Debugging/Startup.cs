@@ -3,6 +3,7 @@
 
 using System;
 using Autofac;
+using Dolittle.AspNetCore.Debugging;
 using Dolittle.Booting;
 using Dolittle.DependencyInversion.Autofac;
 using Microsoft.AspNetCore.Builder;
@@ -22,6 +23,16 @@ namespace Debugging
         ILoggerFactory _loggerFactory;
 
         BootloaderResult _bootResult;
+        IWebHostEnvironment _env;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Startup"/> class.
+        /// </summary>
+        /// <param name="env">pko.</param>
+        public Startup(IWebHostEnvironment env)
+        {
+            _env = env;
+        }
 
         /// <summary>
         /// Configure all services.
@@ -35,7 +46,15 @@ namespace Debugging
                 builder.AddEventSourceLogger();
             });
 
-            _bootResult = services.AddDolittle(_loggerFactory);
+            services.AddDolittleSwagger();
+            _bootResult = services.AddDolittle(
+                builder =>
+                {
+                if (_env.IsDevelopment())
+                {
+                    builder.Development();
+                }
+            }, _loggerFactory);
         }
 
         /// <summary>
@@ -54,9 +73,12 @@ namespace Debugging
         /// <param name="env"><see cref="IWebHostEnvironment"/>.</param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseDolittle();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseDolittleSwagger();
             }
 
             app.UseRouting();

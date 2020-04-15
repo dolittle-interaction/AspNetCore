@@ -3,17 +3,24 @@
 
 using System.Linq;
 using Dolittle.Queries;
+using MongoDB.Driver;
 
 namespace Debugging.MyFeature
 {
     /// <summary>
-    /// Represents a query for testing.
+    /// Example Query.
     /// </summary>
     public class MyQuery : IQueryFor<MyReadModel>
     {
         /// <summary>
-        /// Gets the actual query.
+        /// Initializes a new instance of the <see cref="MyQuery"/> class.
         /// </summary>
-        public IQueryable<MyReadModel> Query => new MyReadModel[] { new MyReadModel() }.AsQueryable();
+        /// <param name="collection">Collection of all the MyReadModel's.</param>
+        public MyQuery(IMongoCollection<MyReadModel> collection) => Query = collection?.AsQueryable();
+
+        /// <summary>
+        /// Gets an empty Array.
+        /// </summary>
+        public IQueryable<MyReadModel> Query { get; }
     }
 }

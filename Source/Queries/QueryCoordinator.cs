@@ -68,15 +68,16 @@ namespace Dolittle.AspNetCore.Queries
         }
 
         /// <summary>
-        /// [POST] Action for performing a query.
+        /// [Get] Action for performing a query.
         /// </summary>
         /// <param name="queryRequest">The <see cref="QueryRequest"/>.</param>
         /// <returns><see cref="IActionResult"/> with the query result.</returns>
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> Handle([FromBody] QueryRequest queryRequest)
         {
             var content = new ContentResult();
             QueryResult queryResult = null;
+
             try
             {
                 _logger.Information($"Executing query : {queryRequest.NameOfQuery}");
