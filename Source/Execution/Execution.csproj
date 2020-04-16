@@ -10,10 +10,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../Configuration/Configuration.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Dolittle.Security" Version="$(FundamentalsVersion)" />
     <PackageReference Include="Dolittle.Execution" Version="$(FundamentalsVersion)" />
   </ItemGroup>

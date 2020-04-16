@@ -2,17 +2,13 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Dolittle.Execution;
 using Dolittle.Logging;
-using Dolittle.Security;
 using Dolittle.Tenancy;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
-using DolittleOptions = Dolittle.AspNetCore.Configuration.Options;
 
 namespace Dolittle.AspNetCore.Execution
 {
@@ -22,7 +18,7 @@ namespace Dolittle.AspNetCore.Execution
     public class ExecutionContextSetup
     {
         readonly RequestDelegate _next;
-        readonly IOptionsMonitor<DolittleOptions> _options;
+        readonly IOptionsMonitor<ExecutionContextSetupOptions> _options;
         readonly IExecutionContextManager _executionContextManager;
         readonly ILogger _logger;
 
@@ -30,12 +26,12 @@ namespace Dolittle.AspNetCore.Execution
         /// Initializes a new instance of the <see cref="ExecutionContextSetup"/> class.
         /// </summary>
         /// <param name="next">Next middleware.</param>
-        /// <param name="options">Configuration in form of <see cref="DolittleOptions"/>.</param>
+        /// <param name="options">Configuration in form of <see cref="ExecutionContextSetupOptions"/>.</param>
         /// <param name="executionContextManager"><see cref="IExecutionContextManager"/> for working with <see cref="ExecutionContext"/>.</param>
         /// <param name="logger"><see cref="ILogger"/> for logging.</param>
         public ExecutionContextSetup(
             RequestDelegate next,
-            IOptionsMonitor<DolittleOptions> options,
+            IOptionsMonitor<ExecutionContextSetupOptions> options,
             IExecutionContextManager executionContextManager,
             ILogger logger)
         {
@@ -50,22 +46,13 @@ namespace Dolittle.AspNetCore.Execution
         /// </summary>
         /// <param name="context">Current <see cref="HttpContext"/>.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public async Task InvokeAsync(HttpContext context)
+        public Task InvokeAsync(HttpContext context)
         {
-            var tenantIdHeader = _options.CurrentValue.ExecutionContextSetup.TenantIdHeaderName;
+            var tenantIdHeader = _options.CurrentValue.TenantIdHeaderName;
             var tenantId = GetTenantIdFromHeaders(context, tenantIdHeader);
 
-            var shouldSkipAuthentication = _options.CurrentValue.ExecutionContextSetup.SkipAuthentication;
-            if (!shouldSkipAuthentication && TryGetAuthenticatedUser(await context.AuthenticateAsync().ConfigureAwait(false), out var principal))
-            {
-                _executionContextManager.CurrentFor(tenantId, CorrelationId.New(), principal.ToClaims());
-            }
-            else
-            {
-                _executionContextManager.CurrentFor(tenantId, CorrelationId.New());
-            }
-
-            await _next.Invoke(context).ConfigureAwait(false);
+            _executionContextManager.CurrentFor(tenantId, CorrelationId.New());
+            return _next.Invoke(context);
         }
 
         TenantId GetTenantIdFromHeaders(HttpContext context, string header)
@@ -93,12 +80,6 @@ namespace Dolittle.AspNetCore.Execution
             {
                 throw new TenantIdHeaderHasMultipleValues(header);
             }
-        }
-
-        bool TryGetAuthenticatedUser(AuthenticateResult authenticateResult, out ClaimsPrincipal principal)
-        {
-            principal = authenticateResult.Principal;
-            return authenticateResult.Succeeded;
         }
     }
 }
