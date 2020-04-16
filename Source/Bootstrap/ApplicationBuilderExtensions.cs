@@ -3,16 +3,9 @@
 
 using System.IO;
 using System.Threading.Tasks;
-using Dolittle.AspNetCore.Bootstrap;
-using Dolittle.AspNetCore.Execution;
-using Dolittle.Booting;
-using Dolittle.DependencyInversion;
-using Dolittle.Logging.Internal;
-using Dolittle.Logging.Microsoft;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.FileProviders.Physical;
-using Microsoft.Extensions.Logging;
 
 namespace Microsoft.AspNetCore.Builder
 {
@@ -21,32 +14,6 @@ namespace Microsoft.AspNetCore.Builder
     /// </summary>
     public static class ApplicationBuilderExtensions
     {
-        /// <summary>
-        /// Use Dolittle for the given application.
-        /// </summary>
-        /// <param name="app"><see cref="IApplicationBuilder"/> to use Dolittle for.</param>
-        public static void UseDolittle(this IApplicationBuilder app)
-        {
-            var container = app.ApplicationServices.GetService(typeof(IContainer)) as IContainer;
-            BootStages.ContainerReady(container);
-
-            var loggerFactory = container.Get<ILoggerFactory>();
-            if (loggerFactory == null)
-            {
-#pragma warning disable CA2000
-                loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
-#pragma warning restore CA2000
-            }
-
-            LoggerManager.Instance.AddLogMessageWriterCreators(new LogMessageWriterCreator(loggerFactory));
-
-            var bootProcedures = container.Get<IBootProcedures>();
-            bootProcedures.Perform();
-            app.UseAuthentication();
-            app.UseMiddleware<ExecutionContextSetup>();
-            app.UseMiddleware<HealthCheckMiddleware>();
-        }
-
         /// <summary>
         /// Run as a single page application - typically end off your application configuration in Startup.cs with this.
         /// </summary>

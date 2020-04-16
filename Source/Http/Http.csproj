@@ -2,7 +2,7 @@
   <Import Project="../../default.props" />
 
   <PropertyGroup>
-    <AssemblyName>Dolittle.AspNetCore.Authentication</AssemblyName>
+    <AssemblyName>Dolittle.AspNetCore.Http</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -10,6 +10,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dolittle.DependencyInversion" Version="$(FundamentalsVersion)" />
-  </ItemGroup>
+    <PackageReference Include="Dolittle.Serialization.Json" Version="$(FundamentalsVersion)" />    
+  </ItemGroup>  
 </Project>
