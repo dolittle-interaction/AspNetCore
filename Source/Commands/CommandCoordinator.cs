@@ -3,10 +3,12 @@
 
 using System;
 using System.Threading.Tasks;
+using Dolittle.Artifacts;
 using Dolittle.Commands;
 using Dolittle.Commands.Coordination.Runtime;
 using Dolittle.Logging;
 using Microsoft.AspNetCore.Http;
+using SdkCommandRequest = Dolittle.Commands.CommandRequest;
 
 namespace Dolittle.AspNetCore.Commands
 {
@@ -38,10 +40,11 @@ namespace Dolittle.AspNetCore.Commands
         /// <returns>A task representing the asynchronous operation.</returns>
         public async Task Handle(HttpContext context)
         {
-            CommandRequest command = null;
+            SdkCommandRequest command = null;
             try
             {
-                command = await context.RequestBodyFromJson<CommandRequest>().ConfigureAwait(false);
+                var request = await context.RequestBodyFromJson<CommandRequest>().ConfigureAwait(false);
+                command = new SdkCommandRequest(request.CorrelationId, request.Type, ArtifactGeneration.First, request.Content);
                 var result = _commandCoordinator.Handle(command);
                 var status = result switch
                     {
