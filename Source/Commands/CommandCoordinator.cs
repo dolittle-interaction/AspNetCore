@@ -47,21 +47,14 @@ namespace Dolittle.AspNetCore.Commands
                 var request = await context.RequestBodyFromJson<CommandRequest>().ConfigureAwait(false);
                 command = new SdkCommandRequest(request.CorrelationId, request.Type, ArtifactGeneration.First, request.Content);
                 var result = _commandCoordinator.Handle(command);
-                var status = result switch
-                    {
-                        { Success: true } => StatusCodes.Status200OK,
-                        { PassedSecurity: false } => StatusCodes.Status403Forbidden,
-                        { Invalid: true } => StatusCodes.Status400BadRequest,
-                        { HasBrokenRules: true } => StatusCodes.Status409Conflict,
-                        _ => StatusCodes.Status500InternalServerError
-                    };
-                await context.RespondWithStatusCodeAndResult(status, result, SerializationOptions.CamelCase).ConfigureAwait(false);
+                await context.RespondWithStatusCodeAndResult(StatusCodes.Status200OK, result, SerializationOptions.CamelCase).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
+                while (ex.InnerException != null) ex = ex.InnerException;
                 _logger.Error(ex, "Could not handle command request");
                 await context.RespondWithStatusCodeAndResult(
-                    StatusCodes.Status500InternalServerError,
+                    StatusCodes.Status200OK,
                     new CommandResult
                         {
                             Command = command,
