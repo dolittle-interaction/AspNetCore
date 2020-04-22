@@ -76,23 +76,15 @@ namespace Dolittle.AspNetCore.Queries
                 var result = await _queryCoordinator.Execute(query, new PagingInfo()).ConfigureAwait(false);
                 if (result.Success) AddClientTypeInformation(result);
 
-                var status = result.BrokenRules.Any() ?
-                    StatusCodes.Status409Conflict
-                    : result switch
-                    {
-                        { Success: true } => StatusCodes.Status200OK,
-                        { PassedSecurity: false } => StatusCodes.Status403Forbidden,
-                        { Invalid: true } => StatusCodes.Status400BadRequest,
-                        _ => StatusCodes.Status500InternalServerError
-                    };
-                await context.RespondWithStatusCodeAndResult(status, result, SerializationOptions.CamelCase).ConfigureAwait(false);
+                await context.RespondWithStatusCodeAndResult(StatusCodes.Status200OK, result, SerializationOptions.CamelCase).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
+                while (ex.InnerException != null) ex = ex.InnerException;
                 var queryName = queryRequest?.NameOfQuery ?? "Could not resolve query name";
                 _logger.Error(ex, $"Could not handle query request for the '{queryName}' query");
                 await context.RespondWithStatusCodeAndResult(
-                    StatusCodes.Status500InternalServerError,
+                    StatusCodes.Status200OK,
                     new QueryResult
                         {
                             Exception = ex,
