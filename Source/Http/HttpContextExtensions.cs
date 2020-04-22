@@ -37,13 +37,14 @@ namespace Microsoft.AspNetCore.Http
         /// <param name="context">The <see cref="HttpContext" />.</param>
         /// <param name="statusCode">The HTTP status code.</param>
         /// <param name="result">The result.</param>
+        /// <param name="options">Optional <see cref="ISerializationOptions"/> to configure the JSON serialization.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        public static Task RespondWithStatusCodeAndResult<T>(this HttpContext context, int statusCode, T result)
+        public static Task RespondWithStatusCodeAndResult<T>(this HttpContext context, int statusCode, T result, ISerializationOptions options = null)
         {
             var serializer = context.RequestServices.GetRequiredService<ISerializer>();
             context.Response.StatusCode = statusCode;
             context.Response.ContentType = "application/json";
-            return context.Response.WriteAsync(serializer.ToJson(result));
+            return context.Response.WriteAsync(serializer.ToJson(result, options));
         }
 
         /// <summary>

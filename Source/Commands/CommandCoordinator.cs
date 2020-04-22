@@ -7,6 +7,7 @@ using Dolittle.Artifacts;
 using Dolittle.Commands;
 using Dolittle.Commands.Coordination.Runtime;
 using Dolittle.Logging;
+using Dolittle.Serialization.Json;
 using Microsoft.AspNetCore.Http;
 using SdkCommandRequest = Dolittle.Commands.CommandRequest;
 
@@ -54,7 +55,7 @@ namespace Dolittle.AspNetCore.Commands
                         { HasBrokenRules: true } => StatusCodes.Status400BadRequest,
                         _ => StatusCodes.Status500InternalServerError
                     };
-                await context.RespondWithStatusCodeAndResult(status, result).ConfigureAwait(false);
+                await context.RespondWithStatusCodeAndResult(status, result, SerializationOptions.CamelCase).ConfigureAwait(false);
             }
             catch (Exception ex)
             {

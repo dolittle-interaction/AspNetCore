@@ -85,7 +85,7 @@ namespace Dolittle.AspNetCore.Queries
                         { Invalid: true } => StatusCodes.Status400BadRequest,
                         _ => StatusCodes.Status500InternalServerError
                     };
-                await context.RespondWithStatusCodeAndResult(status, result).ConfigureAwait(false);
+                await context.RespondWithStatusCodeAndResult(status, result, SerializationOptions.CamelCase).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
