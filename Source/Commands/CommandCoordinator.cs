@@ -52,7 +52,7 @@ namespace Dolittle.AspNetCore.Commands
                         { Success: true } => StatusCodes.Status200OK,
                         { PassedSecurity: false } => StatusCodes.Status403Forbidden,
                         { Invalid: true } => StatusCodes.Status400BadRequest,
-                        { HasBrokenRules: true } => StatusCodes.Status400BadRequest,
+                        { HasBrokenRules: true } => StatusCodes.Status409Conflict,
                         _ => StatusCodes.Status500InternalServerError
                     };
                 await context.RespondWithStatusCodeAndResult(status, result, SerializationOptions.CamelCase).ConfigureAwait(false);

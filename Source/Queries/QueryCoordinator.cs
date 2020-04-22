@@ -77,7 +77,7 @@ namespace Dolittle.AspNetCore.Queries
                 if (result.Success) AddClientTypeInformation(result);
 
                 var status = result.BrokenRules.Any() ?
-                    StatusCodes.Status400BadRequest
+                    StatusCodes.Status409Conflict
                     : result switch
                     {
                         { Success: true } => StatusCodes.Status200OK,
