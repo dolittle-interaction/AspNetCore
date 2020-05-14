@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Dolittle.Applications;
+using Dolittle.ApplicationModel;
 using Dolittle.Applications.Configuration;
 using Dolittle.Artifacts;
 using Dolittle.Artifacts.Configuration;
@@ -15,9 +15,9 @@ namespace Dolittle.AspNetCore.Debugging.Artifacts
     /// <summary>
     /// Implementation of an <see cref="IArtifactMapper{T}"/>.
     /// </summary>
-    /// <typeparam name="T">Type of artifact.</typeparam>
-    public class ArtifactMapper<T> : IArtifactMapper<T>
-        where T : class
+    /// <typeparam name="TArtifact">Type of artifact.</typeparam>
+    public class ArtifactMapper<TArtifact> : IArtifactMapper<TArtifact>
+        where TArtifact : class
     {
         readonly Topology _topology;
         readonly IArtifactTypeMap _artifactTypeMap;
@@ -54,7 +54,7 @@ namespace Dolittle.AspNetCore.Debugging.Artifacts
                 return path;
             }
 
-            throw new UnknownArtifact(artifact, typeof(T));
+            throw new UnknownArtifact(artifact, typeof(TArtifact));
         }
 
         void BuildMapOfArtifacts()
@@ -98,7 +98,7 @@ namespace Dolittle.AspNetCore.Debugging.Artifacts
                 foreach (var artifactDefinition in artifactByType)
                 {
                     var artifactType = artifactDefinition.Value.Type.GetActualType();
-                    if (typeof(T).IsAssignableFrom(artifactType))
+                    if (typeof(TArtifact).IsAssignableFrom(artifactType))
                     {
                         _artifactPaths.Add(artifactType, prefix.Add($"/{artifactType.Name}"));
                     }

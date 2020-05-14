@@ -1,11 +1,12 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using Dolittle.Applications;
+using Dolittle.ApplicationModel;
 using Dolittle.Execution;
 using Dolittle.Lifecycle;
 using Dolittle.Security;
 using Dolittle.Tenancy;
+using Dolittle.Versioning;
 
 namespace Dolittle.AspNetCore.Execution
 {
@@ -35,23 +36,13 @@ namespace Dolittle.AspNetCore.Execution
         /// <inheritdoc/>
         public ExecutionContext ConfigureFor(TenantId tenantId, CorrelationId correlationId, Claims claims)
         {
-            var executionEnvironment = EnvironmentUtilities.GetExecutionEnvironment();
-            var executionApplication = DeduceApplication();
-            var executionBoundedContext = DeduceMicroservice();
-
-            _executionContextManager.SetConstants(executionApplication, executionBoundedContext, executionEnvironment);
+            _executionContextManager.SetConstants(CurrentMicroservice(), CurrentVersion(), EnvironmentUtilities.GetExecutionEnvironment());
 
             return _executionContextManager.CurrentFor(tenantId, correlationId, claims ?? Claims.Empty);
         }
 
-        Application DeduceApplication()
-        {
-            return _executionContextManager.Current.Application;
-        }
+        Microservice CurrentMicroservice() => _executionContextManager.Current.Microservice;
 
-        Microservice DeduceMicroservice()
-        {
-            return _executionContextManager.Current.Microservice;
-        }
+        Version CurrentVersion() => _executionContextManager.Current.Version;
     }
 }

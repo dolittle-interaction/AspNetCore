@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dolittle.ApplicationModel" Version="$(FundamentalsVersion)" />
     <PackageReference Include="Dolittle.Security" Version="$(FundamentalsVersion)" />
     <PackageReference Include="Dolittle.Execution" Version="$(FundamentalsVersion)" />
   </ItemGroup>

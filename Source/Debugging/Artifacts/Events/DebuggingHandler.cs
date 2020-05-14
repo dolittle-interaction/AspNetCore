@@ -11,18 +11,17 @@ using Microsoft.AspNetCore.Http;
 namespace Dolittle.AspNetCore.Debugging.Artifacts.Events
 {
     /// <summary>
-    /// hi ther.
+    /// Represents an implementation of <see cref="IDebuggingHandler" /> and <see cref="ICanHandleGetRequests{T}" /> for <see cref="UncommittedEvent" />.
     /// </summary>
-    public class DebuggingHandler : IDebuggingHandler, ICanHandlePostRequests<IEvent>
+    public class DebuggingHandler : IDebuggingHandler, ICanHandlePostRequests<UncommittedEvent>
     {
         readonly IEventStore _eventStore;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DebuggingHandler"/> class.
-        /// nice.
         /// </summary>
-        /// <param name="events">hie.</param>
-        /// <param name="eventStore">nioe.</param>
+        /// <param name="events">The <see cref="IArtifactMapper{T}" /> for <see cref="UncommittedEvent" />.</param>
+        /// <param name="eventStore">The <see cref="IEventStore" />..</param>
         public DebuggingHandler(IArtifactMapper<IEvent> events, IEventStore eventStore)
         {
             _eventStore = eventStore;
@@ -45,18 +44,17 @@ namespace Dolittle.AspNetCore.Debugging.Artifacts.Events
         /// <inheritdoc/>
         public IDictionary<int, string> Responses => new Dictionary<int, string>
         {
-            { StatusCodes.Status200OK, "Event committed succesfully." },
-            { StatusCodes.Status500InternalServerError, "Event  wasn't committed succefully." },
+            { StatusCodes.Status200OK, "Event committed successfully." },
+            { StatusCodes.Status500InternalServerError, "Event  wasn't committed successfully." },
         };
 
         /// <inheritdoc/>
-        public async Task HandlePostRequest(HttpContext context, IEvent artifact)
+        public async Task HandlePostRequest(HttpContext context, UncommittedEvent @event)
         {
-            // add a IEventStore thingy to commit the artifact
-            var uncommittedEvent = new UncommittedEvents();
-            uncommittedEvent.Append(artifact);
-            var committedEvents = _eventStore.Commit(uncommittedEvent);
-            await context.RespondWithOk($"Event {artifact.GetType()} committed. \nCommittedEvents: {committedEvents}").ConfigureAwait(false);
+            var uncommittedEvents = new UncommittedEvents();
+            uncommittedEvents.Append(@event);
+            var committedEvents = _eventStore.Commit(uncommittedEvents);
+            await context.RespondWithOk($"Event {@event.GetType()} committed. \nCommittedEvents: {committedEvents}").ConfigureAwait(false);
         }
     }
 }
