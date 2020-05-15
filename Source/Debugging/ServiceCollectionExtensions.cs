@@ -29,6 +29,7 @@ namespace Dolittle.AspNetCore.Debugging
             Action<SwaggerGenOptions> setupSwaggerAction = null)
         {
             if (setupAction != null) services.Configure(setupAction);
+            services.AddMvc();
             services.AddSwaggerGen(setupSwaggerAction);
             services.AddTransient<ISwaggerProvider, DebuggingHandlerDocumentProvider>();
             services.AddTransient<ISchemaGenerator, SchemaGenerator>();
