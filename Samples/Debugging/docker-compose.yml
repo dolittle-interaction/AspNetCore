@@ -9,7 +9,7 @@ services:
   runtime:
     image: dolittle/runtime:5.0.0-alpha.12
     volumes:
-      - ${PWD}/resources.json:/app/.dolittle/resources.json
+      - ${PWD}/runtime-resources.json:/app/.dolittle/resources.json
     ports:
       - 9700:9700
       - 50052:50052
