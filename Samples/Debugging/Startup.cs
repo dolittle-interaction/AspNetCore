@@ -1,10 +1,10 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System.Threading.Tasks;
 using Dolittle.AspNetCore.Debugging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -43,9 +43,13 @@ namespace Debugging
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context => await context.Response.WriteAsync("Hello World!").ConfigureAwait(false));
                 endpoints.MapDolittleCommandCoordinator();
                 endpoints.MapDolittleQueryCoordinator();
+                endpoints.MapGet("/", context =>
+                {
+                    context.Response.Redirect("/swagger");
+                    return Task.CompletedTask;
+                });
             });
         }
     }
