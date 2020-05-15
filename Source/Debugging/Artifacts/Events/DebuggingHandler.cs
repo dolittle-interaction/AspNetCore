@@ -51,10 +51,18 @@ namespace Dolittle.AspNetCore.Debugging.Artifacts.Events
         /// <inheritdoc/>
         public async Task HandlePostRequest(HttpContext context, IEvent @event)
         {
-            var uncommittedEvents = new UncommittedEvents();
-            uncommittedEvents.Append(EventSourceId.New(), @event);
-            var committedEvents = await _eventStore.Commit(uncommittedEvents).ConfigureAwait(false);
-            await context.RespondWithOk($"Event {@event.GetType()} committed. \nCommittedEvents: {committedEvents}").ConfigureAwait(false);
+            var eventSourceQuery = context.Request.Query["EventSource-ID"].ToString();
+            if (Guid.TryParse(eventSourceQuery, out var eventSourceId))
+            {
+                var uncommittedEvents = new UncommittedEvents();
+                uncommittedEvents.Append(eventSourceId, @event);
+                var committedEvents = await _eventStore.Commit(uncommittedEvents).ConfigureAwait(false);
+                await context.RespondWithOk($"Event {@event.GetType()} committed. \nCommittedEvents: {committedEvents}").ConfigureAwait(false);
+            }
+            else
+            {
+                await context.RespondWithBadRequest($"A valid GUID is required as the EventSource-ID parameter. Received {eventSourceQuery}").ConfigureAwait(false);
+            }
         }
     }
 }
