@@ -1,7 +1,7 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using Autofac.Extensions.DependencyInjection;
+using Dolittle.Hosting.Microsoft;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
@@ -28,7 +28,7 @@ namespace Debugging
         /// <returns>Host builder to build and run.</returns>
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .UseServiceProviderFactory(new AutofacServiceProviderFactory())
+                .UseDolittle()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder
