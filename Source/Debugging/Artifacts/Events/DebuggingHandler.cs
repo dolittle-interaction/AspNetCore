@@ -11,16 +11,16 @@ using Microsoft.AspNetCore.Http;
 namespace Dolittle.AspNetCore.Debugging.Artifacts.Events
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IDebuggingHandler" /> and <see cref="ICanHandleGetRequests{T}" /> for <see cref="UncommittedEvent" />.
+    /// Represents an implementation of <see cref="IDebuggingHandler" /> and <see cref="ICanHandleGetRequests{T}" /> for <see cref="IEvent" />.
     /// </summary>
-    public class DebuggingHandler : IDebuggingHandler, ICanHandlePostRequests<UncommittedEvent>
+    public class DebuggingHandler : IDebuggingHandler, ICanHandlePostRequests<IEvent>
     {
         readonly IEventStore _eventStore;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DebuggingHandler"/> class.
         /// </summary>
-        /// <param name="events">The <see cref="IArtifactMapper{T}" /> for <see cref="UncommittedEvent" />.</param>
+        /// <param name="events">The <see cref="IArtifactMapper{T}" /> for <see cref="IEvent" />.</param>
         /// <param name="eventStore">The <see cref="IEventStore" />..</param>
         public DebuggingHandler(IArtifactMapper<IEvent> events, IEventStore eventStore)
         {
@@ -49,11 +49,11 @@ namespace Dolittle.AspNetCore.Debugging.Artifacts.Events
         };
 
         /// <inheritdoc/>
-        public async Task HandlePostRequest(HttpContext context, UncommittedEvent @event)
+        public async Task HandlePostRequest(HttpContext context, IEvent @event)
         {
             var uncommittedEvents = new UncommittedEvents();
-            uncommittedEvents.Append(@event);
-            var committedEvents = _eventStore.Commit(uncommittedEvents);
+            uncommittedEvents.Append(EventSourceId.New(), @event);
+            var committedEvents = await _eventStore.Commit(uncommittedEvents).ConfigureAwait(false);
             await context.RespondWithOk($"Event {@event.GetType()} committed. \nCommittedEvents: {committedEvents}").ConfigureAwait(false);
         }
     }
