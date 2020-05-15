@@ -52,6 +52,7 @@ namespace Dolittle.AspNetCore.Generators.Documents
             {
                 Name = "Tenant-ID",
                 In = ParameterLocation.Header,
+                Required = true,
                 Schema = schemaGenerator.GenerateSchema(typeof(TenantId), repository),
             };
         }
