@@ -43,8 +43,7 @@ namespace Debugging
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapDolittleCommandCoordinator();
-                endpoints.MapDolittleQueryCoordinator();
+                endpoints.MapDolittleApplicationModel();
                 endpoints.MapGet("/", context =>
                 {
                     context.Response.Redirect("/swagger");
