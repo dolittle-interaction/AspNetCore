@@ -67,7 +67,7 @@ namespace Dolittle.AspNetCore.Queries
             try
             {
                 queryRequest = await context.RequestBodyFromJson<QueryRequest>().ConfigureAwait(false);
-                _logger.Information($"Executing query : {queryRequest.NameOfQuery}");
+                _logger.Information("Executing query : {Query}", queryRequest.NameOfQuery);
                 var queryType = _typeFinder.GetQueryTypeByName(queryRequest.GeneratedFrom);
                 var query = _container.Get(queryType) as IQuery;
                 var properties = queryType.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty).ToDictionary(p => p.Name.ToLowerInvariant(), p => p);
@@ -82,7 +82,7 @@ namespace Dolittle.AspNetCore.Queries
             {
                 while (ex.InnerException != null) ex = ex.InnerException;
                 var queryName = queryRequest?.NameOfQuery ?? "Could not resolve query name";
-                _logger.Error(ex, $"Could not handle query request for the '{queryName}' query");
+                _logger.Error(ex, "Could not handle query request for the '{QueryName}' query", queryName);
                 await context.RespondWithStatusCodeAndResult(
                     StatusCodes.Status200OK,
                     new QueryResult
