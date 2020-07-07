@@ -1,7 +1,7 @@
 name: .NET Library CI/CD
 
 env:
-  PRERELEASE_BRANCHES: experimental,alpha,beta,rc # Comma separated list of prerelease branch names. 'alpha,rc, ...'
+  PRERELEASE_BRANCHES: rc # Comma separated list of prerelease branch names. 'alpha,rc, ...'
   CASCADES: '' # Comma separated list of cascading repos. 'dolittle/DotNet.SDK,...'
   NUGET_OUTPUT: Artifacts/NuGet
   COVERAGE_FOLDER: Coverage
@@ -61,10 +61,3 @@ jobs:
       run: bash <(curl -s https://codecov.io/bash) -f "$FILE_PATH"
       env:
         FILE_PATH: ${{ github.workspace }}/${{ env.COVERAGE_FOLDER }}/coverage.opencover.xml
-    - name: Cascade
-      uses: dolittle/cascade-action@v1
-      if: ${{ steps.context.outputs.should-publish == 'true' && env.CASCADES != '' }}
-      with:
-        token: ${{ secrets.BUILD_PAT }}
-        version: ${{ steps.increment-version.outputs-next-version }}
-        cascades: ${{ env.CASCADES }}
