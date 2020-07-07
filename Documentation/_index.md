@@ -4,7 +4,7 @@ description: Learn how to use Swagger as a debugging tool for a Dolittle Bounded
 keywords: Debugging Swagger
 author: jakhog
 weight: 2
-repository: https://github.com/dolittle-interaction/AspNetCore
+repository: https://github.com/dolittle/AspNetCore
 aliases:
     - /interaction/aspnetcore.debugging.swagger/
     - /interaction/aspnetcore-debugging-swagger/
