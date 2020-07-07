@@ -6,15 +6,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../Bootstrap/Bootstrap.csproj" />
-    <ProjectReference Include="../Execution/Execution.csproj" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
-    <PackageReference Include="Dolittle.Dynamic" Version="4.*" />
-    <PackageReference Include="Dolittle.Strings" Version="4.*" />
-    <PackageReference Include="Dolittle.Serialization.Json" Version="4.*" />
-    <PackageReference Include="Dolittle.Runtime.Queries.Coordination" Version="4.*" />
+    <ProjectReference Include="../Http/Http.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dolittle.Dynamic" Version="$(FundamentalsVersion)" />
+    <PackageReference Include="Dolittle.Strings" Version="$(FundamentalsVersion)" />
+    <PackageReference Include="Dolittle.Serialization.Json" Version="$(FundamentalsVersion)" />
+    <PackageReference Include="Dolittle.SDK.Queries.Coordination" Version="$(SDKVersion)" />
   </ItemGroup>
 </Project>

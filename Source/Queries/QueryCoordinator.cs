@@ -7,18 +7,16 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Dolittle.AspNetCore.Execution;
 using Dolittle.Collections;
 using Dolittle.Concepts;
 using Dolittle.DependencyInversion;
 using Dolittle.Dynamic;
-using Dolittle.Execution;
 using Dolittle.Logging;
 using Dolittle.Queries;
 using Dolittle.Queries.Coordination;
 using Dolittle.Serialization.Json;
 using Dolittle.Types;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json.Linq;
 
 #pragma warning disable CA1308
@@ -28,16 +26,13 @@ namespace Dolittle.AspNetCore.Queries
     /// <summary>
     /// Represents an API endpoint for working with <see cref="IQuery">queries</see>.
     /// </summary>
-    [Route("api/Dolittle/Queries")]
-    public class QueryCoordinator : ControllerBase
+    public class QueryCoordinator
     {
         readonly ITypeFinder _typeFinder;
         readonly IContainer _container;
         readonly IQueryCoordinator _queryCoordinator;
-        readonly IExecutionContextConfigurator _executionContextConfigurator;
-        readonly IInstancesOf<IQuery> _queries;
-        readonly ILogger _logger;
         readonly ISerializer _serializer;
+        readonly ILogger _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="QueryCoordinator"/> class.
@@ -45,80 +40,56 @@ namespace Dolittle.AspNetCore.Queries
         /// <param name="typeFinder"><see cref="ITypeFinder"/> for finding types.</param>
         /// <param name="container"><see cref="IContainer"/> for getting instances of types.</param>
         /// <param name="queryCoordinator">The underlying <see cref="IQueryCoordinator"/>.</param>
-        /// <param name="executionContextConfigurator"><see cref="IExecutionContextConfigurator"/> for working with <see cref="ExecutionContext"/>.</param>
-        /// <param name="queries"><see cref="IInstancesOf{T}"/> of <see cref="IQuery"/>.</param>
         /// <param name="serializer">JSON <see cref="ISerializer"/>.</param>
         /// <param name="logger"><see cref="ILogger"/> for logging.</param>
         public QueryCoordinator(
             ITypeFinder typeFinder,
             IContainer container,
             IQueryCoordinator queryCoordinator,
-            IExecutionContextConfigurator executionContextConfigurator,
-            IInstancesOf<IQuery> queries,
             ISerializer serializer,
             ILogger logger)
         {
             _typeFinder = typeFinder;
             _container = container;
             _queryCoordinator = queryCoordinator;
-            _executionContextConfigurator = executionContextConfigurator;
-            _queries = queries;
             _serializer = serializer;
             _logger = logger;
         }
 
         /// <summary>
-        /// [POST] Action for performing a query.
+        /// Handles a <see cref="QueryRequest" /> from the <see cref="HttpRequest.Body" /> and writes the <see cref="QueryResult" /> to the <see cref="HttpResponse" />.
         /// </summary>
-        /// <param name="queryRequest">The <see cref="QueryRequest"/>.</param>
-        /// <returns><see cref="IActionResult"/> with the query result.</returns>
-        [HttpPost]
-        public async Task<IActionResult> Handle([FromBody] QueryRequest queryRequest)
+        /// <param name="context">The <see cref="HttpContext" />.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public async Task Handle(HttpContext context)
         {
-            var content = new ContentResult();
-            QueryResult queryResult = null;
+            QueryRequest queryRequest = null;
             try
             {
-                _logger.Information($"Executing query : {queryRequest.NameOfQuery}");
+                queryRequest = await context.RequestBodyFromJson<QueryRequest>().ConfigureAwait(false);
+                _logger.Information("Executing query : {Query}", queryRequest.NameOfQuery);
                 var queryType = _typeFinder.GetQueryTypeByName(queryRequest.GeneratedFrom);
                 var query = _container.Get(queryType) as IQuery;
-
                 var properties = queryType.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty).ToDictionary(p => p.Name.ToLowerInvariant(), p => p);
                 CopyPropertiesFromRequestToQuery(queryRequest, query, properties);
 
-                queryResult = await _queryCoordinator.Execute(query, new PagingInfo()).ConfigureAwait(false);
-                if (queryResult.Success) AddClientTypeInformation(queryResult);
+                var result = await _queryCoordinator.Execute(query, new PagingInfo()).ConfigureAwait(false);
+                if (result.Success) AddClientTypeInformation(result);
+
+                await context.RespondWithStatusCodeAndResult(StatusCodes.Status200OK, result, SerializationOptions.CamelCase).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, $"Error executing query : '{queryRequest.NameOfQuery}'");
-                queryResult = new QueryResult
-                {
-                    Exception = ex,
-                    QueryName = queryRequest.NameOfQuery
-                };
-            }
-
-            content.Content = _serializer.ToJson(queryResult, SerializationOptions.CamelCase);
-            content.ContentType = "application/json";
-            return content;
-        }
-
-        /// <summary>
-        /// [GET] Action for getting available queries.
-        /// </summary>
-        /// <returns>All implementations of <see cref="IQuery"/>.</returns>
-        [HttpGet]
-        public IEnumerable<IQuery> Queries()
-        {
-            try
-            {
-                return _queries.ToList();
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex, $"Error listing queries.");
-                throw;
+                while (ex.InnerException != null) ex = ex.InnerException;
+                var queryName = queryRequest?.NameOfQuery ?? "Could not resolve query name";
+                _logger.Error(ex, "Could not handle query request for the '{QueryName}' query", queryName);
+                await context.RespondWithStatusCodeAndResult(
+                    StatusCodes.Status200OK,
+                    new QueryResult
+                        {
+                            Exception = ex,
+                            QueryName = queryName
+                        }).ConfigureAwait(false);
             }
         }
 

@@ -6,16 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../Configuration/Configuration.csproj" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dolittle.Security" Version="4.*" />
-    <PackageReference Include="Dolittle.Execution" Version="4.*" />
-    <PackageReference Include="Dolittle.Tenancy.Configuration" Version="4.*" />
-
-    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageReference Include="Dolittle.ApplicationModel" Version="$(FundamentalsVersion)" />
+    <PackageReference Include="Dolittle.Security" Version="$(FundamentalsVersion)" />
+    <PackageReference Include="Dolittle.Execution" Version="$(FundamentalsVersion)" />
   </ItemGroup>
 </Project>

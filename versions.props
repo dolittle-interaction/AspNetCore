@@ -1,0 +1,8 @@
+<Project>
+    <PropertyGroup>
+        <FundamentalsVersion>5.*</FundamentalsVersion>
+        <SDKVersion>5.*</SDKVersion>
+        <ReadModelsMongoDBVersion>5.*</ReadModelsMongoDBVersion>
+        <SwaggerVersion>5.0.0</SwaggerVersion>
+    </PropertyGroup>
+</Project>

@@ -3,10 +3,6 @@
 
 using System.IO;
 using System.Threading.Tasks;
-using Dolittle.AspNetCore.Bootstrap;
-using Dolittle.AspNetCore.Execution;
-using Dolittle.Booting;
-using Dolittle.DependencyInversion;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.FileProviders.Physical;
@@ -19,24 +15,6 @@ namespace Microsoft.AspNetCore.Builder
     public static class ApplicationBuilderExtensions
     {
         /// <summary>
-        /// Use Dolittle for the given application.
-        /// </summary>
-        /// <param name="app"><see cref="IApplicationBuilder"/> to use Dolittle for.</param>
-        public static void UseDolittle(this IApplicationBuilder app)
-        {
-            var container = app.ApplicationServices.GetService(typeof(IContainer)) as IContainer;
-            Dolittle.DependencyInversion.Booting.Boot.ContainerReady(container);
-
-            BootStages.ContainerReady(container);
-
-            var bootProcedures = container.Get<IBootProcedures>();
-            bootProcedures.Perform();
-            app.UseAuthentication();
-            app.UseMiddleware<ExecutionContextSetup>();
-            app.UseMiddleware<HealthCheckMiddleware>();
-        }
-
-        /// <summary>
         /// Run as a single page application - typically end off your application configuration in Startup.cs with this.
         /// </summary>
         /// <param name="app"><see cref="IApplicationBuilder"/> you're building.</param>
@@ -46,7 +24,7 @@ namespace Microsoft.AspNetCore.Builder
         /// </remarks>
         public static void RunAsSinglePageApplication(this IApplicationBuilder app, string pathToFile = null)
         {
-            var environment = app.ApplicationServices.GetService(typeof(IHostingEnvironment)) as IHostingEnvironment;
+            var environment = app.ApplicationServices.GetService(typeof(IWebHostEnvironment)) as IWebHostEnvironment;
 
             app.Run(async context =>
             {
